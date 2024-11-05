@@ -1,12 +1,12 @@
 'use client';
 
 import Accordion from "@/components/Accordion";
-import carriers from "@/images/carriers.png";
-import packaging from "@/images/packaging.png";
-import shippingImage from "@/images/shipping.jpg";
-import tracking from "@/images/tracking.jpg";
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
+import carriers from "/public/assets/images/carriers.png";
+import packaging from "/public/assets/images/packaging.png";
+import shippingImage from "/public/assets/images/shipping.jpg";
+import tracking from "/public/assets/images/tracking.jpg";
 
 export default function Page() {
 

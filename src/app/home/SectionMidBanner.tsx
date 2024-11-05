@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 
-import bgPattern from "@/images/background.svg";
-import bannerImg from "@/images/banner.png";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
+import bgPattern from "/public/assets/images/background.svg";
+import bannerImg from "/public/assets/images/banner.png";
 
 const SectionMidBanner = () => {
   return (

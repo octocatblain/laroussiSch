@@ -1,18 +1,18 @@
-import preview from "@/images/preview.jpg";
-// import notFound from '@/images/preview/404.jpg';
-// import blogPage from '@/images/preview/blogs.jpg';
-// import blogSingle from '@/images/preview/blogsingle.jpg';
-// import cart from '@/images/preview/cart.jpg';
-// import checkout from '@/images/preview/checkout.jpg';
-// import collection from '@/images/preview/collection.jpg';
-// import contact from '@/images/preview/contact.jpg';
-// import faq from '@/images/preview/faq.jpg';
-// import forgotPass from '@/images/preview/forgotPass.jpg';
-// import login from '@/images/preview/login.jpg';
-// import showcase1 from '@/images/preview/showcase1.jpg';
-// import showcase2 from '@/images/preview/showcase2.jpg';
-// import signup from '@/images/preview/signup.jpg';
-// import singleProduct from '@/images/preview/singleProduct.jpg';
+import preview from "/public/assets/images/preview.jpg";
+// import notFound from '/public/assets/images/preview/404.jpg';
+// import blogPage from '/public/assets/images/preview/blogs.jpg';
+// import blogSingle from '/public/assets/images/preview/blogsingle.jpg';
+// import cart from '/public/assets/images/preview/cart.jpg';
+// import checkout from '/public/assets/images/preview/checkout.jpg';
+// import collection from '/public/assets/images/preview/collection.jpg';
+// import contact from '/public/assets/images/preview/contact.jpg';
+// import faq from '/public/assets/images/preview/faq.jpg';
+// import forgotPass from '/public/assets/images/preview/forgotPass.jpg';
+// import login from '/public/assets/images/preview/login.jpg';
+// import showcase1 from '/public/assets/images/preview/showcase1.jpg';
+// import showcase2 from '/public/assets/images/preview/showcase2.jpg';
+// import signup from '/public/assets/images/preview/signup.jpg';
+// import singleProduct from '/public/assets/images/preview/singleProduct.jpg';
 
 export const templateDetails = {
   name: "LaRoucci Mining SCH, HTML and TailwindCSS Template",

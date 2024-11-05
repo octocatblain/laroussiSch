@@ -1,9 +1,8 @@
-import Image from "next/image";
-import React from "react";
 import Heading from "@/shared/Heading/Heading";
-import goldImage from "@/images/gold.png"; // Example image, replace with actual image
-import silverImage from "@/images/silver.png"; // Example image, replace with actual image
-import platinumImage from "@/images/platinum.png"; // Example image, replace with actual image
+import Image from "next/image";
+import goldImage from "/public/assets/images/gold.png"; // Example image, replace with actual image
+import platinumImage from "/public/assets/images/platinum.png"; // Example image, replace with actual image
+import silverImage from "/public/assets/images/silver.png"; // Example image, replace with actual image
 
 const LaRoucciSCHPage = () => {
   const sections = [

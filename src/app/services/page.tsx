@@ -3,21 +3,21 @@
 // import ReactComponent from "*.svg";
 // import { contactSection } from "@/data/content";
 
-import AllCurrenciesIcon from "@/images/svg/all-currencies.svg";
-import BuybackGuaranteeIcon from "@/images/svg/buyback-guarantee.svg";
-import ConsultingIcon from "@/images/svg/consulting.svg";
-import DiscreetEntranceIcon from "@/images/svg/discreet-entrance.svg";
-import InternationalDeliveryIcon from "@/images/svg/international-delivery2.svg";
-import LargestSelectionIcon from "@/images/svg/largest-selection.svg";
-import LivePricesIcon from "@/images/svg/live-prices.svg";
-import OfficesIcon from "@/images/svg/offices.svg";
-import StorageIcon from "@/images/svg/storage.svg";
+import AllCurrenciesIcon from "/public/assets/images/svg/all-currencies.svg";
+import BuybackGuaranteeIcon from "/public/assets/images/svg/buyback-guarantee.svg";
+import ConsultingIcon from "/public/assets/images/svg/consulting.svg";
+import DiscreetEntranceIcon from "/public/assets/images/svg/discreet-entrance.svg";
+import InternationalDeliveryIcon from "/public/assets/images/svg/international-delivery2.svg";
+import LargestSelectionIcon from "/public/assets/images/svg/largest-selection.svg";
+import LivePricesIcon from "/public/assets/images/svg/live-prices.svg";
+import OfficesIcon from "/public/assets/images/svg/offices.svg";
+import StorageIcon from "/public/assets/images/svg/storage.svg";
 
-import AuthenticityTestingIcon from "@/images/svg/authenticity-testing.svg";
-import InternationalPartnershipsIcon from "@/images/svg/international-partnerships.svg";
-import NewsletterIcon from "@/images/svg/newsletter.svg";
-import RareEarthsIcon from "@/images/svg/rare-earths.svg";
-import WholesaleIcon from "@/images/svg/wholesale.svg";
+import AuthenticityTestingIcon from "/public/assets/images/svg/authenticity-testing.svg";
+import InternationalPartnershipsIcon from "/public/assets/images/svg/international-partnerships.svg";
+import NewsletterIcon from "/public/assets/images/svg/newsletter.svg";
+import RareEarthsIcon from "/public/assets/images/svg/rare-earths.svg";
+import WholesaleIcon from "/public/assets/images/svg/wholesale.svg";
 
 import Heading from "@/shared/Heading/Heading";
 

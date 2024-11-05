@@ -2,20 +2,20 @@
 
 // import ReactComponent from "*.svg";
 import { contactSection } from "@/data/content";
-import goldImage from "@/images/gold.png";
-import goldImage2 from "@/images/gold2.png";
-import goldImage3 from "@/images/gold3.png";
-import platinumImage from "@/images/platinum.png";
-import silverImage2 from "@/images/silver2.png";
+import goldImage from "/public/assets/images/gold.png";
+import goldImage2 from "/public/assets/images/gold2.png";
+import goldImage3 from "/public/assets/images/gold3.png";
+import platinumImage from "/public/assets/images/platinum.png";
+import silverImage2 from "/public/assets/images/silver2.png";
 
-import CreditFreeCompanyIcon from "@/images/svg/credit-free-company.svg";
-import IndividualConsultingIcon from "@/images/svg/customer-service.svg";
-import BuySellIcon from "@/images/svg/dollar-sign.svg";
-import FlexiblePowersAttorneyIcon from "@/images/svg/flexible-powers-attorney.svg";
-import InternationalDeliveryIcon from "@/images/svg/global-distribution.svg";
-import HighestSecurityLevelIcon from "@/images/svg/highest-security-level.svg";
-import RegularAuditIcon from "@/images/svg/regular-audit.svg";
-import WorldwideNetworkIcon from "@/images/svg/worldwide-network.svg";
+import CreditFreeCompanyIcon from "/public/assets/images/svg/credit-free-company.svg";
+import IndividualConsultingIcon from "/public/assets/images/svg/customer-service.svg";
+import BuySellIcon from "/public/assets/images/svg/dollar-sign.svg";
+import FlexiblePowersAttorneyIcon from "/public/assets/images/svg/flexible-powers-attorney.svg";
+import InternationalDeliveryIcon from "/public/assets/images/svg/global-distribution.svg";
+import HighestSecurityLevelIcon from "/public/assets/images/svg/highest-security-level.svg";
+import RegularAuditIcon from "/public/assets/images/svg/regular-audit.svg";
+import WorldwideNetworkIcon from "/public/assets/images/svg/worldwide-network.svg";
 
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";

@@ -3,8 +3,8 @@
 import Image from "next/image";
 
 import { headerSection } from "@/data/content";
-import heroImage from "@/images/hero.png";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
+import heroImage from "/public/assets/images/hero.png";
 
 const SectionHeader = () => {
   return (

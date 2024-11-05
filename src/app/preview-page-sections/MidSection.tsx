@@ -1,9 +1,8 @@
 import Image from 'next/image';
-import React from 'react';
 
 // import Logo from '@/shared/Logo/Logo';
-import allThemesPreview from '@/images/preview.jpg';
 import ButtonPrimary from '@/shared/Button/ButtonPrimary';
+import allThemesPreview from '/public/assets/images/preview.jpg';
 
 import { midSection } from './content';
 

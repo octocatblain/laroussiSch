@@ -1,10 +1,9 @@
 import Image from "next/image";
-import React from "react";
 
 import { productsCollection } from "@/data/content";
-import hero from "@/images/productsHero.jpg";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import Heading from "@/shared/Heading/Heading";
+import hero from "/public/assets/images/productsHero.jpg";
 
 // const categories = [
 //   "New arrivals",
