@@ -30,8 +30,8 @@
     // Module and path aliasing for cleaner imports
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/images/*": ["./src/images/*"]
+      "@/*": ["*"], 
+      "@/images/*": ["images/*"] 
     },
     // Next.js-specific settings
     "isolatedModules": true,
