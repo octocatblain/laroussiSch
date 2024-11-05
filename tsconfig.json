@@ -1,0 +1,64 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "target": "es2017",
+    "outDir": "out",
+    "sourceMap": true,
+    "strict": false,
+    // Enable JSX and module interoperability for Next.js
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    // Check JavaScript files as well (optional)
+    "allowJs": true,
+    "checkJs": false,
+    // Type-checking options for improved reliability
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    // Module and path aliasing for cleaner imports
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/images/*": ["./src/images/*"]
+    },
+    // Next.js-specific settings
+    "isolatedModules": true,
+    "incremental": true,
+    "noEmit": true,
+    // Skip type checks on library files to speed up builds
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "out",
+    ".next",
+    "cypress/**/*.ts" // if using Cypress testing
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".storybook/*.ts",
+    ".next/types/**/*.ts",
+    "src/libs/Env.mjs" // your custom .mjs or .js files if needed
+  ]
+}
+  
