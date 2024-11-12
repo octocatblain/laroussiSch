@@ -3,8 +3,8 @@
 import Image from "next/image";
 
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
-import bgPattern from "/public/assets/images/background.svg";
-import bannerImg from "/public/assets/images/banner.png";
+import bgPattern from "/assets/images/background.svg";
+import bannerImg from "/assets/images/banner.png";
 
 const SectionMidBanner = () => {
   return (

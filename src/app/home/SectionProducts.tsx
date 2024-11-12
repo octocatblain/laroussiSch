@@ -1,9 +1,9 @@
 "use client";
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
-import goldImage from "/public/assets/images/gold.png"; // Example image, replace with actual image
-import platinumImage from "/public/assets/images/platinum.png"; // Example image, replace with actual image
-import silverImage from "/public/assets/images/silver.png"; // Example image, replace with actual image
+import goldImage from "/assets/images/gold.png"; // Example image, replace with actual image
+import platinumImage from "/assets/images/platinum.png"; // Example image, replace with actual image
+import silverImage from "/assets/images/silver.png"; // Example image, replace with actual image
 
 const LaRoucciSCHPage = () => {
   const sections = [

@@ -1,16 +1,16 @@
 "use client";
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
-import safe from "/public/assets/images/services/safe.png";
-import IndependentAuditsIcon from "/public/assets/images/svg/audit.svg";
-import ConfidentialityIcon from "/public/assets/images/svg/discreet-entrance.svg";
-import ExperienceIcon from "/public/assets/images/svg/experience.svg";
-import FlexiblePowerOfAttorneyIcon from "/public/assets/images/svg/flexible-powers-attorney.svg";
-import OfficialDistributorIcon from "/public/assets/images/svg/logistics.svg";
-import SecureMessagingIcon from "/public/assets/images/svg/secure-message.svg";
-import TaxFreePurchasesIcon from "/public/assets/images/svg/tax-free.svg";
-import TradingFlexibilityIcon from "/public/assets/images/svg/trade-flexibility.svg";
-import WorldwideNetworkIcon from "/public/assets/images/svg/worldwide-network.svg";
+import safe from "/assets/images/services/safe.png";
+import IndependentAuditsIcon from "/assets/images/svg/audit.svg";
+import ConfidentialityIcon from "/assets/images/svg/discreet-entrance.svg";
+import ExperienceIcon from "/assets/images/svg/experience.svg";
+import FlexiblePowerOfAttorneyIcon from "/assets/images/svg/flexible-powers-attorney.svg";
+import OfficialDistributorIcon from "/assets/images/svg/logistics.svg";
+import SecureMessagingIcon from "/assets/images/svg/secure-message.svg";
+import TaxFreePurchasesIcon from "/assets/images/svg/tax-free.svg";
+import TradingFlexibilityIcon from "/assets/images/svg/trade-flexibility.svg";
+import WorldwideNetworkIcon from "/assets/images/svg/worldwide-network.svg";
 
 const page = () => {
   const storageSection = {

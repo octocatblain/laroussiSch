@@ -2,7 +2,7 @@
 
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
-import financeImage from "/public/assets/images/investment.jpg";
+import financeImage from "/assets/images/investment.jpg";
 
 const page = () => {
   const serviceDescription = {

@@ -1,18 +1,18 @@
-import preview from "/public/assets/images/preview.jpg";
-// import notFound from '/public/assets/images/preview/404.jpg';
-// import blogPage from '/public/assets/images/preview/blogs.jpg';
-// import blogSingle from '/public/assets/images/preview/blogsingle.jpg';
-// import cart from '/public/assets/images/preview/cart.jpg';
-// import checkout from '/public/assets/images/preview/checkout.jpg';
-// import collection from '/public/assets/images/preview/collection.jpg';
-// import contact from '/public/assets/images/preview/contact.jpg';
-// import faq from '/public/assets/images/preview/faq.jpg';
-// import forgotPass from '/public/assets/images/preview/forgotPass.jpg';
-// import login from '/public/assets/images/preview/login.jpg';
-// import showcase1 from '/public/assets/images/preview/showcase1.jpg';
-// import showcase2 from '/public/assets/images/preview/showcase2.jpg';
-// import signup from '/public/assets/images/preview/signup.jpg';
-// import singleProduct from '/public/assets/images/preview/singleProduct.jpg';
+import preview from "/assets/images/preview.jpg";
+// import notFound from '/assets/images/preview/404.jpg';
+// import blogPage from '/assets/images/preview/blogs.jpg';
+// import blogSingle from '/assets/images/preview/blogsingle.jpg';
+// import cart from '/assets/images/preview/cart.jpg';
+// import checkout from '/assets/images/preview/checkout.jpg';
+// import collection from '/assets/images/preview/collection.jpg';
+// import contact from '/assets/images/preview/contact.jpg';
+// import faq from '/assets/images/preview/faq.jpg';
+// import forgotPass from '/assets/images/preview/forgotPass.jpg';
+// import login from '/assets/images/preview/login.jpg';
+// import showcase1 from '/assets/images/preview/showcase1.jpg';
+// import showcase2 from '/assets/images/preview/showcase2.jpg';
+// import signup from '/assets/images/preview/signup.jpg';
+// import singleProduct from '/assets/images/preview/singleProduct.jpg';
 
 export const templateDetails = {
   name: "LaRoucci Mining SCH, HTML and TailwindCSS Template",

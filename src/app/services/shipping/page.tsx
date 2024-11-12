@@ -3,10 +3,10 @@
 import Accordion from "@/components/Accordion";
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
-import carriers from "/public/assets/images/carriers.png";
-import packaging from "/public/assets/images/packaging.png";
-import shippingImage from "/public/assets/images/shipping.jpg";
-import tracking from "/public/assets/images/tracking.jpg";
+import carriers from "/assets/images/carriers.png";
+import packaging from "/assets/images/packaging.png";
+import shippingImage from "/assets/images/shipping.jpg";
+import tracking from "/assets/images/tracking.jpg";
 
 export default function Page() {
 
