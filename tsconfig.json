@@ -11,7 +11,7 @@
     "sourceMap": true,
     "strict": false,
     // Enable JSX and module interoperability for Next.js
-    "jsx": "preserve",
+   "jsx": "react",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     // Check JavaScript files as well (optional)
