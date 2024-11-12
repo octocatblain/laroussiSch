@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 // import Logo from '@/shared/Logo/Logo';
 import ButtonPrimary from '@/shared/Button/ButtonPrimary';
-import allThemesPreview from '/assets/images/preview.jpg';
+import allThemesPreview from '@assets/images/preview.jpg';
 
 import { midSection } from './content';
 

@@ -12,7 +12,7 @@ const Logo: FC<LogoProps> = () => {
       href="/"
     >
       <img
-        src="/assets/logo/laroucci-logo.png"
+        src="@assets/logo/laroucci-logo.png"
         alt="logo"
         width={200}
         height={250}

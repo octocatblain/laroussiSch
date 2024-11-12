@@ -1,64 +1,64 @@
 import type { NavItemType } from "@/components/NavItem";
 import _ from "lodash";
 
-import oneThousandGram from "/assets/images/products/gold/bars/1000g.jpeg";
-import oneHundredGram from "/assets/images/products/gold/bars/100g.png";
-import tenGram from "/assets/images/products/gold/bars/10g.png";
-import twelvePointFiveKgVariant2 from "/assets/images/products/gold/bars/12500g-variant-2.png";
-import twelvePointFiveKgVariant1 from "/assets/images/products/gold/bars/12500g-variant.png";
-import twelvePointFiveKg from "/assets/images/products/gold/bars/12500g.png";
-import oneGram from "/assets/images/products/gold/bars/1g.png";
-import twentyGram from "/assets/images/products/gold/bars/20g.png";
-import twoHundredFiftyGram from "/assets/images/products/gold/bars/250g.png";
-import thirtyOneGram from "/assets/images/products/gold/bars/31.1g.png";
-import threeHundredElevenGram from "/assets/images/products/gold/bars/311g.png";
-import fiveHundredGram from "/assets/images/products/gold/bars/500g.png";
-import fiftyGram from "/assets/images/products/gold/bars/50g.png";
-import fiveGram from "/assets/images/products/gold/bars/5g.png";
+import oneThousandGram from "@assets/images/products/gold/bars/1000g.jpeg";
+import oneHundredGram from "@assets/images/products/gold/bars/100g.png";
+import tenGram from "@assets/images/products/gold/bars/10g.png";
+import twelvePointFiveKgVariant2 from "@assets/images/products/gold/bars/12500g-variant-2.png";
+import twelvePointFiveKgVariant1 from "@assets/images/products/gold/bars/12500g-variant.png";
+import twelvePointFiveKg from "@assets/images/products/gold/bars/12500g.png";
+import oneGram from "@assets/images/products/gold/bars/1g.png";
+import twentyGram from "@assets/images/products/gold/bars/20g.png";
+import twoHundredFiftyGram from "@assets/images/products/gold/bars/250g.png";
+import thirtyOneGram from "@assets/images/products/gold/bars/31.1g.png";
+import threeHundredElevenGram from "@assets/images/products/gold/bars/311g.png";
+import fiveHundredGram from "@assets/images/products/gold/bars/500g.png";
+import fiftyGram from "@assets/images/products/gold/bars/50g.png";
+import fiveGram from "@assets/images/products/gold/bars/5g.png";
 
 // silver bars
-import silverOneKg from "/assets/images/products/silver/bars/1000g.png";
-import silverOneKgVariant from "/assets/images/products/silver/bars/1000g2.png";
-import silverOneKgVariant1 from "/assets/images/products/silver/bars/1000g3.png";
-import silverOneKgVariant2 from "/assets/images/products/silver/bars/1000g4.png";
-import silverOneHundredGram from "/assets/images/products/silver/bars/100g.png";
-import silverTenGram from "/assets/images/products/silver/bars/10g.png";
-import silverOneGram from "/assets/images/products/silver/bars/1g.png";
-import silverTwentyGram from "/assets/images/products/silver/bars/20g.png";
-import silverTwoFiftyGram from "/assets/images/products/silver/bars/250g.png";
-import silverThirtyOneGram from "/assets/images/products/silver/bars/31.1g.png";
-import silverThreeElevenGram from "/assets/images/products/silver/bars/311g.png";
-import silverFiveHundredGram from "/assets/images/products/silver/bars/500g.png";
-import silverFiftyGram from "/assets/images/products/silver/bars/50g.png";
-import silverFiveGram from "/assets/images/products/silver/bars/5g.png";
-import silverBack from "/assets/images/products/silver/bars/silver-back.png";
+import silverOneKg from "@assets/images/products/silver/bars/1000g.png";
+import silverOneKgVariant from "@assets/images/products/silver/bars/1000g2.png";
+import silverOneKgVariant1 from "@assets/images/products/silver/bars/1000g3.png";
+import silverOneKgVariant2 from "@assets/images/products/silver/bars/1000g4.png";
+import silverOneHundredGram from "@assets/images/products/silver/bars/100g.png";
+import silverTenGram from "@assets/images/products/silver/bars/10g.png";
+import silverOneGram from "@assets/images/products/silver/bars/1g.png";
+import silverTwentyGram from "@assets/images/products/silver/bars/20g.png";
+import silverTwoFiftyGram from "@assets/images/products/silver/bars/250g.png";
+import silverThirtyOneGram from "@assets/images/products/silver/bars/31.1g.png";
+import silverThreeElevenGram from "@assets/images/products/silver/bars/311g.png";
+import silverFiveHundredGram from "@assets/images/products/silver/bars/500g.png";
+import silverFiftyGram from "@assets/images/products/silver/bars/50g.png";
+import silverFiveGram from "@assets/images/products/silver/bars/5g.png";
+import silverBack from "@assets/images/products/silver/bars/silver-back.png";
 
 // platinum bars
-import platinumThousandClear from "/assets/images/products/platinum/bars/1000g-clear.png";
-import platinumThousandLeft from "/assets/images/products/platinum/bars/1000g-left.png";
-import platinumThousandRight from "/assets/images/products/platinum/bars/1000g-right.png";
-import platinumThousandSide from "/assets/images/products/platinum/bars/1000g-side.png";
-import platinumThousandTop from "/assets/images/products/platinum/bars/1000g-top.png";
-import platinumThousandGram from "/assets/images/products/platinum/bars/1000g.png";
-import platinumHundredGram from "/assets/images/products/platinum/bars/100g.png";
-import platinumTenGram from "/assets/images/products/platinum/bars/10g.png";
-import platinumTwelveKgFlat from "/assets/images/products/platinum/bars/12500g-flat.png";
-import platinumTwelveKgLeft from "/assets/images/products/platinum/bars/12500g-left.png";
-import platinumTwelveKgTop from "/assets/images/products/platinum/bars/12500g-top.png";
-import platinumTwelveKg from "/assets/images/products/platinum/bars/12500g.png";
-import platinumOneGramFront from "/assets/images/products/platinum/bars/1g-top.png";
-import platinumOneGram from "/assets/images/products/platinum/bars/1g.png";
-import platinumTwentyGram from "/assets/images/products/platinum/bars/20g.png";
-import platinumTwoHundredFiftyGram from "/assets/images/products/platinum/bars/250g.png";
-import platinumThirtyOneGram from "/assets/images/products/platinum/bars/31.1g.png";
-import platinumThreeHundredElevenGram from "/assets/images/products/platinum/bars/311g.png";
-import platinumFiveHundredGram from "/assets/images/products/platinum/bars/500g.png";
-import platinumFiftyGram from "/assets/images/products/platinum/bars/50g.png";
-import platinumFiveGram from "/assets/images/products/platinum/bars/5g.png";
+import platinumThousandClear from "@assets/images/products/platinum/bars/1000g-clear.png";
+import platinumThousandLeft from "@assets/images/products/platinum/bars/1000g-left.png";
+import platinumThousandRight from "@assets/images/products/platinum/bars/1000g-right.png";
+import platinumThousandSide from "@assets/images/products/platinum/bars/1000g-side.png";
+import platinumThousandTop from "@assets/images/products/platinum/bars/1000g-top.png";
+import platinumThousandGram from "@assets/images/products/platinum/bars/1000g.png";
+import platinumHundredGram from "@assets/images/products/platinum/bars/100g.png";
+import platinumTenGram from "@assets/images/products/platinum/bars/10g.png";
+import platinumTwelveKgFlat from "@assets/images/products/platinum/bars/12500g-flat.png";
+import platinumTwelveKgLeft from "@assets/images/products/platinum/bars/12500g-left.png";
+import platinumTwelveKgTop from "@assets/images/products/platinum/bars/12500g-top.png";
+import platinumTwelveKg from "@assets/images/products/platinum/bars/12500g.png";
+import platinumOneGramFront from "@assets/images/products/platinum/bars/1g-top.png";
+import platinumOneGram from "@assets/images/products/platinum/bars/1g.png";
+import platinumTwentyGram from "@assets/images/products/platinum/bars/20g.png";
+import platinumTwoHundredFiftyGram from "@assets/images/products/platinum/bars/250g.png";
+import platinumThirtyOneGram from "@assets/images/products/platinum/bars/31.1g.png";
+import platinumThreeHundredElevenGram from "@assets/images/products/platinum/bars/311g.png";
+import platinumFiveHundredGram from "@assets/images/products/platinum/bars/500g.png";
+import platinumFiftyGram from "@assets/images/products/platinum/bars/50g.png";
+import platinumFiveGram from "@assets/images/products/platinum/bars/5g.png";
 
+import back from "@assets/images/products/gold/bars/back.png";
 import { BsGlobe, BsHouse, BsMailbox, BsPhone } from "react-icons/bs";
 import type { BlogType } from "./types";
-import back from "/assets/images/products/gold/bars/back.png";
 
 const ncNanoId = _.uniqueId;
 
@@ -301,7 +301,7 @@ export const headerSection = {
 
 export const headerBannerData = [
   {
-    image: "/assets/logo/kenyanflag.png",
+    image: "@assets/logo/kenyanflag.png",
     // coverImage: <KenyanLogo className="h-5 w-5" />,
     title: "LaRoucci SCH High-Security Storage ",
     year: undefined,

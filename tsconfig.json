@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -10,7 +14,7 @@
     "outDir": "out",
     "sourceMap": true,
     "strict": false,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
@@ -26,8 +30,12 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@assets/*": ["public/assets/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@assets/*": [
+        "public/assets/*"
+      ]
     },
     "isolatedModules": true,
     "incremental": true,
@@ -40,7 +48,12 @@
       }
     ]
   },
-  "exclude": ["node_modules", "out", ".next", "cypress/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "out",
+    ".next",
+    "cypress/**/*.ts"
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

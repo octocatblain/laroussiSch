@@ -4,7 +4,7 @@ import Image from "next/image";
 import { productsCollection } from "@/data/content";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import Heading from "@/shared/Heading/Heading";
-import hero from "/assets/images/productsHero.jpg";
+import hero from "@assets/images/productsHero.jpg";
 
 // const categories = [
 //   "New arrivals",

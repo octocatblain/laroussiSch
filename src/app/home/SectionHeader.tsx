@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { headerSection } from "@/data/content";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
-import heroImage from "/assets/images/hero.png";
+import heroImage from "@assets/images/hero.png";
 
 const SectionHeader = () => {
   return (

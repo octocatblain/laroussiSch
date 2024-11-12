@@ -2,11 +2,11 @@
 
 import Accordion from "@/components/Accordion";
 import Heading from "@/shared/Heading/Heading";
+import carriers from "@assets/images/carriers.png";
+import packaging from "@assets/images/packaging.png";
+import shippingImage from "@assets/images/shipping.jpg";
+import tracking from "@assets/images/tracking.jpg";
 import Image from "next/image";
-import carriers from "/assets/images/carriers.png";
-import packaging from "/assets/images/packaging.png";
-import shippingImage from "/assets/images/shipping.jpg";
-import tracking from "/assets/images/tracking.jpg";
 
 export default function Page() {
 

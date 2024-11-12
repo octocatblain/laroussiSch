@@ -1,8 +1,8 @@
 "use client";
 
 import Heading from "@/shared/Heading/Heading";
+import financeImage from "@assets/images/investment.jpg";
 import Image from "next/image";
-import financeImage from "/assets/images/investment.jpg";
 
 const page = () => {
   const serviceDescription = {

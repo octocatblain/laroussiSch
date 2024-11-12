@@ -57,7 +57,7 @@ const Header: FC<HeaderProps> = () => {
                   {item.title}
                 </p>
                 <img
-                  src="/assets/logo/kenyanflag.png"
+                  src="@assets/logo/kenyanflag.png"
                   alt={item.title}
                   className="h-10 w-10 mr-20 object-cover rounded-full border border-yellow-500"
                 />
