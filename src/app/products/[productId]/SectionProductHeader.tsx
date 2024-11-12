@@ -1,3 +1,4 @@
+"use client";
 import type { FC } from "react";
 
 import ImageShowCase from "@/components/ImageShowCase";

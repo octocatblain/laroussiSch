@@ -1,3 +1,4 @@
+"use client";
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
 import goldImage from "/public/assets/images/gold.png"; // Example image, replace with actual image

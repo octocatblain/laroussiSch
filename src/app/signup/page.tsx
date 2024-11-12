@@ -16,11 +16,11 @@ const PageSignUp = () => {
         </h2>
         <div className="mx-auto max-w-md ">
           <div className="space-y-6">
-            <div className="">
+            {/* <div className="">
               <ButtonSecondary className="flex w-full items-center gap-3 border-2 border-primary text-primary">
                 <FaGoogle className="text-2xl" /> Continue with Google
               </ButtonSecondary>
-            </div>
+            </div> */}
             <div className="relative text-center">
               <span className="relative z-10 inline-block rounded-full bg-gray px-4 text-sm font-medium ">
                 OR
