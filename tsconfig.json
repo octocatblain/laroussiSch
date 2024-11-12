@@ -26,9 +26,8 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-  "@/*": ["./src/*"],
-  "images/*": ["./public/assets/images/*"]
-},
+      "@/*": ["./src/*"]
+    },
     "isolatedModules": true,
     "incremental": true,
     "noEmit": true,
