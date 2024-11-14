@@ -1,8 +1,8 @@
 "use client";
 
 import Heading from "@/shared/Heading/Heading";
-import financeImage from "@assets/images/investment.jpg";
 import Image from "next/image";
+import financeImage from "/assets/images/investment.jpg";
 
 const page = () => {
   const serviceDescription = {
@@ -108,6 +108,8 @@ const page = () => {
 
       <div className="w-full mb-16 h-30 rounded-lg overflow-hidden shadow-lg">
         <Image
+          width={1000}
+          height={320}
           src={financeImage}
           alt="Finance and Investments"
           className="rounded-lg w-full h-80"

@@ -35,6 +35,8 @@ const SectionMainPages = () => {
               )}
               <div className="w-full overflow-hidden">
                 <Image
+                  width={1000}
+                  height={1000}
                   src={DATA.coverImage}
                   alt="cover-image"
                   className="w-full object-cover"

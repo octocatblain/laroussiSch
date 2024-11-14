@@ -6,6 +6,7 @@ import { headerBannerData } from "@/data/content";
 import AutoScrollSlider from "@/shared/AutoScroll/AutoScrollSlider";
 import type { Options } from "@splidejs/react-splide";
 import { SplideSlide } from "@splidejs/react-splide";
+import Image from "next/image";
 import MainNav from "./MainNav";
 
 const sliderOptions: Options = {
@@ -56,9 +57,11 @@ const Header: FC<HeaderProps> = () => {
                 <p className="gradient-background min-w-max font-medium sm:rounded outline-2 rounded-full text-white whitespace-nowrap px-4 py-2 border-2 border-yellow-500">
                   {item.title}
                 </p>
-                <img
-                  src="@assets/logo/kenyanflag.png"
+                <Image
+                  src="/assets/logo/kenyanflag.png"
                   alt={item.title}
+                  width={40}
+                  height={40}
                   className="h-10 w-10 mr-20 object-cover rounded-full border border-yellow-500"
                 />
               </div>

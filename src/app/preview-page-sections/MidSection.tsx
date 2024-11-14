@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 // import Logo from '@/shared/Logo/Logo';
 import ButtonPrimary from '@/shared/Button/ButtonPrimary';
-import allThemesPreview from '@assets/images/preview.jpg';
+import allThemesPreview from '/assets/images/preview.jpg';
 
 import { midSection } from './content';
 
@@ -13,6 +13,8 @@ const SectionMid = () => {
       <div className="items-stretch justify-between overflow-hidden rounded-3xl bg-gray shadow-lg md:flex">
         <div className="basis-[55%]">
           <Image
+            width={1000}
+            height={1000}
             src={allThemesPreview}
             alt="cover image"
             className="h-full w-full object-cover object-center"

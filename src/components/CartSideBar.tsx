@@ -30,6 +30,8 @@ const CartSideBar: React.FC<CartSideBarProps> = () => {
       <div key={productName} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
           <Image
+            width={1000}
+            height={1000}
             fill
             src={coverImage}
             alt={productName}

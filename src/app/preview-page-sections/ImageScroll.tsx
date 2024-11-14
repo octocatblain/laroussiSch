@@ -38,6 +38,8 @@ const DivSlider = () => {
             className="min-w-[30%] overflow-hidden rounded-xl shadow-lg"
           >
             <Image
+              width={1000}
+              height={1000}
               src={screenshot}
               alt="screenshot"
               className="w-full object-cover"
@@ -57,6 +59,8 @@ const DivSlider = () => {
             className="min-w-[30%] overflow-hidden rounded-xl shadow-lg"
           >
             <Image
+              width={1000}
+              height={1000}
               src={screenshot}
               alt="screenshot"
               className="w-full object-cover"

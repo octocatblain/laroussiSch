@@ -2,11 +2,11 @@
 
 import Accordion from "@/components/Accordion";
 import Heading from "@/shared/Heading/Heading";
-import carriers from "@assets/images/carriers.png";
-import packaging from "@assets/images/packaging.png";
-import shippingImage from "@assets/images/shipping.jpg";
-import tracking from "@assets/images/tracking.jpg";
 import Image from "next/image";
+import carriers from "/assets/images/carriers.png";
+import packaging from "/assets/images/packaging.png";
+import shippingImage from "/assets/images/shipping.jpg";
+import tracking from "/assets/images/tracking.jpg";
 
 export default function Page() {
 
@@ -170,6 +170,8 @@ export default function Page() {
 
         <div className="w-full mb-16 h-30 overflow-hidden rounded-lg shadow-lg"> 
           <Image
+            width={1000}
+            height={320}
             src={shippingImage}
             alt="Shipping and Investments"
             style={{objectFit: "cover", display: "block", objectPosition: "center",
@@ -191,6 +193,8 @@ export default function Page() {
             >
               <div className="relative w-full h-64">
                 <Image
+                  width={1000}
+                  height={1000}
                   src={method.image}
                   alt={method.title}
                   layout="fill"

@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import { headerSection } from "@/data/content";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
-import heroImage from "@assets/images/hero.png";
 
 const SectionHeader = () => {
   return (
@@ -25,7 +24,9 @@ const SectionHeader = () => {
         </div>
         <div className="flex basis-[47%] items-end overflow-hidden">
           <Image
-            src={heroImage}
+            width={1000}
+            height={1000}
+            src="/assets/images/hero.png"
             alt="hero image"
             className="-mb-16 w-full object-bottom"
           />

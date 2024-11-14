@@ -4,7 +4,7 @@ import Image from "next/image";
 import { productsCollection } from "@/data/content";
 import ButtonSecondary from "@/shared/Button/ButtonSecondary";
 import Heading from "@/shared/Heading/Heading";
-import hero from "@assets/images/productsHero.jpg";
+// import hero from ;
 
 // const categories = [
 //   "New arrivals",
@@ -33,7 +33,9 @@ const SectionProductsHeader = () => {
     <div className="space-y-10">
       <div className="h-[220px] w-full overflow-hidden rounded-2xl">
         <Image
-          src={hero}
+          width={1000}
+          height={1000}
+          src="/assets/images/productsHero.jpg"
           alt="hero products"
           className="h-full w-full object-cover object-center"
         />

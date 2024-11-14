@@ -1,8 +1,5 @@
 "use client";
 import Heading from "@/shared/Heading/Heading";
-import goldImage from "@assets/images/gold.png"; // Example image, replace with actual image
-import platinumImage from "@assets/images/platinum.png"; // Example image, replace with actual image
-import silverImage from "@assets/images/silver.png"; // Example image, replace with actual image
 import Image from "next/image";
 
 const LaRoucciSCHPage = () => {
@@ -12,7 +9,7 @@ const LaRoucciSCHPage = () => {
       content: `LaRoucci SCH has grown into an international alliance for gold, silver, and strategic commodities since 2003 in Slovakia. 
                 And in Africa, Algeria, UAE, Turkey, China, and London. As one of the suppliers of precious metals in Africa, Asia, 
                 and Europe, we provide our customers with real security amidst the unpredictability of the financial system.`,
-      image: goldImage,
+      image: "/assets/images/gold.png",
     },
     {
       title:
@@ -21,7 +18,7 @@ const LaRoucciSCHPage = () => {
                 for selling gold and silver in Africa, Algeria, UAE, Turkey, China, USA, and Europe. 
                 Thanks to our sophisticated logistics solutions and high-security storage of precious metals, 
                 we created a Europe-wide market presence among gold dealers and end customers.`,
-      image: silverImage,
+      image: "/assets/images/silver.png",
     },
     {
       title: "Expansion and customer proximity – gold shops all around Europe",
@@ -29,7 +26,7 @@ const LaRoucciSCHPage = () => {
                 shipping required an international orientation of our business. Besides the LaRoucci SCH brand, 
                 we introduced other companies across Africa, Asia, and Europe, including offices in Slovakia, London, Dubai, Algeria, 
                 and Hong Kong.`,
-      image: platinumImage,
+      image: "/assets/images/platinum.png",
     },
     {
       title:
@@ -37,7 +34,7 @@ const LaRoucciSCHPage = () => {
       content: `LaRoucci SCH continues to expand its presence in Africa and beyond. Soon we will supply customers in our branches 
                 or partners in Vienna, Switzerland, Germany, India, and other cities with the best precious metal products. 
                 We offer collection services, storage on three continents, professional advice, and logistics solutions.`,
-      image: goldImage,
+      image: "/assets/images/silver.png",
     },
   ];
 
@@ -61,10 +58,12 @@ const LaRoucciSCHPage = () => {
           </div>
           <div className="relative w-full h-[300px]">
             <Image
+              width={1000}
+              height={1000}
               src={section.image}
               alt={section.title}
               className="w-full h-full object-cover rounded-2xl"
-              layout="fill"
+              // layout="fill"
             />
           </div>
         </div>

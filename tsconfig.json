@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -30,12 +26,8 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@assets/*": [
-        "public/assets/*"
-      ]
+      "@/*": ["./src/*"],
+      "@assets/*": ["public/assets/*"]
     },
     "isolatedModules": true,
     "incremental": true,
@@ -48,12 +40,7 @@
       }
     ]
   },
-  "exclude": [
-    "node_modules",
-    "out",
-    ".next",
-    "cypress/**/*.ts"
-  ],
+  "exclude": ["node_modules", "out", ".next", "cypress/**/*.ts"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

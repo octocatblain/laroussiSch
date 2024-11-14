@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 
@@ -11,8 +12,8 @@ const Logo: FC<LogoProps> = () => {
       className="flex cursor-pointer items-center gap-2 text-primary"
       href="/"
     >
-      <img
-        src="@assets/logo/laroucci-logo.png"
+      <Image
+        src="/assets/logo/laroucci-logo.png"
         alt="logo"
         width={200}
         height={250}

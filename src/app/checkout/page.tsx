@@ -35,7 +35,9 @@ const CheckoutPage = () => {
       <div key={productName} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
           <Image
-            fill
+            // fill
+            width={1000}
+            height={1000}
             src={coverImage}
             alt={productName}
             className="h-full w-full object-cover object-top"

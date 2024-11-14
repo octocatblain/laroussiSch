@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.ts",
+    "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "clean": "rimraf .next .swc out coverage",
     "lint": "next lint",
@@ -22,8 +22,7 @@
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:serve": "http-server storybook-static --port 6006 --silent",
-    "serve-storybook": "run-s storybook:*",
-    "test-storybook:ci": "start-server-and-test serve-storybook http://localhost:6006 test-storybook",
+    "test-storybook:ci": "start-server-and-test storybook:serve http://localhost:6006 test-storybook",
     "prepare": "husky install",
     "postbuild": "next-sitemap"
   },
@@ -39,6 +38,7 @@
     "@t3-oss/env-nextjs": "^0.6.1",
     "@tailwindcss/forms": "^0.5.6",
     "axios": "^1.5.1",
+    "dotenv": "^16.4.5",
     "drizzle-orm": "^0.28.6",
     "framer-motion": "^10.16.4",
     "lodash": "^4.17.21",
@@ -123,7 +123,6 @@
     "rimraf": "^5.0.5",
     "semantic-release": "^19.0.5",
     "start-server-and-test": "^2.0.1",
-    "storybook": "^7.4.5",
     "tailwindcss": "^3.3.3",
     "tsx": "^3.13.0",
     "typescript": "^5.2.2"
@@ -151,5 +150,5 @@
       "@semantic-release/github"
     ]
   },
-  "author": "Ixartz (https://github.com/ixartz)"
+  "author": "octocatblain (https://github.com/octocatblain)"
 }

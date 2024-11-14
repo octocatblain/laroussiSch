@@ -63,6 +63,8 @@ const BannerCard: FC<BannerCardProps> = ({
       </div>
       <div className="overflow-hidden">
         <Image
+          width={1000}
+          height={1000}
           src={details.coverImage}
           alt="cover image"
           className="h-full w-full object-cover"
