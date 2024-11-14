@@ -1,0 +1,13 @@
+# Define the build and deployment configuration for a Node.js project on cPanel
+
+version: 1
+project:
+  root: public_html/laroucciNov
+  entrypoint: NODE_ENV=production node server.ts
+
+deployment:
+  tasks:
+    - cd public_html/laroucciNov
+    - npm install --production
+    - npm run build # Include this if there’s a build step
+    - NODE_ENV=production node server.ts # Starts the server
