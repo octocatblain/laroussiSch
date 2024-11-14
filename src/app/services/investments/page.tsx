@@ -2,7 +2,7 @@
 
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
-import financeImage from "/assets/images/investment.jpg";
+// import "/assets/images/investment.jpg" from "/assets/images/investment.jpg";
 
 const page = () => {
   const serviceDescription = {
@@ -110,7 +110,7 @@ const page = () => {
         <Image
           width={1000}
           height={320}
-          src={financeImage}
+          src={"/assets/images/investment.jpg"}
           alt="Finance and Investments"
           className="rounded-lg w-full h-80"
         />

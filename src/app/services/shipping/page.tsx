@@ -3,10 +3,10 @@
 import Accordion from "@/components/Accordion";
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
-import carriers from "/assets/images/carriers.png";
-import packaging from "/assets/images/packaging.png";
-import shippingImage from "/assets/images/shipping.jpg";
-import tracking from "/assets/images/tracking.jpg";
+// import carriers from "/assets/images/carriers.png";
+// import packaging from "/assets/images/packaging.png";
+// import "/assets/images/shipping.jpg" from "/assets/images/shipping.jpg";
+// import tracking from "/assets/images/tracking.jpg";
 
 export default function Page() {
 
@@ -21,17 +21,17 @@ export default function Page() {
 
   const shippingMethods = [
     {
-      image: carriers,
+      image: "/assets/images/carriers.png",
       title: "Shipping Carriers",
       description: "We ship via Brink's, USPS, FedEx, and UPS. The carrier used depends on your order's contents. Expedited shipping is available for a surcharge. Our fulfillment center near Airport enables us to load shipments directly onto carrier planes, reducing the risk of delays, theft, or losses.",
     },
     {
-      image: packaging,
+      image: "/assets/images/packaging.png",
       title: "Shipment Packaging",
       description: "For precious metals, discretion and protection are essential. Products are securely wrapped and placed in a parcel with packing material to prevent shifting. Our return address and packaging do not indicate the valuable contents inside, ensuring your packages arrive safely and securely.",
     },
     {
-      image: tracking,
+      image: "/assets/images/tracking.jpg",
       title: "Shipment Tracking",
       description: "Track your order from creation to doorstep delivery. You’ll receive an email notification when your order ships, typically within 1 business day of payment. Additional email updates will be sent for delays, when out for delivery, and upon delivery. SMS updates are also available for tracking.",
     },
@@ -172,7 +172,7 @@ export default function Page() {
           <Image
             width={1000}
             height={320}
-            src={shippingImage}
+            src="/assets/images/shipping.jpg"
             alt="Shipping and Investments"
             style={{objectFit: "cover", display: "block", objectPosition: "center",
     margin: "auto"}}	

@@ -3,21 +3,21 @@
 // import ReactComponent from "*.svg";
 // import { contactSection } from "@/data/content";
 
-import AllCurrenciesIcon from "/assets/images/svg/all-currencies.svg";
-import BuybackGuaranteeIcon from "/assets/images/svg/buyback-guarantee.svg";
-import ConsultingIcon from "/assets/images/svg/consulting.svg";
-import DiscreetEntranceIcon from "/assets/images/svg/discreet-entrance.svg";
-import InternationalDeliveryIcon from "/assets/images/svg/international-delivery2.svg";
-import LargestSelectionIcon from "/assets/images/svg/largest-selection.svg";
-import LivePricesIcon from "/assets/images/svg/live-prices.svg";
-import OfficesIcon from "/assets/images/svg/offices.svg";
-import StorageIcon from "/assets/images/svg/storage.svg";
+// import "/assets/images/svg/all-currencies.svg" from "/assets/images/svg/all-currencies.svg";
+// import "/assets/images/svg/buyback-guarantee.svg" from "/assets/images/svg/buyback-guarantee.svg";
+// import "/assets/images/svg/consulting.svg" from "/assets/images/svg/consulting.svg";
+// import "/assets/images/svg/discreet-entrance.svg" from "/assets/images/svg/discreet-entrance.svg";
+// import "/assets/images/svg/international-delivery2.svg" from "/assets/images/svg/international-delivery2.svg";
+// import "/assets/images/svg/largest-selection.svg" from "/assets/images/svg/largest-selection.svg";
+// import "/assets/images/svg/live-prices.svg" from "/assets/images/svg/live-prices.svg";
+// import "/assets/images/svg/offices.svg" from "/assets/images/svg/offices.svg";
+// import "/assets/images/svg/storage.svg" from "/assets/images/svg/storage.svg";
 
-import AuthenticityTestingIcon from "/assets/images/svg/authenticity-testing.svg";
-import InternationalPartnershipsIcon from "/assets/images/svg/international-partnerships.svg";
-import NewsletterIcon from "/assets/images/svg/newsletter.svg";
-import RareEarthsIcon from "/assets/images/svg/rare-earths.svg";
-import WholesaleIcon from "/assets/images/svg/wholesale.svg";
+// import "/assets/images/svg/authenticity-testing.svg" from "/assets/images/svg/authenticity-testing.svg";
+// import "/assets/images/svg/international-partnerships.svg" from "/assets/images/svg/international-partnerships.svg";
+// import "/assets/images/svg/newsletter.svg" from "/assets/images/svg/newsletter.svg";
+// import "/assets/images/svg/rare-earths.svg" from "/assets/images/svg/rare-earths.svg";
+// import "/assets/images/svg/wholesale.svg" from "/assets/images/svg/wholesale.svg";
 
 import Heading from "@/shared/Heading/Heading";
 
@@ -75,85 +75,85 @@ const page = () => {
 
   const data = [
     {
-      Icon: ConsultingIcon,
+      Icon: "/assets/images/svg/consulting.svg",
       title: "Consulting",
       content:
         "We provide consultation regarding gold and precious metals investment via our experts, taking your personal needs into consideration, and delivering the best choices for you based on two decades of experience.",
     },
     {
-      Icon: DiscreetEntranceIcon,
+      Icon: "/assets/images/svg/discreet-entrance.svg",
       title: "Discreet Entrance",
       content:
         "Leaving street stores leads to unwanted observations. Our offices and stores allow unobserved coming and a relaxed return home.",
     },
     {
-      Icon: LivePricesIcon,
+      Icon: "/assets/images/svg/live-prices.svg",
       title: "Live Prices",
       content:
         "Our prices are tied to the current gold, silver, platinum, and precious metals and precious stones rates to the minute. We guarantee the price at the time of your order, night or day, weekday, or weekend.",
     },
     {
-      Icon: StorageIcon,
+      Icon: "/assets/images/svg/storage.svg",
       title: "LaRoucci SCH Storage",
       content:
         "LaRoucci SCH combines secure gold, silver, platinum and precious stones storage with flexibility on a global scale. The crises of the past have proven the importance of this system. You too, like thousands of other customers, can rely on Real Security.",
     },
     {
-      Icon: BuybackGuaranteeIcon,
+      Icon: "/assets/images/svg/buyback-guarantee.svg",
       title: "Buyback Guarantee",
       content:
         "We guarantee the repurchase of all precious metals and precious stones purchased from LaRoucci SCH. In addition, we buy bars and coins from all manufacturers, as well as jewelry and scrap gold. Authenticating the precious metals and purchase calculation are always free of charge and without obligation.",
     },
     {
-      Icon: AllCurrenciesIcon,
+      Icon: "/assets/images/svg/all-currencies.svg",
       title: "All Currencies",
       content:
         "All currencies are perishable, except for gold, silver, platinum and precious metals and precious stones. Investing in precious stones is the best investment and saving for the future.",
     },
     {
-      Icon: OfficesIcon,
+      Icon: "/assets/images/svg/offices.svg",
       title: "16x in Europe",
       content:
         "Conduct business or receive consulting and LaRoucci SCH and Partners services in our offices and partners all across Europe. Learn about how LaRoucci SCH clients use this office network to their advantage.",
     },
     {
-      Icon: LargestSelectionIcon,
+      Icon: "/assets/images/svg/largest-selection.svg",
       title: "Largest Selection",
       content:
         "Precious metals are in stock in every size. Over two hundred thousand customers invest in the best products with LaRoucci SCH, starting from gifts, going up to millions in investments.",
     },
     {
-      Icon: InternationalDeliveryIcon,
+      Icon: "/assets/images/svg/international-delivery2.svg",
       title: "International Delivery",
       content:
         "Our own logistics center and partners assures you of fast and extensive delivery of your order to any corner of the world. We are also happy to plan special transports and pick-ups in personal consultation.",
     },
     {
-      Icon: InternationalPartnershipsIcon,
+      Icon: "/assets/images/svg/international-partnerships.svg",
       title: "International Partnerships",
       content:
         "LaRoucci SCH and partners provide all the major gold, silver, platinum, and precious metals and precious stones in the world for its clients. This network is available to every customer and provides a hedge to the globalized banking world.",
     },
     {
-      Icon: RareEarthsIcon,
+      Icon: "/assets/images/svg/rare-earths.svg",
       title: "Rare Earths",
       content:
         "The whole world needs them, but almost no one has them - the rare precious metals and precious stones. LaRoucci SCH and Partners import, certify, and safely store these raw materials for you. In times of inflation, limited goods are invaluable.",
     },
     {
-      Icon: AuthenticityTestingIcon,
+      Icon: "/assets/images/svg/authenticity-testing.svg",
       title: "Authenticity Testing",
       content:
         "LaRoucci SCH and Partners is always up to date with the latest science and is aware of all counterfeiting methods. For authenticity testing, LaRoucci SCH and Partners use equipment from its own development.",
     },
     {
-      Icon: WholesaleIcon,
+      Icon: "/assets/images/svg/wholesale.svg",
       title: "Wholesale",
       content:
         "LaRoucci SCH and Partners offer gold, silver, platinum, and precious metals and precious stones dealers a wholesale partnership with a modern real-time trading interface. This can be used by traders on all continents.",
     },
     {
-      Icon: NewsletterIcon,
+      Icon: "/assets/images/svg/newsletter.svg",
       title: "Newsletter",
       content:
         "Independent news is the basic prerequisite for developing an informed opinion. The LaRoucci SCH newsletter ensures that this service is available to all our clients.",
@@ -180,7 +180,7 @@ const page = () => {
 
         <section className="container mx-auto py-16 px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {data.map((item, index) => (
+            {data.map((item: any, index: any) => (
               <div
                 key={index}
                 className="flex flex-col items-center text-center space-y-6"
