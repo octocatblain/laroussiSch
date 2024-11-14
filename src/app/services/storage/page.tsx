@@ -1,16 +1,16 @@
 "use client";
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
-import safe from "/assets/images/services/safe.png";
-import IndependentAuditsIcon from "/assets/images/svg/audit.svg";
-import ConfidentialityIcon from "/assets/images/svg/discreet-entrance.svg";
-import ExperienceIcon from "/assets/images/svg/experience.svg";
-import FlexiblePowerOfAttorneyIcon from "/assets/images/svg/flexible-powers-attorney.svg";
-import OfficialDistributorIcon from "/assets/images/svg/logistics.svg";
-import SecureMessagingIcon from "/assets/images/svg/secure-message.svg";
-import TaxFreePurchasesIcon from "/assets/images/svg/tax-free.svg";
-import TradingFlexibilityIcon from "/assets/images/svg/trade-flexibility.svg";
-import WorldwideNetworkIcon from "/assets/images/svg/worldwide-network.svg";
+// import safe from "/assets/images/services/safe.png";
+// import "/assets/images/svg/audit.svg" from "/assets/images/svg/audit.svg";
+// import "/assets/images/svg/discreet-entrance.svg" from "/assets/images/svg/discreet-entrance.svg";
+// import "/assets/images/svg/experience.svg" from "/assets/images/svg/experience.svg";
+// import "/assets/images/svg/flexible-powers-attorney.svg" from "/assets/images/svg/flexible-powers-attorney.svg";
+// import "/assets/images/svg/logistics.svg" from "/assets/images/svg/logistics.svg";
+// import "/assets/images/svg/secure-message.svg" from "/assets/images/svg/secure-message.svg";
+// import "/assets/images/svg/tax-free.svg" from "/assets/images/svg/tax-free.svg";
+// import "/assets/images/svg/trade-flexibility.svg" from "/assets/images/svg/trade-flexibility.svg";
+// import "/assets/images/svg/worldwide-network.svg" from "/assets/images/svg/worldwide-network.svg";
 
 const page = () => {
   const storageSection = {
@@ -67,63 +67,63 @@ const page = () => {
 
   const data = [
     {
-      Icon: WorldwideNetworkIcon,
+      Icon: "/assets/images/svg/worldwide-network.svg",
       title: "Worldwide Network",
       content:
         "Your LaRoucci SCH storage location is part of an international network of LaRoucci SCH high-security storage facilities. LaRoucci SCH trades at numerous trading hubs globally and maintains specialized high-security vaults on-site for storing precious metals. Our extensive industry information network enables us to anticipate unfavorable conditions and securely transfer assets across locations, ensuring real security for customers.",
       image: "path/to/worldwide-network-image.jpg",
     },
     {
-      Icon: TradingFlexibilityIcon,
+      Icon: "/assets/images/svg/trade-flexibility.svg",
       title: "Buy & Sell Anytime",
       content:
         "LaRoucci SCH offers flexible storage and withdrawal options at any time, anywhere. With branches and web stores across European, African, and Arabic countries, customers can buy and sell from home or in person without transportation costs or import fees. Transactions are processed in major currencies and payment methods, ensuring convenience.",
       image: "path/to/trading-flexibility-image.jpg",
     },
     {
-      Icon: TaxFreePurchasesIcon,
+      Icon: "/assets/images/svg/tax-free.svg",
       title: "Tax-Free Purchase & Profits",
       content:
         "In most LaRoucci SCH storage locations, customers can buy silver, platinum, and palladium tax-free in bonded warehouses. After a holding period of one year and one day, profits from sales are often tax-free, providing a beneficial investment option.",
       image: "path/to/tax-free-purchase-image.jpg",
     },
     {
-      Icon: ConfidentialityIcon,
+      Icon: "/assets/images/svg/discreet-entrance.svg",
       title: "Confidentiality & No Registries",
       content:
         "LaRoucci SCH maintains strict confidentiality for all stored precious metals, ensuring no reporting to registries or authorities. Storage details are offline and accessible only to the owner, providing robust protection from hackers and data breaches.",
       image: "path/to/confidentiality-image.jpg",
     },
     {
-      Icon: SecureMessagingIcon,
+      Icon: "/assets/images/svg/secure-message.svg",
       title: "256-bit Encrypted Messaging",
       content:
         "Customers can securely communicate through encrypted messages for inquiries or storage contract changes via LaRoucci SCH's web stores, ensuring privacy and data security at all times.",
       image: "path/to/secure-messaging-image.jpg",
     },
     {
-      Icon: FlexiblePowerOfAttorneyIcon,
+      Icon: "/assets/images/svg/flexible-powers-attorney.svg",
       title: "Flexible Powers of Attorney",
       content:
         "LaRoucci SCH allows customers to assign powers of attorney for asset access, with flexible options like joint access or restricted conditions. Amendments are easily managed to adapt to changing life circumstances.",
       image: "path/to/flexible-power-of-attorney-image.jpg",
     },
     {
-      Icon: IndependentAuditsIcon,
+      Icon: "/assets/images/svg/audit.svg",
       title: "Independent Warehouse Audits",
       content:
         "LaRoucci SCH high-security storage exceeds industry standards with biannual inventory audits, ensuring all precious metals are physically present and unpledged. Audit reports are available for customer assurance.",
       image: "path/to/independent-audits-image.jpg",
     },
     {
-      Icon: ExperienceIcon,
+      Icon: "/assets/images/svg/experience.svg",
       title: "Years of Expertise",
       content:
         "With over 20 years in the precious metals business, LaRoucci SCH is a debt-free, independent entity providing real security for customers. Our team is available by phone, email, or in person to offer expert consultation and support.",
       image: "path/to/years-of-expertise-image.jpg",
     },
     {
-      Icon: OfficialDistributorIcon,
+      Icon: "/assets/images/svg/logistics.svg",
       title: "Official Distributor",
       content:
         "LaRoucci SCH is an official distributor for leading mints globally, investing exclusively in precious metals over fiat currencies, ensuring customer assets retain real security through a commitment to gold and silver.",
@@ -142,7 +142,7 @@ const page = () => {
         <Image
           width={1000}
           height={1000}
-          src={safe}
+          src="/assets/images/services/safe.png"
           alt="laroucci safe"
           className="m-6 w-full rounded object-bottom"
         />
@@ -152,7 +152,7 @@ const page = () => {
 
         <section className="container mx-auto py-16 px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {data.map((item, index) => (
+            {data.map((item: any, index: any) => (
               <div
                 key={index}
                 className="flex flex-col items-center text-center space-y-6"

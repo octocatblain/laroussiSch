@@ -17,13 +17,11 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-    domains: ["example.com"], // add any other domains for external images
     formats: ["image/avif", "image/webp"],
   },
-  /**
-   * @param {{ module: { rules: { test: RegExp; use: string[]; }[]; }} config
-   */
+  exportTrailingSlash: true,
   webpack(config) {
+    // Adding SVG support
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
