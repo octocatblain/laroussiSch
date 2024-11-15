@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
 // import safe from "/assets/images/services/safe.png";
@@ -12,7 +13,7 @@ import Image from "next/image";
 // import "/assets/images/svg/trade-flexibility.svg" from "/assets/images/svg/trade-flexibility.svg";
 // import "/assets/images/svg/worldwide-network.svg" from "/assets/images/svg/worldwide-network.svg";
 
-const page = () => {
+export default function page() {
   const storageSection = {
     description:
       "Elevate your gold, silver, platinum precious metals and precious stones investments with LaRoucci SCH in ABAMA, your trusted and highly qualified partner in the realm of precious metals and precious stones investment.",
@@ -99,35 +100,35 @@ const page = () => {
       title: "256-bit Encrypted Messaging",
       content:
         "Customers can securely communicate through encrypted messages for inquiries or storage contract changes via LaRoucci SCH's web stores, ensuring privacy and data security at all times.",
-      image: "path/to/secure-messaging-image.jpg",
+      image: "/assets/images/svg/secure-message.svg"
     },
     {
       Icon: "/assets/images/svg/flexible-powers-attorney.svg",
       title: "Flexible Powers of Attorney",
       content:
         "LaRoucci SCH allows customers to assign powers of attorney for asset access, with flexible options like joint access or restricted conditions. Amendments are easily managed to adapt to changing life circumstances.",
-      image: "path/to/flexible-power-of-attorney-image.jpg",
+      image: "/assets/images/svg/flexible-powers-attorney.svg",
     },
     {
       Icon: "/assets/images/svg/audit.svg",
       title: "Independent Warehouse Audits",
       content:
         "LaRoucci SCH high-security storage exceeds industry standards with biannual inventory audits, ensuring all precious metals are physically present and unpledged. Audit reports are available for customer assurance.",
-      image: "path/to/independent-audits-image.jpg",
+      image: "/assets/images/svg/audit.svg",
     },
     {
       Icon: "/assets/images/svg/experience.svg",
       title: "Years of Expertise",
       content:
         "With over 20 years in the precious metals business, LaRoucci SCH is a debt-free, independent entity providing real security for customers. Our team is available by phone, email, or in person to offer expert consultation and support.",
-      image: "path/to/years-of-expertise-image.jpg",
+      image: "/assets/images/svg/experience.svg",
     },
     {
       Icon: "/assets/images/svg/logistics.svg",
       title: "Official Distributor",
       content:
         "LaRoucci SCH is an official distributor for leading mints globally, investing exclusively in precious metals over fiat currencies, ensuring customer assets retain real security through a commitment to gold and silver.",
-      image: "path/to/official-distributor-image.jpg",
+      image: "/assets/images/svg/logistics.svg",
     },
   ];
   return (
@@ -157,7 +158,14 @@ const page = () => {
                 key={index}
                 className="flex flex-col items-center text-center space-y-6"
               >
-                <item.Icon className="w-12 h-12 text-primary-600" />
+                <Image
+                  width={320}
+                  height={320}
+                  src={item.Icon}
+                  alt="laroucci safe"
+                  className="w-12 h-12 text-primary-600" 
+                />
+                {/* <item.Icon className="w-12 h-12 text-primary-600" /> */}
                 <h3 className="text-lg font-semibold">{item.title}</h3>
                 <p>{item.content}</p>
               </div>
@@ -169,4 +177,4 @@ const page = () => {
   );
 };
 
-export default page;
+// export default page;

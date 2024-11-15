@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 // import ReactComponent from "*.svg";
 import { contactSection } from "@/data/content";
@@ -20,7 +20,7 @@ import { contactSection } from "@/data/content";
 import Heading from "@/shared/Heading/Heading";
 import Image from "next/image";
 
-const page = () => {
+export default function page() {
   const sections = [
     {
       title: "Buy gold, silver and Platinum at LaRoucci SCH",
@@ -178,7 +178,14 @@ const page = () => {
                 key={index}
                 className="flex flex-col items-center text-center space-y-6"
               >
-                <item.Icon className="w-12 h-12 text-primary-600" />
+                <Image
+                  width={320}
+                  height={320}
+                  src={item.Icon}
+                  alt="laroucci safe"
+                  className="w-12 h-12 text-primary-600"
+                />
+                {/* <item.Icon className="w-12 h-12 text-primary-600" /> */}
                 <h3 className="text-lg font-semibold">{item.title}</h3>
                 <p>{item.content}</p>
               </div>
@@ -190,4 +197,4 @@ const page = () => {
   );
 };
 
-export default page;
+// export default page;
