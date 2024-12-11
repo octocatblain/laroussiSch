@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 // import { FaGoogle } from 'react-icons/fa6';
 
 import ButtonPrimary from '@/shared/Button/ButtonPrimary';
@@ -16,15 +15,7 @@ const PageSignUp = () => {
         </h2>
         <div className="mx-auto max-w-md ">
           <div className="space-y-6">
-            {/* <div className="">
-              <ButtonSecondary className="flex w-full items-center gap-3 border-2 border-primary text-primary">
-                <FaGoogle className="text-2xl" /> Continue with Google
-              </ButtonSecondary>
-            </div> */}
             <div className="relative text-center">
-              <span className="relative z-10 inline-block rounded-full bg-gray px-4 text-sm font-medium ">
-                OR
-              </span>
               <div className="absolute left-0 top-1/2 w-full -translate-y-1/2 border border-neutral-300" />
             </div>
             <div className="grid grid-cols-1 gap-6">
