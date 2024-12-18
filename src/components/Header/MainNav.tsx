@@ -1,11 +1,10 @@
-import Link from 'next/link';
-import { LuUser2 } from 'react-icons/lu';
 import { RiSearch2Line } from 'react-icons/ri';
 
 import { NavLinks } from '@/data/content';
 import Logo from '@/shared/Logo/Logo';
 
-import { SignedIn, SignedOut } from '@clerk/nextjs';
+// import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 import CartSideBar from '../CartSideBar';
 import NavigationItem from '../NavItem';
 import MenuBar from './MenuBar';
@@ -26,15 +25,20 @@ const MainNav = () => {
       <div className="hidden flex-1 items-center justify-end gap-7 lg:flex">
         <RiSearch2Line className="text-2xl" />
 
-        <SignedOut>
-          <Link href="/signup">
-            <LuUser2 className="text-2xl" />
-          </Link>
-        </SignedOut>
+        <Link href="/login">
 
+          <p className="text-2xl">Login</p>
+          {/* <LuUser2Line className="text-2xl" /> */}
+        </Link>
+        {/* <SignedOut>
+          <SignInButton />
+        </SignedOut>
         <SignedIn>
-          <CartSideBar />
+          <UserButton />
         </SignedIn>
+        <SignedIn> */}
+        <CartSideBar />
+        {/* </SignedIn> */}
       </div>
 
       <div className="lg:hidden">

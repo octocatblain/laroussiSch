@@ -9,7 +9,7 @@ import Footer from "@/shared/Footer/Footer";
 import Loading from "./loading";
 
 // Clerk imports
-import { ClerkProvider } from "@clerk/nextjs";
+// import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "LaRoucci Mining SCH",
@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    // <ClerkProvider>
       <html lang="en">
         <body className="">
           <Header />
@@ -51,7 +51,7 @@ export default function RootLayout({
           <Footer />
         </body>
       </html>
-    </ClerkProvider>
+    // </ClerkProvider>
   );
 }
 
