@@ -27,7 +27,7 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.24.1",
+    "@clerk/nextjs": "^4.31.6",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.1",

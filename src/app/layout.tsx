@@ -8,6 +8,9 @@ import Footer from "@/shared/Footer/Footer";
 
 import Loading from "./loading";
 
+// Clerk imports
+import { ClerkProvider } from "@clerk/nextjs";
+
 export const metadata: Metadata = {
   title: "LaRoucci Mining SCH",
   icons: [
@@ -40,13 +43,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="">
-        <Header />
-        <Suspense fallback={<Loading />}>{children}</Suspense>
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className="">
+          <Header />
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
 
