@@ -69,13 +69,13 @@ function Sidebar({ menuItems, session, greeting }: any) {
     return (
         <>
             <div
-                className={`bg-black text-white h-full flex flex-col transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"
+                className={`bg-black text-white h-full flex flex-col transition-all duration-300 ${isCollapsed ? "w-20" : "w-56"
                     }`}
             >
                 <div className="flex items-center justify-between p-4 border-b border-gray-700">
                     <button
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="text-white focus:outline-none"
+                        className="text-white flex justify-center flex-col  focus:outline-none"
                     >
                         {session?.user?.image ? (
                             <Image
@@ -88,15 +88,20 @@ function Sidebar({ menuItems, session, greeting }: any) {
                         ) : (
                             <div className="w-12 h-12 rounded-full bg-gray-600"></div>
                         )}
+
+                        {!isCollapsed && (
+                            <p className="text-sm pt-3 font-semibold">{session?.user?.email}</p>
+                        )}
+
                     </button>
                 </div>
 
                 <nav className="flex flex-col mt-4">
-                    {menuItems.map((item:any) => (
+                    {menuItems.map((item: any) => (
                         <button
                             key={item.id}
-                            className={`flex items-center p-4 hover:bg-gray-700 rounded-r-lg ${activeMenuItem === item.id ? "bg-gray-700" : ""
-                                }`}
+                            className={`flex p-4 hover:bg-gray-700 rounded-r-lg ${activeMenuItem === item.id ? "bg-gray-700" : ""
+                                } ${isCollapsed ? "justify-center items-center" : "!items-center"}`}
                             onClick={() => setActiveMenuItem(item.id)}
                         >
                             <span className="text-xl">{item.icon}</span>
@@ -104,27 +109,16 @@ function Sidebar({ menuItems, session, greeting }: any) {
                         </button>
                     ))}
                 </nav>
+
             </div>
             <div className="flex-1 bg-gray-100 p-6 overflow-auto">
-                <div className="bg-white shadow-md rounded-lg p-6">
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                <div className="bg-white border-y shadow-md rounded-full p-3 ">
+                    <h1 className="text-2xl px-3 font-semibold text-gray-800 ">
                         {greeting}, {session?.user?.name || "Guest"}!
                     </h1>
-                    <p className="text-gray-600 italic mb-6">
-                        {`"Your gateway to productivity - let's make today great!"`}
-                    </p>
-                    <div className="space-y-4">
-                        <p className="text-lg font-semibold text-gray-700">
-                            <span className="text-gray-500 font-medium">Name:</span>{" "}
-                            {session?.user?.name || "N/A"}
-                        </p>
-                        <p className="text-lg font-semibold text-gray-700">
-                            <span className="text-gray-500 font-medium">Email:</span>{" "}
-                            {session?.user?.email || "N/A"}
-                        </p>
-                    </div>
-                    <div>{activeContent}</div>
                 </div>
+
+                <div>{activeContent}</div>
             </div>
         </>
     );
