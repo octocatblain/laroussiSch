@@ -57,3 +57,8 @@ local
 
 yarn.lock
 laroussiSch.zip
+
+
+# Next.js environment configuration
+.env.local
+.env
