@@ -1,15 +1,19 @@
 import type { NextAuthOptions } from 'next-auth';
 
-import GithubProvider from 'next-auth/providers/github';
-
+import GoogleProvider from 'next-auth/providers/google';
+// import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const options: NextAuthOptions = {
     // Configure one or more authentication providers
     providers: [
-        GithubProvider({
-            clientId: process.env.GITHUB_ID as string,
-            clientSecret: process.env.GITHUB_SECRET as string,
+        // GithubProvider({
+        //     clientId: process.env.GITHUB_ID as string,
+        //     clientSecret: process.env.GITHUB_SECRET as string,
+        // }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_ID as string,
+            clientSecret: process.env.GOOGLE_SECRET as string,
         }),
         CredentialsProvider({
             name: 'Credentials',
@@ -33,6 +37,7 @@ export const options: NextAuthOptions = {
     // A database is optional, but required to persist accounts in a database
     // database: process.env.DATABASE_URL,
    
+    secret: process.env.NEXTAUTH_SECRET, // Add a secret to encrypt cookies
     logger: {
         error: console.error,
         warn: console.warn,
