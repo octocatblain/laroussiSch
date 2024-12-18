@@ -5,15 +5,13 @@ import Logo from '@/shared/Logo/Logo';
 // import { getServerSession } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { RiSearch2Line } from 'react-icons/ri';
 import CartSideBar from '../CartSideBar';
 import NavigationItem from '../NavItem';
 import MenuBar from './MenuBar';
 
 const MainNav = ({ session }: { session: any }) => {
-
-  const router = useRouter();
+console.log(session);
 
   // const session: any = getServerSession(options);
   return (
