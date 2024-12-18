@@ -1,18 +1,21 @@
-'use client';
 
-import { options } from '@/app/api/auth/[...nextauth]/options';
+// import { options } from '@/app/api/auth/[...nextauth]/options';
 import { NavLinks } from '@/data/content';
 import Logo from '@/shared/Logo/Logo';
-import { getServerSession } from 'next-auth';
+// import { getServerSession } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { RiSearch2Line } from 'react-icons/ri';
 import CartSideBar from '../CartSideBar';
 import NavigationItem from '../NavItem';
 import MenuBar from './MenuBar';
 
-const MainNav = () => {
-  const session: any = getServerSession(options);
+const MainNav = ({ session }: { session: any }) => {
+
+  const router = useRouter();
+
+  // const session: any = getServerSession(options);
   return (
     <div className="container flex items-center justify-between">
       <div className="flex-1">
@@ -39,9 +42,9 @@ const MainNav = () => {
             <CartSideBar />
           </>
         ) : (
-          <Link href="/login">
-            <p className="text-lg">Login</p>
-          </Link>
+            <Link href={`/api/auth/signin`}>
+              <p className="text-lg">Login</p>
+            </Link>
         )}
       </div>
 

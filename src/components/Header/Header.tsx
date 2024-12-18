@@ -8,6 +8,7 @@ import type { Options } from "@splidejs/react-splide";
 import { SplideSlide } from "@splidejs/react-splide";
 import Image from "next/image";
 import MainNav from "./MainNav";
+import { Session } from "next-auth";
 
 const sliderOptions: Options = {
   autoScroll: {
@@ -43,9 +44,13 @@ const sliderOptions: Options = {
   },
 };
 
-export interface HeaderProps {}
+export interface HeaderProps {
+  session: Session | null; // Use the proper type for session, and allow null
+}
 
-const Header: FC<HeaderProps> = () => {
+const Header: FC<HeaderProps> = ({ session }) => {
+  
+  
   return (
     <div className="nc-Header my-2 sticky inset-x-0 top-0 z-50 bg-white ">
       <div className=" ">
@@ -70,7 +75,7 @@ const Header: FC<HeaderProps> = () => {
         </AutoScrollSlider>
       </div>
 
-      <MainNav />
+      <MainNav session={session} />
     </div>
   );
 };
