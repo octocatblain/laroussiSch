@@ -4,7 +4,7 @@ import React from 'react';
 import { MdClose, MdKeyboardArrowDown } from 'react-icons/md';
 
 import { NavLinks } from '@/data/content';
-import ButtonPrimary from '@/shared/Button/ButtonPrimary';
+// import ButtonPrimary from '@/shared/Button/ButtonPrimary';
 import Logo from '@/shared/Logo/Logo';
 
 import type { NavItemType } from '../NavItem';

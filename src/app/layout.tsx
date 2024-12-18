@@ -3,16 +3,17 @@ import "@/styles/global.css";
 import type { Metadata } from "next";
 import React, { Suspense } from "react";
 
-import { getServerSession } from "next-auth";
+
 import { options } from "@/app/api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
 
 import Header from "@/components/Header/Header";
 import Footer from "@/shared/Footer/Footer";
 
+// import { SessionProvider } from "next-auth/react";
 import Loading from "./loading";
+import { SessionProvider } from "@/contexts/SessionContext";
 
-// Clerk imports
-// import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "LaRoucci Mining SCH",
@@ -51,7 +52,11 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <Header session={session} />
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+
+        <SessionProvider session={session}>
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </SessionProvider>
+
         <Footer />
       </body>
     </html>
