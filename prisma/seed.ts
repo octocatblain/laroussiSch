@@ -1,29 +1,22 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient }: any = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
 async function main() {
+  // Upsert User
   const user = await prisma.user.upsert({
     where: { email: "testuser@gmail.com" },
-    update: {},
+    update: { username: "testuser" },
     create: {
       email: "testuser@gmail.com",
       name: "Test User",
-      image: "https://example.com/image.jpg",
+      image:
+        "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      hashedPassword: "hashedpassword123", // Example hashed password
     },
   });
 
-  console.log({ user });
-
-  const post = await prisma.post.create({
-    data: {
-      title: "My first post",
-      content: "This is the content of my first post.",
-      authorId: user.id,
-    },
-  });
-
-  console.log({ post });
+  console.log("User seeded:", user);
 }
 
 main()
@@ -31,8 +24,5 @@ main()
   .catch(async (e) => {
     console.error(e);
     await prisma.$disconnect();
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
+    process.exit(1);
   });
