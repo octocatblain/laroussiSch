@@ -44,13 +44,13 @@ export default function RootLayout({
 }) {
   return (
     // <ClerkProvider>
-      <html lang="en">
-        <body className="">
-          <Header />
-          <Suspense fallback={<Loading />}>{children}</Suspense>
-          <Footer />
-        </body>
-      </html>
+    <html lang="en">
+      <body className="">
+        <Header />
+        <Suspense fallback={<Loading />}>{children}</Suspense>
+        <Footer />
+      </body>
+    </html>
     // </ClerkProvider>
   );
 }
