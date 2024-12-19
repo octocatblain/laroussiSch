@@ -3,7 +3,12 @@
 import { useSession } from "@/contexts/SessionContext";
 import Image from "next/image";
 import { useState } from "react";
-import { FaBox, FaChartLine, FaCog, FaEnvelope, FaUser } from "react-icons/fa";
+import { BsPersonFillGear, BsPersonVcardFill } from "react-icons/bs";
+import { FaCartShopping } from "react-icons/fa6";
+import { MdFormatListBulletedAdd, MdNotificationsActive } from "react-icons/md";
+import { RiBubbleChartFill } from "react-icons/ri";
+import AccountPage from "./account/page";
+
 
 interface MenuItem {
     id: string;
@@ -14,7 +19,7 @@ interface MenuItem {
 
 export default function UserHomePage() {
 
-    const session = useSession() ;
+    const session = useSession();
 
     const hour = new Date().getHours();
     const greeting =
@@ -24,32 +29,32 @@ export default function UserHomePage() {
         {
             id: "overview",
             label: "Overview",
-            icon: <FaChartLine />,
+            icon: <RiBubbleChartFill />,
             content: <div className="p-6">Welcome to the Overview Dashboard!</div>,
         },
         {
-            id: "products",
-            label: "Products",
-            icon: <FaBox />,
+            id: "notifications",
+            label: "Notifications",
+            icon: <MdNotificationsActive />,
             content: <div className="p-6">Here are your Products.</div>,
         },
         {
-            id: "customers",
-            label: "Customers",
-            icon: <FaUser />,
+            id: "wishlist",
+            label: "Wishlist",
+            icon: <MdFormatListBulletedAdd />,
             content: <div className="p-6">Manage your Customers here.</div>,
         },
         {
-            id: "messages",
-            label: "Messages",
-            icon: <FaEnvelope />,
+            id: "orders",
+            label: "Orders",
+            icon: <FaCartShopping />,
             content: <div className="p-6">You have new Messages.</div>,
         },
         {
-            id: "settings",
-            label: "Settings",
-            icon: <FaCog />,
-            content: <div className="p-6">Adjust your Settings here.</div>,
+            id: "account",
+            label: "Account",
+            icon: <BsPersonFillGear />,
+            content: <AccountPage session={session} />,
         },
     ];
 
@@ -64,7 +69,7 @@ function Sidebar({ menuItems, session, greeting }: any) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activeMenuItem, setActiveMenuItem] = useState(menuItems[0].id);
 
-    const activeContent = menuItems.find((item:any) => item.id === activeMenuItem)?.content;
+    const activeContent = menuItems.find((item: any) => item.id === activeMenuItem)?.content;
 
     return (
         <>
@@ -86,7 +91,7 @@ function Sidebar({ menuItems, session, greeting }: any) {
                                 className="rounded-full border-2 border-yellow-500"
                             />
                         ) : (
-                            <div className="w-12 h-12 rounded-full bg-gray-600"></div>
+                            <BsPersonVcardFill className="size-12 self-center" />
                         )}
 
                         {!isCollapsed && (
