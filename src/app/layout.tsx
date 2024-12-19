@@ -11,8 +11,8 @@ import Header from "@/components/Header/Header";
 import Footer from "@/shared/Footer/Footer";
 
 // import { SessionProvider } from "next-auth/react";
-import Loading from "./loading";
 import { SessionProvider } from "@/contexts/SessionContext";
+import Loading from "./loading";
 
 
 export const metadata: Metadata = {
@@ -63,7 +63,7 @@ export default async function RootLayout({
   );
 }
 
-// Enable edge runtime, but you are required to disable the `migrate` function in `src/libs/DB.ts`
+// Enable edge runtime, but you are required to disable the migrate function in src/libs/DB.ts
 // Unfortunately, this also means it will disable the automatic migration of the database
-// And you will have to manually migrate it with `drizzle-kit push`
+// And you will have to manually migrate it with drizzle-kit push
 // export const runtime = 'edge';
