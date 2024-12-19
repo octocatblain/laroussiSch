@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const RegisterForm = () => {
     const [formData, setFormData] = useState({
@@ -139,7 +139,7 @@ const RegisterForm = () => {
                 <p className="mt-4 text-sm text-center text-gray-600">
                     Already have an account?{' '}
                     <a
-                        href="/auth/login"
+                        href="/api/auth/signin"
                         className="text-blue-500 hover:underline"
                     >
                         Log in here

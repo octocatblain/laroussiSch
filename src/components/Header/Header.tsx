@@ -6,9 +6,10 @@ import { headerBannerData } from "@/data/content";
 import AutoScrollSlider from "@/shared/AutoScroll/AutoScrollSlider";
 import type { Options } from "@splidejs/react-splide";
 import { SplideSlide } from "@splidejs/react-splide";
-import Image from "next/image";
-import MainNav from "./MainNav";
 import { Session } from "next-auth";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import MainNav from "./MainNav";
 
 const sliderOptions: Options = {
   autoScroll: {
@@ -49,8 +50,14 @@ export interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ session }) => {
-  
-  
+  const pathname = usePathname();
+  const isRegisterPage = pathname.startsWith("/auth/register");
+
+
+  if (isRegisterPage) {
+    return null; // Return nothing if it's a register page
+  }
+
   return (
     <div className="nc-Header my-2 sticky inset-x-0 top-0 z-50 bg-white ">
       <div className=" ">

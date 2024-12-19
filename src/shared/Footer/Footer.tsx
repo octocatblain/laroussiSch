@@ -14,8 +14,14 @@ const Footer: React.FC = () => {
 
   const isDashboardPage = pathname.startsWith("/dashboard");
 
+  const isRegisterPage = pathname.startsWith("/auth/register");
+
   if (isDashboardPage) {
     return null; // Return nothing if it's a dashboard page
+  }
+
+  if (isRegisterPage) {
+    return null; // Return nothing if it's a register page
   }
 
   return (
