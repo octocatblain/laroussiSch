@@ -1,5 +1,7 @@
-const { PrismaClient }: any = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 const products = require("../src/data/products.json"); // Import the JSON file
+const productTypes = require("../src/data/productTypes.json"); // Import product types JSON
+const productWeights = require("../src/data/productWeights.json"); // Import product weights JSON
 
 const prisma = new PrismaClient();
 
@@ -18,6 +20,33 @@ async function main() {
   });
 
   console.log("User seeded:", user);
+
+  // Seed Product Types
+  // console.log("Seeding product types...");
+  // for (const type of productTypes) {
+  //   await prisma.productType.create({
+  //     data: {
+  //       name: type.name,
+  //       description: type.description,
+  //       textId: type.textId,
+  //     },
+  //   });
+  // }
+  console.log("Product types seeded successfully.");
+
+  // Seed Product Weights
+  console.log("Seeding product weights...");
+  for (const weight of productWeights) {
+    await prisma.productWeight.create({
+      data: {
+        productId: weight.productId,
+        weight: weight.weight,
+        unit: weight.unit,
+        textId: weight.textId,
+      },
+    });
+  }
+  console.log("Product weights seeded successfully.");
 
   // Seed Products
   console.log("Seeding products...");
@@ -43,7 +72,6 @@ async function main() {
       },
     });
   }
-
   console.log("Products seeded successfully.");
 }
 

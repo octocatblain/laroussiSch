@@ -47,7 +47,7 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
         <ImageShowCase shots={shots} />
       </div>
 
-      <div className="basis-[48%] space-y-7">
+      <div className="basis-[48%] space-y-7 ml-3">
         <Heading className="mb-0" isMain>
           {productName}
         </Heading>

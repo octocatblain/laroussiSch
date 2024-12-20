@@ -1,25 +1,64 @@
+"use client";
+
 import Link from "next/link";
 import { pathOr } from "ramda";
+import { useEffect, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 
-import { products } from "@/data/content";
 import ButtonCircle3 from "@/shared/Button/ButtonCircle3";
-
 import SectionMoreProducts from "./SectionMoreProducts";
 import SectionProductHeader from "./SectionProductHeader";
-// import SectionProductInfo from './SectionProductInfo';
+
+// Function to fetch product data from the API
+const fetchProductData = async (id: string) => {
+  const response = await fetch(`/api/products`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  const products = await response.json();
+  return products.find((item: { slug: string }) => item.slug === id);
+};
 
 type Props = {
   params: { productId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-const getProductData = async (id: string) => {
-  return products.find((item) => item.slug === id);
-};
+const SingleProductPage = (props: Props) => {
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-const SingleProductPage = async (props: Props) => {
-  const selectedProduct = await getProductData(props.params.productId);
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const product = await fetchProductData(props.params.productId);
+        setSelectedProduct(product);
+      } catch (error) {
+        setError("Failed to fetch product data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getProduct();
+  }, [props.params.productId]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span className="text-xl font-semibold">Loading...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span className="text-xl font-semibold text-red-500">{error}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -44,7 +83,6 @@ const SingleProductPage = async (props: Props) => {
           price={pathOr(0, ["price"], selectedProduct)}
           availability={pathOr("", ["availability"], selectedProduct)}
           productType={pathOr("", ["productType"], selectedProduct)}
-          // reviews={pathOr(0, ['reviews'], selectedProduct)}
           description={pathOr("", ["description"], selectedProduct)}
         />
       </div>

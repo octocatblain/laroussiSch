@@ -1,0 +1,86 @@
+[
+  {
+    "weight": 1,
+    "unit": "g",
+    "textId": "1g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 5,
+    "unit": "g",
+    "textId": "5g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 10,
+    "unit": "g",
+    "textId": "10g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 20,
+    "unit": "g",
+    "textId": "20g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 31.1,
+    "unit": "g",
+    "textId": "31.1g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 50,
+    "unit": "g",
+    "textId": "50g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 100,
+    "unit": "g",
+    "textId": "100g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 250,
+    "unit": "g",
+    "textId": "250g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 311,
+    "unit": "g",
+    "textId": "311g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 500,
+    "unit": "g",
+    "textId": "500g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 1000,
+    "unit": "g",
+    "textId": "1000g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "weight": 12500,
+    "unit": "g",
+    "textId": "12500g",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  }
+]
