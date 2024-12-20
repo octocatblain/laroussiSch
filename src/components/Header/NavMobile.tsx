@@ -4,7 +4,7 @@ import React from 'react';
 import { MdClose, MdKeyboardArrowDown } from 'react-icons/md';
 
 import { NavLinks } from '@/data/content';
-import ButtonPrimary from '@/shared/Button/ButtonPrimary';
+// import ButtonPrimary from '@/shared/Button/ButtonPrimary';
 import Logo from '@/shared/Logo/Logo';
 
 import type { NavItemType } from '../NavItem';
@@ -103,14 +103,14 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
         {NavLinks.map(renderItem)}
       </ul>
       <div className="mt-3 px-5 py-3">
-        <div className="flex flex-row items-center gap-5">
+        {/* <div className="flex flex-row items-center gap-5">
           <ButtonPrimary
              href="https://www.themealchemy.com/products/luxloom"
             sizeClass="px-7 py-4"
           >
             Buy Template
           </ButtonPrimary>
-        </div>
+        </div> */}
       </div>
     </div>
   );

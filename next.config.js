@@ -16,8 +16,14 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
-    domains: ["example.com"], // add any other domains for external images
+    domains: ["example.com"], // Add any other domains for external images
     formats: ["image/avif", "image/webp"],
   },
   trailingSlash: true,

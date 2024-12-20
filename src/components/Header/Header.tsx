@@ -8,6 +8,8 @@ import type { Options } from "@splidejs/react-splide";
 import { SplideSlide } from "@splidejs/react-splide";
 import Image from "next/image";
 import MainNav from "./MainNav";
+import { Session } from "next-auth";
+import { usePathname } from "next/navigation";
 
 const sliderOptions: Options = {
   autoScroll: {
@@ -43,18 +45,28 @@ const sliderOptions: Options = {
   },
 };
 
-export interface HeaderProps {}
+export interface HeaderProps {
+  session: Session | null; // Use the proper type for session, and allow null
+}
 
-const Header: FC<HeaderProps> = () => {
+const Header: FC<HeaderProps> = ({ session }) => {
+  const pathname = usePathname();
+
+  const isDashboardPage = pathname.startsWith('/dashboard/admin');
+
+  if (isDashboardPage) {
+    return null; // Return nothing if it's a dashboard page
+  }
+
   return (
-    <div className="nc-Header my-2 sticky inset-x-0 top-0 z-50 bg-white ">
+    <div className="nc-Header sticky inset-x-0 top-0 z-50 my-2 bg-white ">
       <div className=" ">
         <AutoScrollSlider trigger options={sliderOptions}>
           {headerBannerData.map((item) => (
             <SplideSlide key={item.title}>
-              <div className="flex items-center mx-4 w-full gap-2">
+              <div className="mx-4 flex w-full items-center gap-2">
                 {" "}
-                <p className="gradient-background min-w-max font-medium sm:rounded outline-2 rounded-full text-white whitespace-nowrap px-4 py-2 border-2 border-yellow-500">
+                <p className="gradient-background min-w-max whitespace-nowrap rounded-full border-2 border-yellow-500 px-4 py-2 font-medium text-white outline-2 sm:rounded">
                   {item.title}
                 </p>
                 <Image
@@ -62,7 +74,7 @@ const Header: FC<HeaderProps> = () => {
                   alt={item.title}
                   width={40}
                   height={40}
-                  className="h-10 w-10 mr-20 object-cover rounded-full border border-yellow-500"
+                  className="mr-20 size-10 rounded-full border border-yellow-500 object-cover"
                 />
               </div>
             </SplideSlide>
@@ -70,7 +82,7 @@ const Header: FC<HeaderProps> = () => {
         </AutoScrollSlider>
       </div>
 
-      <MainNav />
+      <MainNav session={session} />
     </div>
   );
 };

@@ -3,13 +3,17 @@ import "@/styles/global.css";
 import type { Metadata } from "next";
 import React, { Suspense } from "react";
 
+
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
+
 import Header from "@/components/Header/Header";
 import Footer from "@/shared/Footer/Footer";
 
+// import { SessionProvider } from "next-auth/react";
 import Loading from "./loading";
+import { SessionProvider } from "@/contexts/SessionContext";
 
-// Clerk imports
-// import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "LaRoucci Mining SCH",
@@ -37,25 +41,29 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(options);
+
   return (
-    // <ClerkProvider>
     <html lang="en">
-      <body className="">
-        <Header />
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+      <body>
+        <Header session={session} />
+
+        <SessionProvider session={session}>
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </SessionProvider>
+
         <Footer />
       </body>
     </html>
-    // </ClerkProvider>
   );
 }
 
 // Enable edge runtime, but you are required to disable the `migrate` function in `src/libs/DB.ts`
-// Unfortunately, this also means it will also disable the automatic migration of the database
-// And, you will have to manually migrate it with `drizzle-kit push`
+// Unfortunately, this also means it will disable the automatic migration of the database
+// And you will have to manually migrate it with `drizzle-kit push`
 // export const runtime = 'edge';

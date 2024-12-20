@@ -1,13 +1,24 @@
-import Link from "next/link";
-import React from "react";
-import { BsLinkedin, BsSpotify, BsTwitter } from "react-icons/bs";
-import { MdCopyright } from "react-icons/md";
+'use client';
 
-import { footerData } from "@/data/content";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
+import { BsLinkedin, BsSpotify, BsTwitter } from 'react-icons/bs';
+import { MdCopyright } from 'react-icons/md';
 
-import Subscribe from "./Subscribe";
+import { footerData } from '@/data/content';
+
+import Subscribe from './Subscribe';
 
 const Footer: React.FC = () => {
+  const pathname = usePathname();
+
+  const isDashboardPage = pathname.startsWith('/dashboard');
+
+  if (isDashboardPage) {
+    return null; // Return nothing if it's a dashboard page
+  }
+
   return (
     <div>
       <div className="container mb-5">
@@ -37,10 +48,9 @@ const Footer: React.FC = () => {
           <div className="h-px w-full bg-neutral-500" />
           <div className="flex flex-col items-center justify-between gap-3 px-10 py-5 md:flex-row md:gap-0">
             <div className="flex items-center gap-1 text-sm md:text-base">
-              <MdCopyright />{" "}
+              <MdCopyright />
               <span>2024 LaRoucci Mining SCH. All rights reserved</span>
             </div>
-
             <div className="flex items-center gap-5">
               <Link href="/">Terms of service</Link>
               <Link href="/">Privacy Policy</Link>
