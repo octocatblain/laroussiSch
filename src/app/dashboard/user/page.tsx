@@ -2,9 +2,14 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { FaBox, FaChartLine, FaCog, FaEnvelope, FaUser } from 'react-icons/fa';
+import { BsPersonFillGear, BsPersonVcardFill } from 'react-icons/bs';
+import { FaCartShopping } from 'react-icons/fa6';
+import { MdFormatListBulletedAdd, MdNotificationsActive } from 'react-icons/md';
+import { RiBubbleChartFill } from 'react-icons/ri';
 
 import { useSession } from '@/contexts/SessionContext';
+
+import AccountPage from './account/page';
 
 interface MenuItem {
   id: string;
@@ -24,32 +29,32 @@ export default function UserHomePage() {
     {
       id: 'overview',
       label: 'Overview',
-      icon: <FaChartLine />,
+      icon: <RiBubbleChartFill />,
       content: <div className="p-6">Welcome to the Overview Dashboard!</div>,
     },
     {
-      id: 'products',
-      label: 'Products',
-      icon: <FaBox />,
+      id: 'notifications',
+      label: 'Notifications',
+      icon: <MdNotificationsActive />,
       content: <div className="p-6">Here are your Products.</div>,
     },
     {
-      id: 'customers',
-      label: 'Customers',
-      icon: <FaUser />,
+      id: 'wishlist',
+      label: 'Wishlist',
+      icon: <MdFormatListBulletedAdd />,
       content: <div className="p-6">Manage your Customers here.</div>,
     },
     {
-      id: 'messages',
-      label: 'Messages',
-      icon: <FaEnvelope />,
+      id: 'orders',
+      label: 'Orders',
+      icon: <FaCartShopping />,
       content: <div className="p-6">You have new Messages.</div>,
     },
     {
-      id: 'settings',
-      label: 'Settings',
-      icon: <FaCog />,
-      content: <div className="p-6">Adjust your Settings here.</div>,
+      id: 'account',
+      label: 'Account',
+      icon: <BsPersonFillGear />,
+      content: <AccountPage session={session} />,
     },
   ];
 
@@ -77,7 +82,7 @@ function Sidebar({ menuItems, session, greeting }: any) {
       >
         <div className="border-gray-700 flex items-center justify-between border-b p-4">
           <button
-            type="button"
+            type='button'
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="flex flex-col justify-center text-white  focus:outline-none"
           >
@@ -90,7 +95,7 @@ function Sidebar({ menuItems, session, greeting }: any) {
                 className="rounded-full border-2 border-yellow-500"
               />
             ) : (
-              <div className="bg-gray-600 size-12 rounded-full" />
+              <BsPersonVcardFill className="size-12 self-center" />
             )}
 
             {!isCollapsed && (
@@ -104,7 +109,7 @@ function Sidebar({ menuItems, session, greeting }: any) {
         <nav className="mt-4 flex flex-col">
           {menuItems.map((item: any) => (
             <button
-              type="button"
+              type='button'  
               key={item.id}
               className={`hover:bg-gray-700 flex rounded-r-lg p-4 ${
                 activeMenuItem === item.id ? 'bg-gray-700' : ''

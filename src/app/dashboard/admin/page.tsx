@@ -7,13 +7,15 @@ import {
   FaChartLine,
   FaCog,
   FaEnvelope,
-  FaHamburger,
+  FaHourglass,
   FaSignOutAlt,
   FaUser,
   FaUserAlt,
 } from 'react-icons/fa';
 
 import { useSession } from '@/contexts/SessionContext';
+
+import OverviewPage from './overview/page';
 
 interface MenuItem {
   id: string;
@@ -26,7 +28,7 @@ const menuItems: MenuItem[] = [
     id: 'overview',
     label: 'Overview',
     icon: <FaChartLine />,
-    content: <div className="p-6">Welcome to the Overview Dashboard!</div>,
+    content: <OverviewPage />,
   },
   {
     id: 'products',
@@ -66,15 +68,17 @@ const AdminPage = () => {
 
   return (
     <div>
-      <header className="top_menu z-50 ml-[270px] block bg-teal-100 shadow-lg transition-all">
+      <header
+        className={`top_menu z-50 ${isCollapsed ? "ml-[160px]" : "ml-[270px]"} block bg-teal-100 shadow-lg transition-all duration-200 ease-in-out`}
+      >
         <div className="navbar_header m-0 flex max-w-[90%] items-center justify-between px-0 py-3">
           <div className="flex px-5">
             <button
               type="button"
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className=" pointer-events-none block h-20 cursor-pointer border-0 px-3 text-2xl font-normal  "
+              className=" block h-20 cursor-pointer border-0 px-3 text-2xl font-normal  "
             >
-              <FaHamburger className=" inline-block text-center font-normal leading-tight  " />
+              <FaHourglass className=" inline-block text-center font-normal leading-tight  " />
             </button>
             <div className="page_title self-center p-2 md:block   ">
               <h4 className="title m-0 text-2xl text-slate-500">
@@ -153,7 +157,7 @@ const AdminPage = () => {
         </div>
       </header>
       <div
-        className={`vertical_menu fixed inset-y-0 z-[1000] min-h-dvh shadow-md ${isCollapsed ? "w-[160px]" : "w-[270px]"} bg-slate-200 shadow-lg `}
+        className={`vertical_menu fixed inset-y-0 z-[1000] min-h-dvh shadow-md ${isCollapsed ? "w-[160px]" : "w-[270px]"} bg-teal-100 shadow-lg transition-all duration-200 ease-in-out `}
       >
         <button
           type="button"
@@ -171,7 +175,7 @@ const AdminPage = () => {
                   </li>
                   {menuItems.map((item: any) => (
                     <li
-                      className={`active block w-full py-4 ${activeMenuItem === item.id ? 'bg-slate-400' : ''} hover:bg-slate-400 `}
+                      className={`active block w-full py-4 ${activeMenuItem === item.id ? "bg-slate-400" : ""} hover:bg-slate-400 `}
                       key={item.id}
                     >
                       <button
@@ -194,12 +198,10 @@ const AdminPage = () => {
           </div>
         </div>
       </div>
-      <div className="main_content ml-[270px] min-h-dvh">
-        <div className="page px-16 py-12  ">
-          <div className="container max-w-[90%] ">
-            <div className="flex items-center justify-center">
-              <div className="">{activeContent}</div>
-            </div>
+      <div className={`main_content ${isCollapsed ? 'ml-[160px]' : 'ml-[270px]'} min-h-dvh`}>
+        <div className="page px-6 py-12">
+          <div className="container max-w-[90%]">
+            <div className="">{activeContent}</div>
           </div>
         </div>
       </div>
