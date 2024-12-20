@@ -1,4 +1,4 @@
-// pages/api/user.js
+// src\app\api\user.js
 import { getSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 

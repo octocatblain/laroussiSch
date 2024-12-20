@@ -48,5 +48,5 @@
     ".storybook/*.ts",
     ".next/types/**/*.ts",
     "src/libs/Env.mjs"
-  ]
+, "src/app/api/user/route.ts"  ]
 }

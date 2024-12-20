@@ -1,3 +1,4 @@
+// src\app\api\auth\[...nextauth]\options.ts
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import type { NextAuthOptions } from "next-auth";
@@ -65,36 +66,53 @@ export const options: NextAuthOptions = {
     strategy: "jwt",
   },
 
+  // callbacks: {
+  //   async signIn({ user, account, profile }) {
+  //     if (account?.provider === "google") {
+  //       const existingUser = await prisma.user.findUnique({
+  //         where: { email: user.email },
+  //       });
+
+  //       if (!existingUser) {
+  //         // Create user if not found
+  //         await prisma.user.create({
+  //           data: {
+  //             name: user.name || "",
+  //             email: user.email || "",
+  //             image: user.image || "",
+  //           },
+  //         });
+  //       } else {
+  //         // Optional: Update user data if necessary
+  //         await prisma.user.update({
+  //           where: { email: user.email },
+  //           data: {
+  //             name: user.name || existingUser.name,
+  //             image: user.image || existingUser.image,
+  //           },
+  //         });
+  //       }
+  //     }
+  //     return true;
+  //   },
+
+  //   async jwt({ token, user }) {
+  //     if (user) {
+  //       token.id = user.id;
+  //     }
+  //     return token;
+  //   },
+
+  //   async session({ session, token }: any) {
+  //     if (token) {
+  //       session.user.id = token.id;
+  //       session.token = token; // Include the entire token in the session
+  //     }
+  //     return session;
+  //   },
+  // },
+
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account?.provider === "google") {
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email },
-        });
-
-        if (!existingUser) {
-          // Create user if not found
-          await prisma.user.create({
-            data: {
-              name: user.name || "",
-              email: user.email || "",
-              image: user.image || "",
-            },
-          });
-        } else {
-          // Optional: Update user data if necessary
-          await prisma.user.update({
-            where: { email: user.email },
-            data: {
-              name: user.name || existingUser.name,
-              image: user.image || existingUser.image,
-            },
-          });
-        }
-      }
-      return true;
-    },
-
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -105,6 +123,8 @@ export const options: NextAuthOptions = {
     async session({ session, token }: any) {
       if (token) {
         session.user.id = token.id;
+        session.token = token; // Decoded payload
+        session.jwt = JSON.stringify(token); // Include the encoded JWT as a string
       }
       return session;
     },
