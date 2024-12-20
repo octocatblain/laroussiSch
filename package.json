@@ -45,6 +45,7 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.28.6",
+    "formidable": "^3.5.2",
     "framer-motion": "^10.16.4",
     "lodash": "^4.17.21",
     "next": "^13.5.3",

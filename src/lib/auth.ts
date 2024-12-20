@@ -1,3 +1,4 @@
+// src/lib/auth.ts
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import type { NextAuthOptions } from "next-auth";
@@ -6,7 +7,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 const prisma = new PrismaClient();
 
-export const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     // Google OAuth Provider
     GoogleProvider({
@@ -18,11 +19,7 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: {
-          label: "Email",
-          type: "text",
-          placeholder: "Your Email",
-        },
+        username: { label: "Email", type: "text", placeholder: "Your Email" },
         password: {
           label: "Password",
           type: "password",
@@ -31,29 +28,36 @@ export const options: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
+          console.warn(
+            "Authorization failed: Email and Password are required!"
+          );
           throw new Error("Email and Password are required!");
         }
 
-        // Fetch user by email
         const user = await prisma.user.findUnique({
           where: { email: credentials.username },
         });
 
         if (!user) {
+          console.warn(
+            `Authorization failed: No user found with email ${credentials.username}`
+          );
           throw new Error("No user found with this email!");
         }
 
-        // Verify password
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
-          user.hashedPassword || "" // Ensure this field is hashed during registration
+          user.hashedPassword || ""
         );
 
         if (!isPasswordValid) {
+          console.warn(
+            `Authorization failed: Invalid password for email ${credentials.username}`
+          );
           throw new Error("Invalid email or password!");
         }
 
-        // Return essential user data for the session
+        console.info(`User authenticated successfully: ${user.email}`);
         return { id: user.id, name: user.name, email: user.email };
       },
     }),
@@ -67,13 +71,13 @@ export const options: NextAuthOptions = {
 
   callbacks: {
     async signIn({ user, account, profile }) {
+      console.info("Sign-in attempt:", { user, account, profile });
       if (account?.provider === "google") {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
 
         if (!existingUser) {
-          // Create user if not found
           await prisma.user.create({
             data: {
               name: user.name || "",
@@ -81,8 +85,8 @@ export const options: NextAuthOptions = {
               image: user.image || "",
             },
           });
+          console.info(`New user created via Google: ${user.email}`);
         } else {
-          // Optional: Update user data if necessary
           await prisma.user.update({
             where: { email: user.email },
             data: {
@@ -90,6 +94,7 @@ export const options: NextAuthOptions = {
               image: user.image || existingUser.image,
             },
           });
+          console.info(`User updated via Google: ${user.email}`);
         }
       }
       return true;
@@ -98,6 +103,7 @@ export const options: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        console.info(`JWT token created for user: ${user.id}`);
       }
       return token;
     },
@@ -105,6 +111,7 @@ export const options: NextAuthOptions = {
     async session({ session, token }: any) {
       if (token) {
         session.user.id = token.id;
+        console.info(`Session updated for user: ${session.user.id}`);
       }
       return session;
     },
@@ -112,14 +119,22 @@ export const options: NextAuthOptions = {
 
   events: {
     async createUser({ user }) {
-      console.log("New user created:", user);
+      console.info("New user created:", user);
     },
   },
 
   logger: {
-    error: console.error,
-    warn: console.warn,
-    info: console.info,
-    debug: console.debug,
+    error: (message) => {
+      console.error("Error:", message);
+    },
+    warn: (message) => {
+      console.warn("Warning:", message);
+    },
+    info: (message: any) => {
+      console.info("Info:", message);
+    },
+    debug: (message) => {
+      console.debug("Debug:", message);
+    },
   },
 };
