@@ -24,10 +24,10 @@
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./src/*"],
-      "@assets/*": ["public/assets/*"]
+      "@/*": ["*"],
+      "@assets/*": ["../public/assets/*"]
     },
     "isolatedModules": true,
     "incremental": true,
@@ -48,5 +48,5 @@
     ".storybook/*.ts",
     ".next/types/**/*.ts",
     "src/libs/Env.mjs"
-  ]
+, "src/app/api/user/route.ts"  ]
 }

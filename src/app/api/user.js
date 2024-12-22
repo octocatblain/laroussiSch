@@ -1,4 +1,4 @@
-// File: /pages/api/user.js
+// src\app\api\user.js
 import { getSession } from "next-auth/react";
 import prisma from "../../lib/prisma";
 
@@ -16,15 +16,22 @@ export default async function handler(req, res) {
     if (name) updates.name = name;
     if (email) updates.email = email;
     if (username) updates.username = username;
-    if (profileImage) updates.image = profileImage;
+    if (profileImage) updates.image = profileImage; // Save the image URL here
     if (password) updates.password = password; // Hash password appropriately
 
-    await prisma.user.update({
-      where: { id: session.user.id },
-      data: updates,
-    });
+    try {
+      const updatedUser = await prisma.user.update({
+        where: { id: session.user.id },
+        data: updates,
+      });
 
-    res.status(200).json({ message: "User updated successfully" });
+      return res
+        .status(200)
+        .json({ message: "User updated successfully", user: updatedUser });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      return res.status(500).json({ message: "Failed to update user" });
+    }
   } else {
     res.status(405).end("Method not allowed");
   }

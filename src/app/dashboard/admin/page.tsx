@@ -16,6 +16,7 @@ import {
 import { useSession } from '@/contexts/SessionContext';
 
 import OverviewPage from './overview/page';
+import ProductPage from './products/page';
 
 interface MenuItem {
   id: string;
@@ -34,7 +35,7 @@ const menuItems: MenuItem[] = [
     id: 'products',
     label: 'Products',
     icon: <FaBox />,
-    content: <div className="p-6">Here are your Products.</div>,
+    content: <ProductPage />,
   },
   {
     id: 'customers',
@@ -200,7 +201,7 @@ const AdminPage = () => {
       </div>
       <div className={`main_content ${isCollapsed ? 'ml-[160px]' : 'ml-[270px]'} min-h-dvh`}>
         <div className="page px-6 py-12">
-          <div className="container max-w-[90%]">
+          <div className="container max-w-[90%] !px-0">
             <div className="">{activeContent}</div>
           </div>
         </div>
