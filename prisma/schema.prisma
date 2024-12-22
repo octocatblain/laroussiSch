@@ -110,19 +110,19 @@ model ProductStorageLocation {
 }
 
 model StorageBooking {
-  id                String           @id @default(uuid()) // Primary key
-  name              String                               // User's name
-  email             String                               // User's email address
-  phone             String                               // User's phone number
-  dateOfBirth       DateTime                             // User's date of birth
-  address           String                               // User's address (street, apartment, etc.)
-  zipCodeCity       String                               // User's ZIP code and city
-  message           String?                              // Optional message from the user
-  storageLocationId String?                              // Foreign key for the selected storage location (nullable)
-  idFile            String?                              // File path or URL for uploaded ID file
-  createdAt         DateTime         @default(now())      // Timestamp for booking creation
-  updatedAt         DateTime         @updatedAt           // Timestamp for last booking update
-
+  id                String           @id @default(uuid()) 
+  name              String                               
+  email             String                               
+  phone             String                              
+  dateOfBirth       DateTime                             
+  address           String                               
+  zipCodeCity       String                               
+  message           String?                              
+  storageLocationId String?                              
+  idFile            String?                              
+  createdAt         DateTime         @default(now())      
+  updatedAt         DateTime         @updatedAt           
+  
   // Relations
   storageLocation   StorageLocation?  @relation(fields: [storageLocationId], references: [id]) // Foreign key to StorageLocation (nullable)
 }

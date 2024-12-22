@@ -22,6 +22,7 @@ const StorageBookingForm: React.FC = () => {
         fetchStorageLocations();
     }, []);
 
+
     // Form state management
     const [formData, setFormData] = useState({
         name: "",
@@ -32,10 +33,10 @@ const StorageBookingForm: React.FC = () => {
         zipCity: "",
         storageLocation: "",
         message: "",
-        idFile: null as File | null,
+        idFile: "", // File path as a string
     });
 
-
+    // Handle input changes
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
@@ -43,37 +44,72 @@ const StorageBookingForm: React.FC = () => {
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Handle file change and upload
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setFormData((prevData: any) => ({ ...prevData, idFile: e.target.files[0] }));
+            const file = e.target.files[0];
+            const fileName = `${formData.name}-${new Date().toISOString()}.jpg`; // Set file name
+            const uploadPath = `/uploads/users/ids/${fileName}`;  // Path relative to the public folder
+
+            const formDataToUpload = new FormData();
+            formDataToUpload.append("file", file);
+
+            try {
+                // Sending file to the server to save in the specified folder
+                const response = await axios.post("/api/uploads/ids", formDataToUpload, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                if (response.status === 200) {
+                    // Assuming backend responds with the correct file path
+                    const uploadedFilePath = response.data.filePath || uploadPath; // File path from backend
+
+                    // Update the formData with the uploaded file path
+                    setFormData((prevData) => ({
+                        ...prevData,
+                        idFile: uploadedFilePath,  // Use the file path as string
+                    }));
+                    alert("File uploaded successfully!");
+                } else {
+                    console.error("File upload failed with status:", response.status);
+                    setError("Failed to upload the file.");
+                }
+            } catch (error) {
+                console.error("File upload failed:", error);
+                setError("Failed to upload the file.");
+            }
         }
     };
 
+    // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         // Prepare the data for submission
-        const formDataToSend = new FormData();
-        formDataToSend.append("name", formData.name);
-        formDataToSend.append("email", formData.email);
-        formDataToSend.append("phone", formData.phone);
-        formDataToSend.append("dateOfBirth", formData.dob);
-        formDataToSend.append("address", formData.address);
-        formDataToSend.append("zipCodeCity", formData.zipCity);
-        formDataToSend.append("message", formData.message);
-        formDataToSend.append("storageLocationId", formData.storageLocation); // Assuming this is the location's ID
-        if (formData.idFile) {
-            formDataToSend.append("idFile", formData.idFile); // Attach the file
-        }
+        const formDataToSend = {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            dateOfBirth: formData.dob,
+            address: formData.address,
+            zipCodeCity: formData.zipCity,
+            message: formData.message,
+            storageLocationId: formData.storageLocation, // Assuming this is the location's ID
+            idFile: formData.idFile, // Send the ID file path as a string
+        };
 
         try {
+            // Send as JSON, not multipart/form-data
             const response = await axios.post("/api/storageBookings", formDataToSend, {
                 headers: {
-                    "Content-Type": "multipart/form-data", // Required for file uploads
+                    "Content-Type": "application/json",
                 },
             });
             console.log("Booking successful:", response.data);
-            // Handle success (e.g., show a success message, clear the form, etc.)
+
+            // Handle success
             alert("Booking successful!");
             setFormData({
                 name: "",
@@ -84,7 +120,7 @@ const StorageBookingForm: React.FC = () => {
                 zipCity: "",
                 storageLocation: "",
                 message: "",
-                idFile: null,
+                idFile: "", // Clear file path after submission
             });
             setError(null);
         } catch (err: any) {
@@ -94,6 +130,8 @@ const StorageBookingForm: React.FC = () => {
             console.error("Error submitting form:", err);
         }
     };
+
+
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-lg max-w-full mx-auto">
             <h1 className="text-2xl font-bold mb-4 ">Book a Storage Location</h1>
@@ -226,16 +264,20 @@ const StorageBookingForm: React.FC = () => {
                     />
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium mb-1" htmlFor="idFile">
+                <div className="mb-4">
+                    <label
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                        htmlFor="idFile"
+                    >
                         ID Document (Upload File)
                     </label>
                     <input
                         type="file"
                         id="idFile"
                         name="idFile"
+                        accept=".jpg,.jpeg,.png,.pdf"
                         onChange={handleFileChange}
-                        className="w-full px-3 py-2 border rounded-md focus:ring focus:ring-blue-200"
+                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring focus:ring-blue-200 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                     />
                 </div>
 
