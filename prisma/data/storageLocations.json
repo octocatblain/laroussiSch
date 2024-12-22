@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Nairobi High Security Vault",
+    "description": "Secure storage facility in Nairobi, Kenya",
+    "address": "Nairobi, Kenya",
+    "capacity": 500,
+    "coordinates": { "latitude": -1.286389, "longitude": 36.817223 }
+  },
+  {
+    "name": "Kampala High Security Vault",
+    "description": "Secure storage facility in Kampala, Uganda",
+    "address": "Kampala, Uganda",
+    "capacity": 400,
+    "coordinates": { "latitude": 0.347596, "longitude": 32.58252 }
+  },
+  {
+    "name": "Bangui High Security Vault",
+    "description": "Secure storage facility in Central African Republic",
+    "address": "Bangui, Central African Republic",
+    "capacity": 300,
+    "coordinates": { "latitude": 4.366667, "longitude": 18.583333 }
+  },
+  {
+    "name": "Trnava High Security Vault",
+    "description": "Secure storage facility in Trnava, Slovakia",
+    "address": "Trnava, Slovakia",
+    "capacity": 600,
+    "coordinates": { "latitude": 48.377409, "longitude": 17.58723 }
+  },
+  {
+    "name": "Dubai High Security Vault",
+    "description": "Secure storage facility in Dubai, UAE",
+    "address": "Dubai, UAE",
+    "capacity": 700,
+    "coordinates": { "latitude": 25.276987, "longitude": 55.296249 }
+  },
+  {
+    "name": "Alger High Security Vault",
+    "description": "Secure storage facility in Algeria",
+    "address": "Alger, Algeria",
+    "capacity": 450,
+    "coordinates": { "latitude": 36.737232, "longitude": 3.086472 }
+  }
+]

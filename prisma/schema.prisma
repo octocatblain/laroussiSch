@@ -27,57 +27,102 @@ model User {
 }
 
 model Product {
-  id            String       @id @default(uuid())
-  slug          String       @unique
-  coverImage    String
-  productName   String
-  productTypeId String       // Foreign key to ProductType
-  availability  String
-  price         Float
-  refiner       String
-  material      String
-  fineness      String
-  fineWeight    String
-  dimensions    String
-  quality       String
-  packaging     String
-  kinebar       String
-  description   String
-  shots         String[]
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  id                String           @id @default(uuid()) // Primary key
+  slug              String           @unique              // Unique slug for the product
+  coverImage        String?                               // Cover image URL (optional)
+  productName       String                                // Name of the product
+  productTypeId     String?                               // Foreign key to ProductType (nullable)
+  productWeightId   String?                               // Foreign key to ProductWeight (nullable)
+  productType       String?                               // Foreign key to ProductType (nullable)
+  productWeight     String?                               // Foreign key to ProductWeight (nullable)
+  availability       String                                // Availability status
+  price             Float                                 // Price of the product
+  refiner           String?                               // Refiner details (optional)
+  material          String?                               // Material of the product (optional)
+  fineness          String?                               // Fineness of the material (optional)
+  fineWeight        String?                               // Weight of the product in fine units (optional)
+  dimensions        String?                               // Dimensions of the product (optional)
+  quality           String?                               // Quality information (optional)
+  packaging         String?                               // Packaging details (optional)
+  kinebar           String?                               // Kinebar-related details (optional)
+  description       String?                               // Product description (optional)
+  shots             String[]                              // Array of image URLs (optional)
+  createdAt         DateTime         @default(now())      // Timestamp for creation
+  updatedAt         DateTime         @updatedAt           // Timestamp for last update
 
-  // One-to-many relation to ProductWeight
-  productWeights ProductWeight[]
-
-  // Foreign key relation to ProductType
-  productType   ProductType @relation(fields: [productTypeId], references: [id])
+  // Relationships
+  type       ProductType?    @relation(fields: [productTypeId], references: [id]) // Foreign key to ProductType (nullable)
+  weight     ProductWeight?  @relation(fields: [productWeightId], references: [id]) // Foreign key to ProductWeight (nullable)
+  storageLocations  ProductStorageLocation[] // Many-to-many relationship with StorageLocation
 }
+
 model ProductWeight {
   id        String   @id @default(uuid()) // Unique ID for the weight record
-  productId String   // Foreign key to Product
   weight    Float    // The weight of the product
   unit      String   // Unit of weight (e.g., kg, g, lb)
   textId    String   // Additional text ID field
-  createdAt DateTime @default(now()) // Timestamp of when the weight record was created
-  updatedAt DateTime @updatedAt // Timestamp of the last update
+  createdAt DateTime @default(now()) // Timestamp of creation
+  updatedAt DateTime @updatedAt      // Timestamp of last update
 
-  // Foreign key relation to Product
-  product   Product  @relation(fields: [productId], references: [id])
-
-  @@index([productId]) // Index for better performance when querying by productId
+  // No direct relationships with multiple products to keep it simple
+  products Product[] // This is the opposite relation field
 }
 
 model ProductType {
-  id          String    @id @default(uuid())  // Unique ID for each product type
-  name        String    @unique               // Name of the product type (e.g., "Electronics", "Jewelry")
-  description String?   // Optional description of the product type
-  textId      String    // Additional text ID field
-  createdAt   DateTime  @default(now())        // Timestamp when the product type is created
-  updatedAt   DateTime  @updatedAt             // Timestamp when the product type is updated
+  id          String   @id @default(uuid()) // Unique ID for each product type
+  name        String   @unique              // Name of the product type (e.g., "Electronics", "Jewelry")
+  description String?  // Optional description of the product type
+  textId      String   // Additional text ID field
+  createdAt   DateTime @default(now())      // Timestamp of creation
+  updatedAt   DateTime @updatedAt           // Timestamp for last update
 
-  // One-to-many relation to Product
-  products    Product[] // A product type can have multiple products
+  // No direct relationships with multiple products to keep it simple
+  products Product[] // This is the opposite relation field
+}
 
-  @@index([name]) // Index for better performance when querying by name
+model StorageLocation {
+  id          String   @id @default(uuid())  // UUID as the primary key
+  name        String   @unique               // Name of the storage location
+  description String?  // Optional description for the location
+  address     String?  // Address for physical storage locations
+  capacity    Int?     // Optional capacity
+  coordinates Json?    // JSON for geographical coordinates
+  createdAt   DateTime @default(now())        // Timestamp for creation
+  updatedAt   DateTime @updatedAt            // Timestamp for last update
+
+  // Relationships
+  productStorageLocations ProductStorageLocation[] // Many-to-many relationship with Product
+  storageBookings        StorageBooking[]         // Relationship with StorageBooking
+}
+
+model ProductStorageLocation {
+  id                String           @id @default(uuid()) // Unique ID for the relationship record
+  productId         String?                              // Foreign key to Product (nullable)
+  storageLocationId String?                              // Foreign key to StorageLocation (nullable)
+  createdAt         DateTime         @default(now())      // Timestamp for creation
+  updatedAt         DateTime         @updatedAt           // Timestamp for last update
+
+  // Foreign key relations
+  product           Product?          @relation(fields: [productId], references: [id]) // Foreign key to Product (nullable)
+  storageLocation   StorageLocation?  @relation(fields: [storageLocationId], references: [id]) // Foreign key to StorageLocation (nullable)
+
+  @@unique([productId, storageLocationId]) // Ensure a product cannot be in the same location twice
+}
+
+model StorageBooking {
+  id                String           @id @default(uuid()) // Primary key
+  name              String                               // User's name
+  email             String                               // User's email address
+  phone             String                               // User's phone number
+  dateOfBirth       DateTime                             // User's date of birth
+  address           String                               // User's address (street, apartment, etc.)
+  zipCodeCity       String                               // User's ZIP code and city
+  message           String?                              // Optional message from the user
+  storageLocationId String?                              // Foreign key for the selected storage location (nullable)
+  idFile            String?                              // File path or URL for uploaded ID file
+  createdAt         DateTime         @default(now())      // Timestamp for booking creation
+  updatedAt         DateTime         @updatedAt           // Timestamp for last booking update
+
+  // Relations
+  storageLocation   StorageLocation?  @relation(fields: [storageLocationId], references: [id]) // Foreign key to StorageLocation (nullable)
 }

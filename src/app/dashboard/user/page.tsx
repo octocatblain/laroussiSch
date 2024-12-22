@@ -8,6 +8,8 @@ import { FaCartShopping } from "react-icons/fa6";
 import { MdFormatListBulletedAdd, MdNotificationsActive } from "react-icons/md";
 import { RiBubbleChartFill } from "react-icons/ri";
 import AccountPage from "./account/page";
+import StorageBookingForm from "./storage/page";
+import { FaWarehouse } from "react-icons/fa";
 
 
 interface MenuItem {
@@ -49,6 +51,12 @@ export default function UserHomePage() {
             label: "Orders",
             icon: <FaCartShopping />,
             content: <div className="p-6">You have new Messages.</div>,
+        },
+        {
+            id: "storage",
+            label: "Storage",
+            icon: <FaWarehouse/>,
+            content: <StorageBookingForm/>,
         },
         {
             id: "account",
