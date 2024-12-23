@@ -48,7 +48,6 @@ export default function UserHomePage() {
             id: "wishlist",
             label: "Wishlist",
             icon: <MdFormatListBulletedAdd />,
-            content: <div className="p-6">Manage your Customers here.</div>,
             subMenu: [
                 {
                     id: "favorite-products",
