@@ -12,6 +12,11 @@ const MainNav = ({ session }: { session: any }) => {
   const router: any = useRouter();
   const isDashboardPage = router.pathname?.startsWith('/dashboard/user');
 
+  const handleSignOut = async () => {
+    await signOut({ redirect: false }); // Prevent automatic redirect
+    router.push('/auth/register'); // Redirect to the register page
+  };
+
   return (
     <div className="container flex items-center justify-between">
       {/* Logo */}
@@ -40,7 +45,7 @@ const MainNav = ({ session }: { session: any }) => {
               </button>
             )}
             <button
-              onClick={() => signOut()}
+              onClick={handleSignOut} // Use the new sign-out handler
               className="text-lg text-red-500 hover:underline"
             >
               Sign Out
@@ -48,7 +53,7 @@ const MainNav = ({ session }: { session: any }) => {
             <CartSideBar />
           </>
         ) : (
-          <Link href="/api/auth/signin">
+          <Link href="/auth/login">
             <p className="text-lg">Login</p>
           </Link>
         )}

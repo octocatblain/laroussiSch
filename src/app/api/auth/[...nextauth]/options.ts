@@ -66,53 +66,35 @@ export const options: NextAuthOptions = {
     strategy: "jwt",
   },
 
-  // callbacks: {
-  //   async signIn({ user, account, profile }) {
-  //     if (account?.provider === "google") {
-  //       const existingUser = await prisma.user.findUnique({
-  //         where: { email: user.email },
-  //       });
-
-  //       if (!existingUser) {
-  //         // Create user if not found
-  //         await prisma.user.create({
-  //           data: {
-  //             name: user.name || "",
-  //             email: user.email || "",
-  //             image: user.image || "",
-  //           },
-  //         });
-  //       } else {
-  //         // Optional: Update user data if necessary
-  //         await prisma.user.update({
-  //           where: { email: user.email },
-  //           data: {
-  //             name: user.name || existingUser.name,
-  //             image: user.image || existingUser.image,
-  //           },
-  //         });
-  //       }
-  //     }
-  //     return true;
-  //   },
-
-  //   async jwt({ token, user }) {
-  //     if (user) {
-  //       token.id = user.id;
-  //     }
-  //     return token;
-  //   },
-
-  //   async session({ session, token }: any) {
-  //     if (token) {
-  //       session.user.id = token.id;
-  //       session.token = token; // Include the entire token in the session
-  //     }
-  //     return session;
-  //   },
-  // },
-
   callbacks: {
+    // Add Google login handler
+    async signIn({ user, account, profile }: any) {
+      if (account.provider === "google") {
+        // Check if user already exists in the database
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email },
+        });
+
+        if (!existingUser) {
+          // If the user doesn't exist, create them
+          await prisma.user.create({
+            data: {
+              email: user.email,
+              name: user.name,
+              image: profile?.picture || "",
+              username: user.email.split("@")[0], // Set username based on email (or other logic)
+              // Add any additional fields as necessary
+            },
+          });
+          console.log("New user created with Google login:", user);
+        } else {
+          // User already exists, log or take any other necessary action
+          console.log("User already exists with email:", user.email);
+        }
+      }
+      return true;
+    },
+
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -131,6 +113,7 @@ export const options: NextAuthOptions = {
   },
 
   events: {
+    // This can be used to log any event during the lifecycle
     async createUser({ user }) {
       console.log("New user created:", user);
     },
