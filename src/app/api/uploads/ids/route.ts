@@ -1,6 +1,6 @@
 import fs from "fs";
-import path from "path";
 import { NextResponse } from "next/server";
+import path from "path";
 
 // Define the upload directory
 const uploadDirectory = path.join(process.cwd(), "public", "uploads", "ids");
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
   try {
     const formData = await req.formData();
-    const file = formData.get("file") as Blob;
+    const file: any = formData.get("file") as Blob;
 
     if (!file) {
       return NextResponse.json(
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(arrayBuffer);
 
     // Save file to the uploads directory
-    const fileName = `${Date.now()}-${file.name}`;
+    const fileName = `${Date.now()}-${file?.name}`;
     const filePath = path.join(uploadDirectory, fileName);
     fs.writeFileSync(filePath, buffer);
 

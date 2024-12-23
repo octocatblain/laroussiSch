@@ -29,8 +29,8 @@ const StorageBookingForm: React.FC = () => {
         phone: "",
         dateOfBirth: "",
         address: "",
-        zipCity: "",
-        storageLocation: "",
+        zipCodeCity: "",
+        storageLocationId: "",
         message: "",
         idFile: "",
     });
@@ -98,8 +98,8 @@ const StorageBookingForm: React.FC = () => {
                 phone: "",
                 dateOfBirth: "",
                 address: "",
-                zipCity: "",
-                storageLocation: "",
+                zipCodeCity: "",
+                storageLocationId: "",
                 message: "",
                 idFile: "",
             });
@@ -199,14 +199,14 @@ const StorageBookingForm: React.FC = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-1" htmlFor="zipCity">
+                    <label className="block text-sm font-medium mb-1" htmlFor="zipCodeCity">
                         ZIP Code, City
                     </label>
                     <input
                         type="text"
-                        id="zipCity"
-                        name="zipCity"
-                        value={formData.zipCity}
+                        id="zipCodeCity"
+                        name="zipCodeCity"
+                        value={formData.zipCodeCity}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border rounded-md focus:ring focus:ring-blue-200"
                         required
@@ -222,8 +222,8 @@ const StorageBookingForm: React.FC = () => {
                     {!loading && (
                         <select
                             id="storageLocation"
-                            name="storageLocation"
-                            value={formData.storageLocation}
+                            name="storageLocationId"
+                            value={formData.storageLocationId}
                             onChange={handleInputChange}
                             className="w-full px-3 py-2 border rounded-md focus:ring focus:ring-blue-200"
                             required
