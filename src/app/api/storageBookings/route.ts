@@ -20,7 +20,7 @@ export async function GET() {
 // POST: Create a new storage booking
 export async function POST(req: Request) {
   try {
-    const requestData = await req.json(); // Parse the incoming JSON data
+    const requestData = await req.json();
     console.log("Received form data:", requestData);
 
     const {
@@ -28,33 +28,33 @@ export async function POST(req: Request) {
       email,
       phone,
       dateOfBirth,
-      address,
-      zipCodeCity,
-      message,
-      storageLocationId,
-      idFile,
+      address = null,
+      zipCodeCity = null,
+      message = null,
+      storageLocationId = null,
+      idFile = null,
     } = requestData;
 
-    // Check if the necessary fields are provided
-    if ( !name || !email || !phone || !dateOfBirth) {
+    // Validate required fields
+    if (!name || !idFile || !email || !phone || !dateOfBirth) {
       return NextResponse.json(
-        { message: "Missing required fields" },
+        { message: "Missing required fields: name, email, phone, dateOfBirth" },
         { status: 400 }
       );
     }
 
-    // Create the booking in the database
+    // Create storage booking
     const newStorageBooking = await prisma.storageBooking.create({
       data: {
         name,
         email,
         phone,
-        dateOfBirth: new Date(dateOfBirth), // Ensure the date is correctly formatted
+        dateOfBirth: new Date(dateOfBirth), // Parse date
         address,
         zipCodeCity,
-        message: message || null, // Handle optional message field
+        message,
         storageLocationId,
-        idFile, // The path to the file (string)
+        idFile,
       },
     });
 
@@ -62,13 +62,14 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newStorageBooking, { status: 201 });
   } catch (error) {
-    console.error("Error processing storage booking:", error);
+    console.error("Error creating storage booking:", error);
     return NextResponse.json(
-      { message: "Failed to create storage booking" },
+      { message: "Failed to create storage booking", error: error.message },
       { status: 500 }
     );
   }
 }
+
 
 // PUT: Update an existing storage booking
 export async function PUT(req: Request) {

@@ -121,8 +121,8 @@ model StorageBooking {
   storageLocationId String?                              
   idFile            String?                              
   createdAt         DateTime         @default(now())      
-  updatedAt         DateTime         @updatedAt           
-  
+  updatedAt         DateTime         @updatedAt     
+
   // Relations
   storageLocation   StorageLocation?  @relation(fields: [storageLocationId], references: [id]) // Foreign key to StorageLocation (nullable)
 }
