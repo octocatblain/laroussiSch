@@ -1,4 +1,6 @@
+
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -16,7 +18,6 @@ module.exports = {
     },
     extend: {
       colors: {
-        // primary: '#fa6e1f',
         primary: "#000",
         secondary: "#173B45",
         "sky-blue": "#B43F3F",
@@ -26,8 +27,9 @@ module.exports = {
         palladium: "#E6E6E6", // Palladium color
         bronze: "#CD7F32", // Bronze color
         platinum: "#E5E4E2", // Platinum color
+       
       },
     },
   },
-  plugins: [require("@tailwindcss/forms")], // eslint-disable-line
+  plugins: [require("@tailwindcss/forms")],
 };

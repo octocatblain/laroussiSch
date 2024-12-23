@@ -7,13 +7,70 @@ function handleError(message: string, error: any, status: number) {
   return NextResponse.json({ message }, { status });
 }
 
-// GET: Fetch all storage bookings
-export async function GET() {
+// GET: Fetch all storage bookings or filter by email if provided
+export async function GET(req: Request) {
   try {
-    const storageBookings = await prisma.storageBooking.findMany();
-    return NextResponse.json(storageBookings, { status: 200 });
+    const url = new URL(req.url);
+    const email = url.searchParams.get("email"); // Get the email from query params
+
+    if (email) {
+      // Fetch bookings by email if email query parameter is provided
+      const storageBookings = await prisma.storageBooking.findMany({
+        where: { email },
+      });
+
+      return NextResponse.json(storageBookings, { status: 200 });
+    } else {
+      // Fetch all bookings if no email query parameter is provided
+      const storageBookings = await prisma.storageBooking.findMany();
+
+      return NextResponse.json(storageBookings, { status: 200 });
+    }
   } catch (error) {
     return handleError("Error fetching storage bookings", error, 500);
+  }
+}
+
+// DELETE: Delete a storage booking
+export async function DELETE(req: Request) {
+  try {
+    const { id, email } = await req.json();
+
+    if (!id || !email) {
+      return NextResponse.json(
+        { message: "Missing required fields: id and email" },
+        { status: 400 }
+      );
+    }
+
+    // Ensure the user is trying to delete their own booking
+    const booking = await prisma.storageBooking.findUnique({
+      where: { id },
+    });
+
+    if (!booking) {
+      return NextResponse.json(
+        { message: "Booking not found" },
+        { status: 404 }
+      );
+    }
+
+    if (booking.email !== email) {
+      return NextResponse.json(
+        { message: "You can only delete your own bookings" },
+        { status: 403 }
+      );
+    }
+
+    // Delete the storage booking
+    await prisma.storageBooking.delete({ where: { id } });
+
+    return NextResponse.json(
+      { message: "Storage booking deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return handleError("Error deleting storage booking", error, 500);
   }
 }
 
@@ -70,7 +127,6 @@ export async function POST(req: Request) {
   }
 }
 
-
 // PUT: Update an existing storage booking
 export async function PUT(req: Request) {
   try {
@@ -101,28 +157,5 @@ export async function PUT(req: Request) {
     return NextResponse.json(updatedStorageBooking, { status: 200 });
   } catch (error) {
     return handleError("Error updating storage booking", error, 500);
-  }
-}
-
-// DELETE: Delete a storage booking
-export async function DELETE(req: Request) {
-  try {
-    const { id } = await req.json();
-
-    // Validate the ID
-    if (!id) {
-      return NextResponse.json(
-        { message: "Missing required field: id" },
-        { status: 400 }
-      );
-    }
-
-    await prisma.storageBooking.delete({ where: { id } });
-    return NextResponse.json(
-      { message: "Storage booking deleted successfully" },
-      { status: 200 }
-    );
-  } catch (error) {
-    return handleError("Error deleting storage booking", error, 500);
   }
 }

@@ -1,66 +1,102 @@
+//login form
 'use client';
 
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { FaGoogle } from 'react-icons/fa';
 
-const LoginForm = () => {
+const LoginForm = ({ session }: any) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
 
+  
     const [error, setError] = useState('');
     const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    
+    // Handle form submission and sign in with credentials
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
-        try {
-            // Use next-auth to sign in with credentials (email/password)
-            const response = await signIn('credentials', {
-                redirect: false,
-                username: formData.email,
-                password: formData.password,
+        signIn('credentials', {
+            redirect: false,
+            username: formData.email,
+            password: formData.password,
+        })
+            .then((response) => {
+                if (!response || !response.ok) {
+                    throw new Error(response?.error || 'Failed to log in with credentials.');
+                }
+                console.log('Login successful!', session);
+
+                // Refresh the session
+                return getSession(); // Get the updated session
+            })
+            .then((session) => {
+                if (!session) {
+                    throw new Error('Failed to refresh session.');
+                }
+                console.log('Session refreshed!', session);
+
+                // Redirect to the home page after session refresh
+                return router.push('/');
+            })
+            .catch((err: any) => {
+                setError(err.message || 'An error occurred during login.');
+            })
+            .finally(() => {
+                // Optional: Code to run when either success or failure occurs
+                console.log('Login process completed');
             });
-
-            if (response?.error) {
-                throw new Error(response.error);
-            }
-
-            alert('Login successful!');
-            router.push('/dashboard/user'); // Redirect to dashboard after successful login
-        } catch (err: any) {
-            setError(err.message);
-        }
     };
 
-    const handleGoogleSignIn = async () => {
-        try {
-            // Use next-auth to sign in with Google
-            const response = await signIn('google', { redirect: false });
 
-            if (response?.error) {
-                throw new Error(response.error);
-            }
+    // Handle Google sign in with next-auth
+    const handleGoogleSignIn = () => {
+        signIn('google', { redirect: false })
+            .then((response) => {
+                if (!response || !response.ok) {
+                    throw new Error(response?.error || 'Failed to log in with Google.');
+                }
+                console.log('Google login successful!', session);
 
-            alert('Google login successful!');
-            router.push('/dashboard/user'); // Redirect to dashboard after successful login
-        } catch (err: any) {
-            setError(err.message);
-        }
+                // Refresh the session
+                return getSession(); // Get the updated session after Google login
+            })
+            .then((session) => {
+                if (!session) {
+                    throw new Error('Failed to refresh session.');
+                }
+                console.log('Session refreshed!', session);
+
+                // Redirect to the home page after session refresh
+                return router.push('/');
+            })
+            .catch((err: any) => {
+                setError(err.message || 'An error occurred during Google login.');
+            })
+            .finally(() => {
+                // Optional: Code to run when either success or failure occurs
+                console.log('Google login process completed');
+            });
     };
+
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-lg bg-white border border-slate-900 rounded-lg shadow-lg p-6">
                 <h1 className="text-3xl font-bold text-center text-gray-900 mb-6">Laroussi Mining SCH | Kenya</h1>
-                <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Sign In</h2>
+                <h2 className="text-2xl font-semibold text-center text-gray-800 mb-3">Sign In</h2>
+                {error && (
+                    <p className="text-sm font-semibold text-center text-red-600 my-2">Error: {error}</p>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
@@ -103,22 +139,28 @@ const LoginForm = () => {
 
                     <button
                         type="submit"
-                        className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 text-white bg-black rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         Sign In
                     </button>
 
-                    {error && (
-                        <p className="mt-2 text-sm text-red-600">{error}</p>
-                    )}
+
                 </form>
+
+                {/*-----or------ */}
+                <div className="flex items-center mt-6">
+                    <div className="flex-1 h-px bg-gray-300"></div>
+                    <p className="px-4 text-sm text-gray-500">or sign in with</p>
+                    <div className="flex-1 h-px bg-gray-300"></div>
+                </div>
 
                 <div className="mt-6">
                     <button
                         onClick={handleGoogleSignIn}
-                        className="w-full px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        className="w-full flex items-center justify-center gap-3 px-4 py-2 text-white bg-red-800 rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                     >
-                        Sign In with Google
+                        <FaGoogle className="text-2xl" />
+                        Google
                     </button>
                 </div>
 
