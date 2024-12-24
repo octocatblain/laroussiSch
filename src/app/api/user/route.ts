@@ -1,4 +1,4 @@
-import { authOptions } from "@/lib/auth";
+import { options } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -12,13 +12,14 @@ interface UpdateUserRequestBody {
   password?: string; // Include password if applicable
 }
 
+// get method to fetch user details
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const email = url.searchParams.get("email");
 
+    // If email is provided, fetch user by email
     if (email) {
-      // Search user by email
       const user = await prisma.user.findUnique({
         where: { email },
       });
@@ -33,19 +34,26 @@ export async function GET(req: Request) {
       return NextResponse.json({ user }, { status: 200 });
     }
 
-    const session: any = await getServerSession(authOptions);
+    // If no email in query params, attempt to get user based on the session
+    const session = await getServerSession(options);
 
-    if (!session?.user?.id) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!session?.user?.email) {
+      return NextResponse.json(
+        { message: "Unauthorized: No session or email found" },
+        { status: 401 }
+      );
     }
 
-    // Fetch the user details from the database
+    // Fetch user details using session email
     const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { email: session.user.email },
     });
 
     if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "User not found for the authenticated session" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ user }, { status: 200 });
@@ -58,9 +66,32 @@ export async function GET(req: Request) {
   }
 }
 
+// get all users
+export async function GETAllUsers(req: Request) {
+  try {
+    // Fetch all users from the database
+    const users = await prisma.user.findMany();
+
+    // If no users are found, return a 404 response
+    if (users.length === 0) {
+      return NextResponse.json({ message: "No users found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ users }, { status: 200 });
+  } catch (error: any) {
+    console.error("Error fetching users:", error.message || error);
+    return NextResponse.json(
+      { message: "Internal server error", error: error.message || error },
+      { status: 500 }
+    );
+  }
+}
+
+
+// post method to create a new user
 export async function POST(req: Request) {
   try {
-    const session: any = await getServerSession(authOptions);
+    const session: any = await getServerSession(options);
 
     if (!session?.user?.id) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -94,7 +125,7 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
   try {
-    const session: any = await getServerSession(authOptions);
+    const session: any = await getServerSession(options);
 
     if (!session?.user?.id) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -141,7 +172,7 @@ export async function PUT(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
-    const session: any = await getServerSession(authOptions);
+    const session: any = await getServerSession(options);
 
     if (!session?.user?.id) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
