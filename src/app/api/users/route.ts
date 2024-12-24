@@ -1,6 +1,7 @@
-import { options } from "@/lib/auth";
+// src/app/api/users/route.ts
+
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
+import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
 // Define the expected structure of the request body
@@ -12,14 +13,14 @@ interface UpdateUserRequestBody {
   password?: string; // Include password if applicable
 }
 
-// get method to fetch user details
+// Fetch all users
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const email = url.searchParams.get("email");
 
-    // If email is provided, fetch user by email
     if (email) {
+      // Fetch user by email
       const user = await prisma.user.findUnique({
         where: { email },
       });
@@ -34,49 +35,8 @@ export async function GET(req: Request) {
       return NextResponse.json({ user }, { status: 200 });
     }
 
-    // If no email in query params, attempt to get user based on the session
-    const session = await getServerSession(options);
-
-    if (!session?.user?.email) {
-      return NextResponse.json(
-        { message: "Unauthorized: No session or email found" },
-        { status: 401 }
-      );
-    }
-
-    // Fetch user details using session email
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
-
-    if (!user) {
-      return NextResponse.json(
-        { message: "User not found for the authenticated session" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ user }, { status: 200 });
-  } catch (error: any) {
-    console.error("Error fetching user:", error.message || error);
-    return NextResponse.json(
-      { message: "Internal server error", error: error.message || error },
-      { status: 500 }
-    );
-  }
-}
-
-// get all users
-export async function GETAllUsers(req: Request) {
-  try {
-    // Fetch all users from the database
+    // Fetch all users
     const users = await prisma.user.findMany();
-
-    // If no users are found, return a 404 response
-    if (users.length === 0) {
-      return NextResponse.json({ message: "No users found" }, { status: 404 });
-    }
-
     return NextResponse.json({ users }, { status: 200 });
   } catch (error: any) {
     console.error("Error fetching users:", error.message || error);
@@ -87,26 +47,28 @@ export async function GETAllUsers(req: Request) {
   }
 }
 
-
-// post method to create a new user
+// Create a new user
 export async function POST(req: Request) {
   try {
-    const session: any = await getServerSession(options);
+    const body = await req.json();
+    const { name, email, username, profileImage, password } = body;
 
-    if (!session?.user?.id) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!password) {
+      return NextResponse.json(
+        { message: "Password is required" },
+        { status: 400 }
+      );
     }
 
-    const body = await req.json();
-    const { name, email, username, profileImage } = body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
         username,
         image: profileImage,
+        password: hashedPassword,
       },
     });
 
@@ -123,16 +85,20 @@ export async function POST(req: Request) {
   }
 }
 
+// Update an existing user
 export async function PUT(req: Request) {
   try {
-    const session: any = await getServerSession(options);
-
-    if (!session?.user?.id) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
     const body: UpdateUserRequestBody = await req.json();
     const { name, email, username, profileImage, password } = body;
+    const url = new URL(req.url);
+    const userId = url.searchParams.get("id");
+
+    if (!userId) {
+      return NextResponse.json(
+        { message: "User ID is required" },
+        { status: 400 }
+      );
+    }
 
     const updates: any = {};
 
@@ -141,8 +107,7 @@ export async function PUT(req: Request) {
     if (username) updates.username = username;
     if (profileImage) updates.image = profileImage;
     if (password) {
-      // Implement proper password hashing here
-      updates.password = password;
+      updates.password = await bcrypt.hash(password, 10);
     }
 
     if (Object.keys(updates).length === 0) {
@@ -153,7 +118,7 @@ export async function PUT(req: Request) {
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id: session.user.id },
+      where: { id: userId },
       data: updates,
     });
 
@@ -170,16 +135,21 @@ export async function PUT(req: Request) {
   }
 }
 
+// Delete a user
 export async function DELETE(req: Request) {
   try {
-    const session: any = await getServerSession(options);
+    const url = new URL(req.url);
+    const userId = url.searchParams.get("id");
 
-    if (!session?.user?.id) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!userId) {
+      return NextResponse.json(
+        { message: "User ID is required" },
+        { status: 400 }
+      );
     }
 
     const deletedUser = await prisma.user.delete({
-      where: { id: session.user.id },
+      where: { id: userId },
     });
 
     return NextResponse.json(
@@ -192,5 +162,23 @@ export async function DELETE(req: Request) {
       { message: "Internal server error", error: error.message || error },
       { status: 500 }
     );
+  }
+}
+
+// Fetch a user by email
+export async function fetchUserByEmail(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user;
+  } catch (error: any) {
+    console.error("Error fetching user by email:", error.message || error);
+    throw new Error("Failed to fetch user by email");
   }
 }

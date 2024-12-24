@@ -18,7 +18,7 @@ export default function AccountPage({ session }: any) {
             const email = session?.user?.email;
 
             // Prepare the API endpoint based on whether we have an email or not
-            const apiUrl = email ? `/api/user?email=${email}` : '/api/user';
+            const apiUrl = email ? `/api/users?email=${email}` : '/api/users';
 
             // Fetch the user details
             const response = await axios.get(apiUrl);
@@ -68,7 +68,7 @@ export default function AccountPage({ session }: any) {
                 if (imagePath) uploadedImagePath = imagePath;
             }
 
-            await axios.put("/api/user", {
+            await axios.put("/api/users", {
                 ...data,
                 profileImage: uploadedImagePath,
             });

@@ -119,6 +119,21 @@ export const options: NextAuthOptions = {
       return token;
     },
 
+    // async session({ session, token }: any) {
+    //   if (token?.jwtString) {
+    //     session.token = token.jwtString; // Add JWT string to session
+    //     session.user = {
+    //       id: token.id,
+    //       name: token.name,
+    //       email: token.email,
+    //       image: token.image,
+    //     };
+    //   } else {
+    //     console.error("Token is missing or malformed in session callback.");
+    //   }
+    //   return session;
+    // },
+
     async session({ session, token }: any) {
       if (token?.jwtString) {
         session.token = token.jwtString; // Add JWT string to session
@@ -131,7 +146,7 @@ export const options: NextAuthOptions = {
       } else {
         console.error("Token is missing or malformed in session callback.");
       }
-      return session;
+      return session; // Return the session with user data
     },
 
     async redirect({ url, baseUrl }: any) {
