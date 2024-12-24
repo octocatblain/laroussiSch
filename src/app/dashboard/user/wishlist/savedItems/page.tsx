@@ -36,18 +36,38 @@ export default function SavedItemsList({ session }: any) {
         const fetchSavedItems = async () => {
             try {
                 setLoading(true);
+                // const response = await fetch(`/api/savedItems?email=${email}`);
+
+                // console.log(response)
+                // if (!response.ok) {
+                //     throw new Error("Failed to fetch saved items");
+                // }
+                // const data = await response.json();
+
+                // // Ensure data is an array
+                // if (!Array.isArray(response.json)) {
+                //     //return message if data is not an array
+                //     return response.message;
+                // }
+
                 const response = await fetch(`/api/savedItems?email=${email}`);
+
+                console.log(response);
                 if (!response.ok) {
                     throw new Error("Failed to fetch saved items");
                 }
+
                 const data = await response.json();
 
                 // Ensure data is an array
                 if (!Array.isArray(data)) {
-                    throw new Error("Unexpected response format: saved items should be an array");
+                    // Return a message if data is not an array
+                    return { message: "You have no saved items." };
                 }
 
                 setSavedItems(data);
+                // Proceed with handling the array data
+                return data;
             } catch (err: any) {
                 setError(err.message);
             } finally {
