@@ -40,6 +40,7 @@ model User {
   savedItems         SavedItem[] // One-to-many relationship with SavedItem
 }
 
+
 model Product {
   id                String           @id @default(uuid()) // Primary key
   slug              String           @unique              // Unique slug for the product

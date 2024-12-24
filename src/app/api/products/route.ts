@@ -3,11 +3,31 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-// GET: Fetch all products
-export async function GET() {
+// GET: Fetch all products or a specific product by ID
+export async function GET(req: Request) {
   try {
-    const products = await prisma.product.findMany();
-    return NextResponse.json(products, { status: 200 });
+    const { searchParams } = new URL(req.url);
+    const productId = searchParams.get("id");
+
+    if (productId) {
+      // Fetch a single product by ID
+      const product = await prisma.product.findUnique({
+        where: { id: productId }, // UUID, no parseInt
+      });
+
+      if (product) {
+        return NextResponse.json(product, { status: 200 });
+      } else {
+        return NextResponse.json(
+          { message: "Product not found" },
+          { status: 404 }
+        );
+      }
+    } else {
+      // Fetch all products
+      const products = await prisma.product.findMany();
+      return NextResponse.json(products, { status: 200 });
+    }
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json(

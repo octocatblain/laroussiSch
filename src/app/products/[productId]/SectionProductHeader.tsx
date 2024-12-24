@@ -1,12 +1,16 @@
 "use client";
-import type { FC } from "react";
+
+import { useSession } from "@/contexts/SessionContext";
+import axios from "axios"; // For API calls
+import { FC, useEffect, useState } from "react";
+import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 
 import ImageShowCase from "@/components/ImageShowCase";
-import SizeSelect from "@/components/SizeSelect";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import Heading from "@/shared/Heading/Heading";
 
 interface SectionProductHeaderProps {
+  id: string;
   shots?: string[];
   productName?: string;
   price?: number;
@@ -26,11 +30,11 @@ interface SectionProductHeaderProps {
 
 const SectionProductHeader: FC<SectionProductHeaderProps> = ({
   shots,
+  id,
   productName,
   productType,
   availability,
   price,
-  // reviews,
   description,
   refiner,
   material,
@@ -41,6 +45,64 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
   packaging,
   kinebar,
 }) => {
+const session: any = useSession();
+  const [isSaved, setIsSaved] = useState(false); // Track bookmark state
+
+  console.log("session at product:",session);
+
+  // Check if the product is in the user's saved items
+  useEffect(() => {
+    const fetchSavedStatus = async () => {
+      try {
+        if (session?.user?.id) {
+          const { data } = await axios.get(`/api/savedItems/${id}`);
+          setIsSaved(data.isSaved);
+        }
+      } catch (error) {
+        console.error("Failed to fetch saved status:", error);
+      }
+    };
+
+    fetchSavedStatus();
+  }, [id, session?.user?.id]);
+
+  // Handle bookmarking or unbookmarking a product
+  const handleBookmarkClick = async () => {
+    try {
+      if (!session?.user?.id) {
+        console.error("User is not logged in!");
+        return;
+      }
+
+      if (isSaved) {
+        // Delete all saved items for this user and product combination
+        await axios.delete(`/api/savedItems`, {
+          data: {
+            userId: session.user.id,
+            productId: id, // Pass productId for accurate deletion
+          },
+        });
+        setIsSaved(false);
+        console.log("Deleted saved item");
+      } else {
+        // Save the item
+        console.log("Saving item");
+        console.log("session.user.id:", session.user.id);
+        console.log("product id:", id);
+        await axios.post(`/api/savedItems`, {
+          userId: session.user.id,
+          productId: id,
+        });
+        console.log("Saved item");
+        setIsSaved(true);
+      }
+    } catch (error) {
+      console.error("Failed to toggle saved item:", error);
+      alert("Failed to toggle saved item. Please try again.");
+    }
+  };
+
+
   return (
     <div className="items-stretch justify-between space-y-10 lg:flex lg:space-y-0">
       <div className="basis-[47%]">
@@ -48,11 +110,21 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
       </div>
 
       <div className="basis-[48%] space-y-7 ml-3">
-        <Heading className="mb-0" isMain>
-          {productName}
-        </Heading>
+        <div className="flex justify-between items-center gap-2">
+          <Heading className="!mx-0" isMain>
+            {productName}
+          </Heading>
+          <div
+            className={` cursor-pointer mb-6 ${isSaved ? "text-orange-500" : "text-neutral-500"
+              }`}
+            onClick={handleBookmarkClick}
+          >
+            {isSaved ? <BsBookmarkFill className="size-6" /> : <BsBookmark className="size-6"/>}
+          </div>
+        </div>
         <p className="text-lg text-neutral-500">{description}</p>
         <div className="grid grid-cols-2 gap-2">
+          {/* Product Details */}
           <div className="flex gap-2">
             <p className="font-semibold">Refiner: </p>
             <p className="text-neutral-500">{refiner}</p>
@@ -73,26 +145,20 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
             <p className="font-semibold">Availability: </p>
             <div className="flex items-center">
               {availability === "in-stock" ? (
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="checkbox"
-                    checked
-                    className="outline-green-500 text-green-500 rounded-full h-4 w-4"
-                  />
-                  {/* <span className="ml-2 text-semibold">In Stock</span> */}
-                </div>
+                <input
+                  type="checkbox"
+                  checked
+                  className="outline-green-500 text-green-500 rounded-full h-4 w-4"
+                  readOnly
+                />
               ) : (
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="radio"
-                    checked
-                    name="default_radio"
-                    className="h-4 w-4 text-red-500"
-                  />
-                  {/* <span className="ml-2 text-semibold">Out of Stock</span> */}
-                </div>
+                <input
+                  type="radio"
+                  checked
+                  className="h-4 w-4 text-red-500"
+                  readOnly
+                />
               )}
-              {/* <p className="text-neutral-500">{availability}</p> */}
             </div>
           </div>
           <div className="flex gap-2">
@@ -110,23 +176,12 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
           <div className="flex gap-2 items-center">
             <p className="font-semibold">Product Type: </p>
             <ProductTypeDisplay productType={productType} />
-            {/* <p className="text-neutral-500">{productType}</p> */}
           </div>
           <div className="flex gap-2">
             <p className="font-semibold">Kinebar: </p>
             <p className="text-neutral-500">{kinebar}</p>
           </div>
         </div>
-        {/* <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 text-yellow-400">
-            <MdStar />
-            <MdStar />
-            <MdStar />
-            <MdStar />
-            <MdStar />
-          </div>
-          <span className="text-sm text-neutral-500">({reviews}k)Reviews</span>
-        </div> */}
         <p className="text-2xl font-semibold text-secondary">
           $
           {price?.toLocaleString(undefined, {
@@ -134,14 +189,6 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
             maximumFractionDigits: 2,
           })}
         </p>
-
-        <SizeSelect />
-
-        {/* <div>
-          <h4 className="mb-5 font-medium">Colours available</h4>
-          <Variant sizes="w-8 h-8" />
-        </div> */}
-
         {availability === "in-stock" ? (
           <div className="mt-5 flex items-center gap-5">
             <ButtonPrimary href="/checkout" className="w-full">
@@ -159,6 +206,7 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
     </div>
   );
 };
+
 
 export default SectionProductHeader;
 

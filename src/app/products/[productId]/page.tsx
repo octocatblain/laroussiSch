@@ -70,6 +70,7 @@ const SingleProductPage = (props: Props) => {
 
       <div className="mb-20">
         <SectionProductHeader
+          id={pathOr("", ["id"], selectedProduct)}
           refiner={pathOr("", ["refiner"], selectedProduct)}
           material={pathOr("", ["material"], selectedProduct)}
           fineness={pathOr("", ["fineness"], selectedProduct)}
