@@ -45,18 +45,22 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
   packaging,
   kinebar,
 }) => {
-const session: any = useSession();
+  const session : any = useSession();
   const [isSaved, setIsSaved] = useState(false); // Track bookmark state
-
-  console.log("session at product:",session);
 
   // Check if the product is in the user's saved items
   useEffect(() => {
     const fetchSavedStatus = async () => {
+      console.log("single session", session);
+      console.log("id", id);
       try {
         if (session?.user?.id) {
-          const { data } = await axios.get(`/api/savedItems/${id}`);
-          setIsSaved(data.isSaved);
+          // Include the id as a query parameter in the request
+          const response = await axios.get(`/api/products`, {
+            params: { id },
+          });
+          console.log("Response for fetched product", response);
+          setIsSaved(response.data.savedItems.some((item: any) => item.userId === session.user.id));
         }
       } catch (error) {
         console.error("Failed to fetch saved status:", error);
@@ -65,6 +69,7 @@ const session: any = useSession();
 
     fetchSavedStatus();
   }, [id, session?.user?.id]);
+
 
   // Handle bookmarking or unbookmarking a product
   const handleBookmarkClick = async () => {
@@ -75,25 +80,18 @@ const session: any = useSession();
       }
 
       if (isSaved) {
-        // Delete all saved items for this user and product combination
         await axios.delete(`/api/savedItems`, {
           data: {
             userId: session.user.id,
-            productId: id, // Pass productId for accurate deletion
+            productId: id,
           },
         });
         setIsSaved(false);
-        console.log("Deleted saved item");
       } else {
-        // Save the item
-        console.log("Saving item");
-        console.log("session.user.id:", session.user.id);
-        console.log("product id:", id);
         await axios.post(`/api/savedItems`, {
           userId: session.user.id,
           productId: id,
         });
-        console.log("Saved item");
         setIsSaved(true);
       }
     } catch (error) {
@@ -101,7 +99,6 @@ const session: any = useSession();
       alert("Failed to toggle saved item. Please try again.");
     }
   };
-
 
   return (
     <div className="items-stretch justify-between space-y-10 lg:flex lg:space-y-0">
@@ -115,11 +112,10 @@ const session: any = useSession();
             {productName}
           </Heading>
           <div
-            className={` cursor-pointer mb-6 ${isSaved ? "text-orange-500" : "text-neutral-500"
-              }`}
+            className={`cursor-pointer mb-6 ${isSaved ? "text-orange-500" : "text-neutral-500"}`}
             onClick={handleBookmarkClick}
           >
-            {isSaved ? <BsBookmarkFill className="size-6" /> : <BsBookmark className="size-6"/>}
+            {isSaved ? <BsBookmarkFill className="size-6" /> : <BsBookmark className="size-6" />}
           </div>
         </div>
         <p className="text-lg text-neutral-500">{description}</p>
@@ -183,11 +179,7 @@ const session: any = useSession();
           </div>
         </div>
         <p className="text-2xl font-semibold text-secondary">
-          $
-          {price?.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
+          ${(price ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </p>
         {availability === "in-stock" ? (
           <div className="mt-5 flex items-center gap-5">

@@ -23,6 +23,7 @@ export async function GET(req: Request) {
       // Fetch user by email
       const user = await prisma.user.findUnique({
         where: { email },
+        include: { savedItems: true }, // Include savedItems in the response for the user
       });
 
       if (!user) {
@@ -36,7 +37,9 @@ export async function GET(req: Request) {
     }
 
     // Fetch all users
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      include: { savedItems: true }, // Include savedItems in the response for all users
+    });
     return NextResponse.json({ users }, { status: 200 });
   } catch (error: any) {
     console.error("Error fetching users:", error.message || error);
