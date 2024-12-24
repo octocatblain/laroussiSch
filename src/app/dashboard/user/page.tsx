@@ -2,7 +2,7 @@
 
 import { useSession } from "@/contexts/SessionContext";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsGear, BsHouse, BsHouseAdd, BsPerson, BsPersonFillGear, BsPersonVcardFill } from "react-icons/bs";
 import { FaWarehouse } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
@@ -13,6 +13,7 @@ import OrdersPage from "./orders/page";
 import Overview from "./overview/page";
 import UserBookings from "./storage/bookings/page";
 import StorageBookingForm from "./storage/page";
+import SavedItemsList from "./wishlist/savedItems/page";
 
 
 interface MenuItem {
@@ -36,7 +37,7 @@ export default function UserHomePage() {
             id: "overview",
             label: "Overview",
             icon: <RiBubbleChartFill />,
-            content: <Overview/>,
+            content: <Overview />,
         },
         {
             id: "notifications",
@@ -59,7 +60,7 @@ export default function UserHomePage() {
                     id: "saved-items",
                     label: "Saved Items",
                     icon: <MdBookmark />,
-                    content: <div className="p-6">These are your saved items.</div>,
+                    content: <SavedItemsList session={session}/>,
                 },
             ],
         },
@@ -67,13 +68,13 @@ export default function UserHomePage() {
             id: "orders",
             label: "Orders",
             icon: <FaCartShopping />,
-            content: <OrdersPage/>,
+            content: <OrdersPage />,
         },
         {
             id: "storage",
             label: "Storage",
             icon: <FaWarehouse />,
-           
+
             subMenu: [
                 {
                     id: "book-storage",
@@ -119,10 +120,11 @@ export default function UserHomePage() {
 }
 
 function Sidebar({ menuItems, session, greeting }: any) {
+    // Initialize state
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [activeMenuItem, setActiveMenuItem] = useState(menuItems[0]?.id || null);
     const [activeSubMenuItem, setActiveSubMenuItem] = useState<string | null>(null);
-    const [expandedMenuItem, setExpandedMenuItem] = useState<string | null>(null); // Track expanded menu for submenus
+    const [expandedMenuItem, setExpandedMenuItem] = useState<string | null>(null);
 
     // Determine active content
     const activeContent = activeSubMenuItem
@@ -130,6 +132,13 @@ function Sidebar({ menuItems, session, greeting }: any) {
             .find((item: any) => item.id === activeMenuItem)
             ?.subMenu?.find((subItem: any) => subItem.id === activeSubMenuItem)?.content
         : menuItems.find((item: any) => item.id === activeMenuItem)?.content;
+
+    // Effect to set default expanded menu for submenus if present
+    useEffect(() => {
+        if (menuItems[0]?.subMenu?.length) {
+            setExpandedMenuItem(menuItems[0].id);
+        }
+    }, [menuItems]);
 
     return (
         <>
@@ -155,7 +164,9 @@ function Sidebar({ menuItems, session, greeting }: any) {
                         )}
 
                         {!isCollapsed && (
-                            <p className="text-sm pt-3 font-semibold">{session?.user?.email}</p>
+                            <p className="text-sm pt-3 font-semibold">
+                                {session?.user?.email}
+                            </p>
                         )}
                     </button>
                 </div>
@@ -165,9 +176,10 @@ function Sidebar({ menuItems, session, greeting }: any) {
                         <div key={item.id} className="flex flex-col">
                             <button
                                 className={`flex p-4 hover:bg-gray-700 rounded-r-lg ${activeMenuItem === item.id && !activeSubMenuItem
-                                        ? "bg-gray-700"
-                                        : ""
-                                    } ${isCollapsed ? "justify-center items-center" : "!items-center"}`}
+                                    ? "bg-gray-700"
+                                    : ""
+                                    } ${isCollapsed ? "justify-center items-center" : "!items-center"
+                                    }`}
                                 onClick={() => {
                                     if (item.content) {
                                         setActiveMenuItem(item.id);
@@ -193,8 +205,8 @@ function Sidebar({ menuItems, session, greeting }: any) {
                                             <button
                                                 key={subItem.id}
                                                 className={`flex p-3 text-sm hover:bg-gray-600 rounded-r-lg ${activeSubMenuItem === subItem.id
-                                                        ? "bg-gray-600"
-                                                        : ""
+                                                    ? "bg-gray-600"
+                                                    : ""
                                                     }`}
                                                 onClick={() => {
                                                     setActiveMenuItem(item.id);
@@ -224,3 +236,4 @@ function Sidebar({ menuItems, session, greeting }: any) {
         </>
     );
 }
+

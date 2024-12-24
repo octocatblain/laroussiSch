@@ -40,7 +40,7 @@ const PageSignUp = () => {
             </div>
             <span className="block text-center text-sm text-neutral-500">
               Already have an account? {` `}
-              <Link href="/login" className="text-primary">
+              <Link href="/auth/login" className="text-primary">
                 Login
               </Link>
             </span>

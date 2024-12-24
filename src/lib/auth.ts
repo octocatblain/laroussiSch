@@ -1,13 +1,15 @@
-// src/lib/auth.ts
+// src\lib\auth.ts
+
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"; // Import jwt for signing
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 const prisma = new PrismaClient();
 
-export const authOptions: NextAuthOptions = {
+export const options: NextAuthOptions = {
   providers: [
     // Google OAuth Provider
     GoogleProvider({
@@ -19,7 +21,11 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Email", type: "text", placeholder: "Your Email" },
+        username: {
+          label: "Email",
+          type: "text",
+          placeholder: "Your Email",
+        },
         password: {
           label: "Password",
           type: "password",
@@ -28,9 +34,6 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) {
-          console.warn(
-            "Authorization failed: Email and Password are required!"
-          );
           throw new Error("Email and Password are required!");
         }
 
@@ -39,9 +42,6 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
-          console.warn(
-            `Authorization failed: No user found with email ${credentials.username}`
-          );
           throw new Error("No user found with this email!");
         }
 
@@ -51,14 +51,10 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isPasswordValid) {
-          console.warn(
-            `Authorization failed: Invalid password for email ${credentials.username}`
-          );
           throw new Error("Invalid email or password!");
         }
 
-        console.info(`User authenticated successfully: ${user.email}`);
-        return { id: user.id, name: user.name, email: user.email };
+        return { id: user.id, name: user.name, email: user.email }; // Ensure this is the exact shape required
       },
     }),
   ],
@@ -70,31 +66,27 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async signIn({ user, account, profile }) {
-      console.info("Sign-in attempt:", { user, account, profile });
-      if (account?.provider === "google") {
+    async signIn({ user, account, profile }: any) {
+      if (account.provider === "google") {
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email },
         });
 
         if (!existingUser) {
-          await prisma.user.create({
+          // Create new user if one does not exist
+          const newUser = await prisma.user.create({
             data: {
-              name: user.name || "",
-              email: user.email || "",
-              image: user.image || "",
+              email: user.email,
+              name: user.name,
+              image: profile?.picture || "",
+              username: user.email.split("@")[0],
             },
           });
-          console.info(`New user created via Google: ${user.email}`);
+          console.log("New user created with Google login:", newUser);
+          user = { ...user, id: newUser.id, image: newUser.image }; // Add the new user's ID and image to the user object
         } else {
-          await prisma.user.update({
-            where: { email: user.email },
-            data: {
-              name: user.name || existingUser.name,
-              image: user.image || existingUser.image,
-            },
-          });
-          console.info(`User updated via Google: ${user.email}`);
+          console.log("User already exists with email:", user.email);
+          user = { ...user, id: existingUser.id, image: existingUser.image };
         }
       }
       return true;
@@ -103,38 +95,64 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        console.info(`JWT token created for user: ${user.id}`);
+        token.name = user.name;
+        token.email = user.email;
+        token.image = user.image;
       }
+
+      // Ensure the token is properly signed
+      const secret = process.env.NEXTAUTH_SECRET;
+      if (!secret) {
+        throw new Error("NEXTAUTH_SECRET is not set!");
+      }
+
+      token.jwtString = jwt.sign(
+        {
+          id: token.id,
+          name: token.name,
+          email: token.email,
+          image: token.image,
+        },
+        secret,
+        { expiresIn: "1h" } // Customize token expiration
+      );
       return token;
     },
 
     async session({ session, token }: any) {
-      if (token) {
-        session.user.id = token.id;
-        console.info(`Session updated for user: ${session.user.id}`);
+      if (token?.jwtString) {
+        session.token = token.jwtString; // Add JWT string to session
+        session.user = {
+          id: token.id,
+          name: token.name,
+          email: token.email,
+          image: token.image,
+        };
+      } else {
+        console.error("Token is missing or malformed in session callback.");
       }
       return session;
+    },
+
+    async redirect({ url, baseUrl }: any) {
+      // Redirect to dashboard after successful sign-in
+      if (url === baseUrl) {
+        return "/";
+      }
+      return url;
     },
   },
 
   events: {
     async createUser({ user }) {
-      console.info("New user created:", user);
+      console.log("New user created:", user);
     },
   },
 
   logger: {
-    error: (message) => {
-      console.error("Error:", message);
-    },
-    warn: (message) => {
-      console.warn("Warning:", message);
-    },
-    info: (message: any) => {
-      console.info("Info:", message);
-    },
-    debug: (message) => {
-      console.debug("Debug:", message);
-    },
+    error: console.error,
+    warn: console.warn,
+    info: console.info,
+    debug: console.debug,
   },
 };

@@ -13,17 +13,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model SavedItem {
+  id        String   @id @default(uuid())       // Primary key
+  userId    String                               // Foreign key to User
+  productId String                               // Foreign key to Product
+  createdAt DateTime @default(now())            // Timestamp for when the item was saved
+
+  // Relationships
+  user    User     @relation(fields: [userId], references: [id])   // Relation to User
+  product Product  @relation(fields: [productId], references: [id]) // Relation to Product
+}
+
 model User {
-  id                 String   @id @default(uuid())
+  id                 String     @id @default(uuid())
   name               String?
   username           String?
-  email              String   @unique
+  email              String     @unique
   image              String?
-  hashedPassword     String?  // To store hashed passwords for local authentication
-  passwordResetToken String? // Token for resetting the password
+  hashedPassword     String?    // To store hashed passwords for local authentication
+  passwordResetToken String?    // Token for resetting the password
   passwordResetExpires DateTime? // Expiration time for the reset token
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  // Relationships
+  savedItems         SavedItem[] // One-to-many relationship with SavedItem
 }
 
 model Product {
@@ -35,7 +49,7 @@ model Product {
   productWeightId   String?                               // Foreign key to ProductWeight (nullable)
   productType       String?                               // Foreign key to ProductType (nullable)
   productWeight     String?                               // Foreign key to ProductWeight (nullable)
-  availability       String                                // Availability status
+  availability      String                                // Availability status
   price             Float                                 // Price of the product
   refiner           String?                               // Refiner details (optional)
   material          String?                               // Material of the product (optional)
@@ -51,10 +65,12 @@ model Product {
   updatedAt         DateTime         @updatedAt           // Timestamp for last update
 
   // Relationships
-  type       ProductType?    @relation(fields: [productTypeId], references: [id]) // Foreign key to ProductType (nullable)
-  weight     ProductWeight?  @relation(fields: [productWeightId], references: [id]) // Foreign key to ProductWeight (nullable)
+  type              ProductType?    @relation(fields: [productTypeId], references: [id]) // Foreign key to ProductType (nullable)
+  weight            ProductWeight?  @relation(fields: [productWeightId], references: [id]) // Foreign key to ProductWeight (nullable)
   storageLocations  ProductStorageLocation[] // Many-to-many relationship with StorageLocation
+  savedItems        SavedItem[]              // One-to-many relationship with SavedItem
 }
+
 
 model ProductWeight {
   id        String   @id @default(uuid()) // Unique ID for the weight record

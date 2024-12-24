@@ -4,7 +4,7 @@ import "@/styles/global.css";
 import type { Metadata } from "next";
 import React, { Suspense } from "react";
 
-import { options } from "@/app/api/auth/[...nextauth]/options";
+import { options } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
 import Header from "@/components/Header/Header";

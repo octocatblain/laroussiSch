@@ -36,7 +36,7 @@ const RegisterForm = () => {
             }
 
             alert('Registration successful!');
-            router.push('/api/auth/signin'); // Redirect to login page
+            router.push('/auth/login'); // Redirect to login page
         } catch (err: any) {
             setError(err.message);
         }
@@ -140,7 +140,7 @@ const RegisterForm = () => {
                 <p className="mt-4 text-sm text-center text-gray-600">
                     Already have an account?{' '}
                     <a
-                        href="/api/auth/signin"
+                        href="/auth/login"
                         className="text-blue-500 hover:underline"
                     >
                         Log in here

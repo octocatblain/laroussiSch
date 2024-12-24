@@ -51,7 +51,7 @@ export default function Overview({ session }: any) {
                         </h2>
                         <p className="text-2xl mx-3 font-bold text-gray-900 ">{ordersCount}</p>
                     </div>
-                    <BsCartCheck className="inline-block self-center mx-3 size-12" />
+                    <BsCartCheck className="inline-block self-center mx-3 size-12 text-green-600" />
                 </div>
 
 
@@ -63,7 +63,7 @@ export default function Overview({ session }: any) {
                         </h2>
                         <p className="text-2xl mx-3 font-bold text-gray-900 ">{bookingsCount}</p>
                     </div>
-                    <BsHouseCheck className="inline-block self-center mx-3 size-12" />
+                    <BsHouseCheck className="inline-block self-center mx-3 size-12 text-purple-500" />
                 </div>
 
                 {/* Wishlist Count */}
@@ -74,7 +74,7 @@ export default function Overview({ session }: any) {
                         </h2>
                         <p className="text-2xl mx-3 font-bold text-gray-900 ">{wishlistCount}</p>
                     </div>
-                    <BsBookmarkCheck className="inline-block self-center mx-3 size-12" />
+                    <BsBookmarkCheck className="inline-block self-center mx-3 size-12 text-yellow-500" />
                 </div>
             </div>
 
@@ -95,7 +95,14 @@ export default function Overview({ session }: any) {
                             className="text-blue-500 hover:underline font-semibold"
                         >
 
-                            Clear Wishlist
+                            Favorites List
+                        </a>
+                        <a
+                            href="/profile/location"
+                            className="text-blue-500 hover:underline font-semibold"
+                        >
+
+                            Saved Products
                         </a>
 
                     </div>
