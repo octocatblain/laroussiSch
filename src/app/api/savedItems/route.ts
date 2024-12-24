@@ -16,13 +16,42 @@ export async function GET(req: Request) {
     let savedItems;
 
     if (email) {
-      // Fetch saved items for the user
+      // Fetch saved items for the specific user based on email
       savedItems = await prisma.savedItem.findMany({
-        where: { userEmail: email },
+        where: {
+          user: {
+            email, // Match the email from the user table
+          },
+        },
+        include: {
+          user: {
+            select: { email: true }, // Include only the email from the user
+          },
+        },
       });
+
+      if (savedItems.length === 0) {
+        return NextResponse.json(
+          { message: "You have no saved items." },
+          { status: 200 }
+        );
+      }
     } else {
       // Fetch all saved items
-      savedItems = await prisma.savedItem.findMany();
+      savedItems = await prisma.savedItem.findMany({
+        include: {
+          user: {
+            select: { email: true }, // Include user information in the result
+          },
+        },
+      });
+
+      if (savedItems.length === 0) {
+        return NextResponse.json(
+          { message: "No saved items found." },
+          { status: 200 }
+        );
+      }
     }
 
     return NextResponse.json(savedItems, { status: 200 });
@@ -35,20 +64,20 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const requestData = await req.json();
-    const { userEmail, productId } = requestData;
+    const { userId, productId } = requestData;
 
     // Validate required fields
-    if (!userEmail || !productId) {
+    if (!userId || !productId) {
       return NextResponse.json(
-        { message: "Missing required fields: userEmail and productId" },
+        { message: "Missing required fields: userId and productId" },
         { status: 400 }
       );
     }
 
     // Create a new saved item
-    const newSavedItem: any = await prisma.savedItem.create({
+    const newSavedItem = await prisma.savedItem.create({
       data: {
-        userEmail,
+        userId,
         productId,
       },
     });
@@ -59,22 +88,27 @@ export async function POST(req: Request) {
   }
 }
 
-// DELETE: Remove a saved item by ID and user email
+// DELETE: Remove a saved item by ID and userId
 export async function DELETE(req: Request) {
   try {
-    const { id, userEmail } = await req.json();
+    const { id, userId } = await req.json();
 
     // Validate required fields
-    if (!id || !userEmail) {
+    if (!id || !userId) {
       return NextResponse.json(
-        { message: "Missing required fields: id and userEmail" },
+        { message: "Missing required fields: id and userId" },
         { status: 400 }
       );
     }
 
     // Ensure the saved item exists and belongs to the user
-    const savedItem: any = await prisma.savedItem.findUnique({
+    const savedItem = await prisma.savedItem.findUnique({
       where: { id },
+      include: {
+        user: {
+          select: { id: true }, // Include user id for ownership verification
+        },
+      },
     });
 
     if (!savedItem) {
@@ -84,7 +118,7 @@ export async function DELETE(req: Request) {
       );
     }
 
-    if (savedItem.userEmail !== userEmail) {
+    if (savedItem.userId !== userId) {
       return NextResponse.json(
         { message: "You can only delete your own saved items" },
         { status: 403 }

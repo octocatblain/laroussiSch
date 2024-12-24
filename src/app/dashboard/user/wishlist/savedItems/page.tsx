@@ -1,6 +1,6 @@
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import ProductCard from "@/components/ProductCard";
+import { BsRobot } from "react-icons/bs";
 
 interface Product {
     id: string;
@@ -10,18 +10,27 @@ interface Product {
     price: string;
 }
 
-export default function SavedItemsList({session}:any) {
+export default function SavedItemsList({ session }: any) {
     const [savedItems, setSavedItems] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [refresh] = useState(false);
+    const router = useRouter();
 
-    // get email from session
-    const userEmail = session?.user?.email;
+    // Get userId from session
+    const userId = session?.user?.id;
 
     useEffect(() => {
+        if (!userId) {
+            setError("User not authenticated");
+            setLoading(false);
+            return;
+        }
+
         const fetchSavedItems = async () => {
             try {
-                const response = await fetch(`/api/savedItems?email=${userEmail}`);
+                setLoading(true);
+                const response = await fetch(`/api/savedItems?userId=${userId}`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch saved items");
                 }
@@ -35,16 +44,11 @@ export default function SavedItemsList({session}:any) {
         };
 
         fetchSavedItems();
-    }, []);
+    }, [userId, refresh]);
 
-    // const handleItemClick = (id: string) => {
-
-
-
-    //     return (
-    //         <ProductCard product={} key={}/>
-    //     )
-    // };
+    const handleItemClick = (productId: string) => {
+        router.push(`/products/${productId}`);
+    };
 
     if (loading) {
         return <div className="text-center py-4">Loading saved items...</div>;
@@ -59,26 +63,44 @@ export default function SavedItemsList({session}:any) {
     }
 
     return (
-        <div className="p-6 max-w-5xl mx-auto">
+        <div className="p-6 max-w-full mx-auto">
             <h1 className="text-2xl font-semibold mb-4">Your Saved Items</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {savedItems.map((item) => (
-                    <div
-                        key={item.id}
-                        className="border rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
-                        onClick={() => handleItemClick(item.id)}
-                    >
-                        <img
-                            src={item.image}
-                            alt={item.name}
-                            className="w-full h-40 object-cover rounded"
-                        />
-                        <h2 className="mt-4 text-lg font-semibold">{item.name}</h2>
-                        <p className="text-gray-500">Weight: {item.weight}</p>
-                        <p className="text-gray-700 font-bold">Price: {item.price}</p>
-                    </div>
-                ))}
+                {Array.isArray(savedItems) && savedItems.length > 0 ? (
+                    savedItems.map((item) => (
+                        <div
+                            key={item.id}
+                            className="border rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
+                            onClick={() => handleItemClick(item.id)}
+                        >
+                            <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-full h-40 object-cover rounded"
+                            />
+                            <h2 className="mt-4 text-lg font-semibold">{item.name}</h2>
+                            <p className="text-gray-500">Weight: {item.weight}</p>
+                            <p className="text-gray-700 font-bold">Price: {item.price}</p>
+                        </div>
+                    ))
+                ) : (
+                        <div className="flex gap-3 max-w-full justify-start items-center">
+                            <BsRobot className="size-4" />
+                            <p className="text-gray-500 text-xl  whitespace-nowrap">
+                                No items to display. Visit the&nbsp;
+                                <a
+                                    href="/products"
+                                    className="text-blue-500 hover:underline"
+                                >Products page
+                                </a>
+                                .
+                            </p>
+                            </div>
+
+
+                )}
             </div>
+
         </div>
     );
 }
