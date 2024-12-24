@@ -1,15 +1,16 @@
 'use client';
 
-import Image from 'next/image';
-import { useState } from 'react';
-import { BsPersonFillGear, BsPersonVcardFill } from 'react-icons/bs';
-import { FaCartShopping } from 'react-icons/fa6';
-import { MdFormatListBulletedAdd, MdNotificationsActive } from 'react-icons/md';
-import { RiBubbleChartFill } from 'react-icons/ri';
+import { useSession } from "@/contexts/SessionContext";
+import Image from "next/image";
+import { useState } from "react";
+import { BsPersonFillGear, BsPersonVcardFill } from "react-icons/bs";
+import { FaCartShopping } from "react-icons/fa6";
+import { MdFormatListBulletedAdd, MdNotificationsActive } from "react-icons/md";
+import { RiBubbleChartFill } from "react-icons/ri";
+import AccountPage from "./account/page";
+import StorageBookingForm from "./storage/page";
+import { FaWarehouse } from "react-icons/fa";
 
-import { useSession } from '@/contexts/SessionContext';
-
-import AccountPage from './account/page';
 
 interface MenuItem {
   id: string;
@@ -25,38 +26,44 @@ export default function UserHomePage() {
   const greeting =
     hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
 
-  const menuItems: MenuItem[] = [
-    {
-      id: 'overview',
-      label: 'Overview',
-      icon: <RiBubbleChartFill />,
-      content: <div className="p-6">Welcome to the Overview Dashboard!</div>,
-    },
-    {
-      id: 'notifications',
-      label: 'Notifications',
-      icon: <MdNotificationsActive />,
-      content: <div className="p-6">Here are your Products.</div>,
-    },
-    {
-      id: 'wishlist',
-      label: 'Wishlist',
-      icon: <MdFormatListBulletedAdd />,
-      content: <div className="p-6">Manage your Customers here.</div>,
-    },
-    {
-      id: 'orders',
-      label: 'Orders',
-      icon: <FaCartShopping />,
-      content: <div className="p-6">You have new Messages.</div>,
-    },
-    {
-      id: 'account',
-      label: 'Account',
-      icon: <BsPersonFillGear />,
-      content: <AccountPage session={session} />,
-    },
-  ];
+    const menuItems: MenuItem[] = [
+        {
+            id: "overview",
+            label: "Overview",
+            icon: <RiBubbleChartFill />,
+            content: <div className="p-6">Welcome to the Overview Dashboard!</div>,
+        },
+        {
+            id: "notifications",
+            label: "Notifications",
+            icon: <MdNotificationsActive />,
+            content: <div className="p-6">Here are your Products.</div>,
+        },
+        {
+            id: "wishlist",
+            label: "Wishlist",
+            icon: <MdFormatListBulletedAdd />,
+            content: <div className="p-6">Manage your Customers here.</div>,
+        },
+        {
+            id: "orders",
+            label: "Orders",
+            icon: <FaCartShopping />,
+            content: <div className="p-6">You have new Messages.</div>,
+        },
+        {
+            id: "storage",
+            label: "Storage",
+            icon: <FaWarehouse/>,
+            content: <StorageBookingForm/>,
+        },
+        {
+            id: "account",
+            label: "Account",
+            icon: <BsPersonFillGear />,
+            content: <AccountPage session={session} />,
+        },
+    ];
 
   return (
     <div className="flex h-screen">

@@ -1,5 +1,7 @@
 'use client';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 import Image from 'next/image';
 import React, { useState } from 'react';
 import {
@@ -12,11 +14,13 @@ import {
   FaUser,
   FaUserAlt,
 } from 'react-icons/fa';
+import { ToastContainer } from 'react-toastify';
 
 import { useSession } from '@/contexts/SessionContext';
 
 import OverviewPage from './overview/page';
 import ProductPage from './products/page';
+import CustomersPage from './customers/page';
 
 interface MenuItem {
   id: string;
@@ -41,7 +45,7 @@ const menuItems: MenuItem[] = [
     id: 'customers',
     label: 'Customers',
     icon: <FaUser />,
-    content: <div className="p-6">Manage your Customers here.</div>,
+    content: <CustomersPage />,
   },
   {
     id: 'messages',
@@ -69,8 +73,9 @@ const AdminPage = () => {
 
   return (
     <div>
+      <ToastContainer />
       <header
-        className={`top_menu z-50 ${isCollapsed ? "ml-[160px]" : "ml-[270px]"} block bg-teal-100 shadow-lg transition-all duration-200 ease-in-out`}
+        className={`top_menu z-50 ${isCollapsed ? 'ml-[160px]' : 'ml-[270px]'} block bg-teal-100 shadow-lg transition-all duration-200 ease-in-out`}
       >
         <div className="navbar_header m-0 flex max-w-[90%] items-center justify-between px-0 py-3">
           <div className="flex px-5">
@@ -158,7 +163,7 @@ const AdminPage = () => {
         </div>
       </header>
       <div
-        className={`vertical_menu fixed inset-y-0 z-[1000] min-h-dvh shadow-md ${isCollapsed ? "w-[160px]" : "w-[270px]"} bg-teal-100 shadow-lg transition-all duration-200 ease-in-out `}
+        className={`vertical_menu fixed inset-y-0 z-[1000] min-h-dvh shadow-md ${isCollapsed ? 'w-[160px]' : 'w-[270px]'} bg-teal-100 shadow-lg transition-all duration-200 ease-in-out `}
       >
         <button
           type="button"
@@ -176,7 +181,7 @@ const AdminPage = () => {
                   </li>
                   {menuItems.map((item: any) => (
                     <li
-                      className={`active block w-full py-4 ${activeMenuItem === item.id ? "bg-slate-400" : ""} hover:bg-slate-400 `}
+                      className={`active block w-full py-4 ${activeMenuItem === item.id ? 'bg-slate-400' : ''} hover:bg-slate-400 `}
                       key={item.id}
                     >
                       <button
@@ -199,7 +204,9 @@ const AdminPage = () => {
           </div>
         </div>
       </div>
-      <div className={`main_content ${isCollapsed ? 'ml-[160px]' : 'ml-[270px]'} min-h-dvh`}>
+      <div
+        className={`main_content ${isCollapsed ? 'ml-[160px]' : 'ml-[270px]'} min-h-dvh`}
+      >
         <div className="page px-6 py-12">
           <div className="container max-w-[90%] !px-0">
             <div className="">{activeContent}</div>

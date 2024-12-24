@@ -10,7 +10,7 @@ export async function PUT(req: Request) {
     const session: any = await getServerSession(authOptions);
 
     if (!session || !session.user || !session.user?.id) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     // Parse the request body

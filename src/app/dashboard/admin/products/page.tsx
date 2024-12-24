@@ -1,5 +1,10 @@
-import Link from "next/link";
-import React from "react";
+import axios from 'axios';
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import AddProductForm from './forms/AddProductFrm';
 
 interface ProductCardProps {
   name: string;
@@ -14,6 +19,7 @@ interface Products {
   price: string;
   stock: number;
   category: string;
+  image: string;
 }
 interface ProductsTableProps {
   products: Products[];
@@ -29,21 +35,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
   description,
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+    <div className="rounded-lg bg-white p-6 shadow-md transition-shadow duration-200 hover:shadow-lg">
       <div className="flex flex-col items-center">
-        <img
+        <Image
           src={image}
           alt={name}
-          className="w-32 h-32 object-cover rounded-full mb-4"
+          width={150}
+          height={150}
+          className="mb-4 size-32 rounded-full object-cover"
         />
-        <h2 className="text-lg font-bold mb-2">{name}</h2>
-        <p className="text-gray-500 text-sm text-center mb-4">{description}</p>
-        <div className="flex justify-between items-center w-full">
-          <p className="text-blue-500 text-lg font-semibold">${price}</p>
+        <h2 className="mb-2 text-lg font-bold">{name}</h2>
+        <p className="text-gray-500 mb-4 text-center text-sm">{description}</p>
+        <div className="flex w-full items-center justify-between">
+          <p className="text-lg font-semibold text-blue-500">${price}</p>
           <p
-            className={`text-sm font-semibold ${stock > 0 ? "text-green-600" : "text-red-600"}`}
+            className={`text-sm font-semibold ${stock > 0 ? 'text-green-600' : 'text-red-600'}`}
           >
-            {stock > 0 ? `${stock} in stock` : "Out of stock"}
+            {stock > 0 ? `${stock} in stock` : 'Out of stock'}
           </p>
         </div>
       </div>
@@ -51,148 +59,161 @@ const ProductCard: React.FC<ProductCardProps> = ({
   );
 };
 
-const ProductTable:React.FC<ProductsTableProps> = ({products,onEdit,onDelete}) => {
-   
-    return (
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow-md">
-          <thead>
-            <tr className="bg-gray-100 text-gray-700 text-sm uppercase text-left">
-              <th className="px-6 py-3">ID</th>
-              <th className="px-6 py-3">Name</th>
-              <th className="px-6 py-3">Price</th>
-              <th className="px-6 py-3">Stock</th>
-              <th className="px-6 py-3">Category</th>
-              <th className="px-6 py-3 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product, index) => (
-              <tr
-                key={index} 
-                className={`border-b ${
-                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                } hover:bg-gray-100 transition`}
+const ProductTable: React.FC<ProductsTableProps> = ({
+  products,
+  onEdit,
+  onDelete,
+}) => {
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full rounded-lg bg-white shadow-md">
+        <thead>
+          <tr className="bg-gray-100 text-gray-700 text-left text-sm uppercase">
+            <th className="px-6 py-3">ID</th>
+            <th className="px-6 py-3">Name</th>
+            <th className="px-6 py-3">Price</th>
+            <th className="px-6 py-3">Stock</th>
+            <th className="px-6 py-3">Category</th>
+            <th className="px-6 py-3">Image</th>
+            <th className="px-6 py-3 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product, index) => (
+            <tr
+              key={product.id}
+              className={`border-b ${
+                index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+              } hover:bg-gray-100 transition`}
+            >
+              <td className="text-gray-900 px-6 py-4">{product.id}</td>
+              <td className="px-6 py-4 font-medium">{product.name}</td>
+              <td className="px-6 py-4 font-semibold text-blue-600">
+                ${product.price}
+              </td>
+              <td
+                className={`px-6 py-4 ${
+                  product.stock > 0 ? 'text-green-600' : 'text-red-600'
+                } font-semibold`}
               >
-                <td className="px-6 py-4 text-gray-900">{product.id}</td>
-                <td className="px-6 py-4 font-medium">{product.name}</td>
-                <td className="px-6 py-4 text-blue-600 font-semibold">
-                  ${product.price}
-                </td>
-                <td
-                  className={`px-6 py-4 ${
-                    product.stock > 0 ? "text-green-600" : "text-red-600"
-                  } font-semibold`}
+                {product.stock > 0
+                  ? `${product.stock} in stock`
+                  : 'Out of stock'}
+              </td>
+              <td className="text-gray-700 px-6 py-4">{product.category}</td>
+              <td className="text-gray-700 px-6 py-4">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  height={40}
+                  width={40}
+                  className="mb-4 size-10 rounded-full object-cover"
+                />
+              </td>
+              <td className="px-6 py-4 text-center">
+                <button
+                  type="button"
+                  className="mr-4 font-medium text-blue-500 hover:text-blue-600"
+                  onClick={() => onEdit(product.id)}
                 >
-                  {product.stock > 0
-                    ? `${product.stock} in stock`
-                    : "Out of stock"}
-                </td>
-                <td className="px-6 py-4 text-gray-700">{product.category}</td>
-                <td className="px-6 py-4 text-center">
-                  <button
-                    className="text-blue-500 hover:text-blue-600 font-medium mr-4"
-                    onClick={() => onEdit(product.id)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-600 font-medium"
-                    onClick={() => onDelete(product.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="font-medium text-red-500 hover:text-red-600"
+                  onClick={() => onDelete(product.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
-const ProductPage: React.FC = ()=> {
-  const products = [
-    {
-      id: "1",
-      name: "Gold Bar",
-      image: "https://via.placeholder.com/150",
-      price: "1,800",
-      stock: 20,
-      description: "24K pure gold bar.",
-    },
-    {
-      id: "2",
-      name: "Silver Bar",
-      image: "https://via.placeholder.com/150",
-      price: "25",
-      stock: 50,
-      description: "999.9 fine silver bar.",
-    },
-    {
-      id: "3",
-      name: "Platinum Bar",
-      image: "https://via.placeholder.com/150",
-      price: "980",
-      stock: 0,
-      description: "High-quality platinum bar.",
-    },
-  ];
-  const productslist = [
-    {
-      id: 1,
-      name: "Gold Bar",
-      price: "1,800",
-      stock: 20,
-      category: "Precious Metal",
-    },
-    {
-      id: 2,
-      name: "Silver Bar",
-      price: "25",
-      stock: 50,
-      category: "Precious Metal",
-    },
-    {
-      id: 3,
-      name: "Platinum Bar",
-      price: "980",
-      stock: 0,
-      category: "Precious Metal",
-    },
-    {
-      id: 4,
-      name: "Copper Bar",
-      price: "5",
-      stock: 120,
-      category: "Base Metal",
-    },
-  ];
+const fetchProducts = async () => {
+  try {
+    const res = await axios.get('/api/products');
+    return res.data.map((product: any) => ({
+      id: product.id,
+      name: product.productName,
+      price: product.price,
+      stock: product.stock,
+      category: product.material,
+      image: product.coverImage,
+      description: product.description,
+    }));
+  } catch (error) {
+    toast.error('Error fetching products:', error);
+    return [];
+  }
+};
 
-   const handleEdit = (id: number) => {
-     console.log(`Edit product with ID: ${id}`);
-     // Navigate to edit product page or open a modal
-   };
+const ProductPage: React.FC = async () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [products, setProducts] = useState<Products[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-   const handleDelete = (id: number) => {
-     console.log(`Delete product with ID: ${id}`);
-     // Add logic to delete the product
-   };
+  useEffect(() => {
+    const loadproducts = async () => {
+      const allproducts = await fetchProducts();
+      setProducts(allproducts);
+      setIsLoading(false);
+    };
+
+    loadproducts();
+  }, []);
+
+  const handleEdit = (id: number) => {
+    console.log(`Edit product with ID: ${id}`);
+    // Navigate to edit product page or open a modal
+  };
+
+  const handleDelete = (id: number) => {
+    console.log(`Delete product with ID: ${id}`);
+    // Add logic to delete the product
+  };
+  // handle add product
+  const handleAddProduct = (product: {
+    name: string;
+    price: number;
+    stock: number;
+    category: string;
+    image: string;
+  }) => {
+    console.log('New Product:', product);
+    setIsModalOpen(false); // Close modal after submitting
+    // Add logic to update the products list or send data to the backend
+  };
+
+  if (isLoading) {
+    return <p>Loading products...</p>;
+  }
 
   return (
     <>
-        <section className="p-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold mb-6">Products</h1>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200">
-              Add Product
-            </button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product, index) => (
-            <Link href={`/products/${product.id}`} key={product.id}>
+      <section className="p-6">
+        <div className="flex items-center justify-between">
+          <h1 className="mb-6 text-2xl font-bold">Products</h1>
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="rounded-lg bg-blue-500 px-4 py-2 text-white transition duration-200 hover:bg-blue-600"
+          >
+            Add Product
+          </button>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <Link
+              href={`/dashboard/admin/products/${product.id}`}
+              key={product.id}
+            >
               <ProductCard
-                key={index}
+                key={product.id}
                 name={product.name}
                 image={product.image}
                 price={product.price}
@@ -200,15 +221,37 @@ const ProductPage: React.FC = ()=> {
                 description={product.description}
               />
             </Link>
-            ))}
+          ))}
+        </div>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50">
+            <div className="w-full max-w-3xl  rounded-lg bg-white shadow-lg">
+              <div className="flex items-center justify-between border-b p-2 px-4">
+                <h2 className="text-xl font-bold">Add Product</h2>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="text-gray-600 hover:text-gray-900 pr-2 text-4xl font-bold text-blue-500"
+                >
+                  &times;
+                </button>
+              </div>
+              <div className=" mx-auto p-6">
+                <AddProductForm onSubmit={handleAddProduct} />
+              </div>
+            </div>
           </div>
-        </section>
-        <section className="p-6">
-            <ProductTable products={productslist} onEdit={handleEdit} onDelete={handleDelete} />        
-        </section>
+        )}
+      </section>
+      <section className="p-6">
+        <ProductTable
+          products={products}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </section>
     </>
   );
-}
-
+};
 
 export default ProductPage;

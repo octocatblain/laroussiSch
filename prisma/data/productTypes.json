@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Gold Coin",
+    "description": "A coin made of gold.",
+    "textId": "gold-coin",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Gold Bar",
+    "description": "A bar made of gold.",
+    "textId": "gold-bar",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Silver Coin",
+    "description": "A coin made of silver.",
+    "textId": "silver-coin",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Silver Bar",
+    "description": "A bar made of silver.",
+    "textId": "silver-bar",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Palladium Coin",
+    "description": "A coin made of palladium.",
+    "textId": "palladium-coin",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Palladium Bar",
+    "description": "A bar made of palladium.",
+    "textId": "palladium-bar",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Bronze Coin",
+    "description": "A coin made of bronze.",
+    "textId": "bronze-coin",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Bronze Bar",
+    "description": "A bar made of bronze.",
+    "textId": "bronze-bar",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Platinum Coin",
+    "description": "A coin made of platinum.",
+    "textId": "platinum-coin",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  },
+  {
+    "name": "Platinum Bar",
+    "description": "A bar made of platinum.",
+    "textId": "platinum-bar",
+    "createdAt": "2024-12-20T10:00:00Z",
+    "updatedAt": "2024-12-20T10:00:00Z"
+  }
+]
