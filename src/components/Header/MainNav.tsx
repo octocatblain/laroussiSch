@@ -18,6 +18,8 @@ const MainNav: React.FC<MainNavProps> = ({ session, onSignOut }) => {
   const pathname = usePathname();
   const isDashboardPage = pathname?.startsWith('/dashboard/user');
 
+  
+
   // Sign-out handler
   const handleSignOut = async () => {
     try {

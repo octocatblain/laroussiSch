@@ -6,8 +6,10 @@ import { FC, useEffect, useState } from "react";
 import { BsBookmark, BsBookmarkFill, BsCheckCircleFill } from "react-icons/bs";
 
 import ImageShowCase from "@/components/ImageShowCase";
+import { useCart } from "@/contexts/cartContext";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
 import Heading from "@/shared/Heading/Heading";
+import { Product } from "@prisma/client";
 
 interface SectionProductHeaderProps {
   id: string;
@@ -45,8 +47,9 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
   packaging,
   kinebar,
 }) => {
-  const session : any = useSession();
+  const session: any = useSession();
   const [isSaved, setIsSaved] = useState(false); // Track bookmark state
+  const [productQuantity, setProductQuantity] = useState(1);
 
   // Check if the product is in the user's saved items
   useEffect(() => {
@@ -97,6 +100,54 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
     } catch (error) {
       console.error("Failed to toggle saved item:", error);
       alert("Failed to toggle saved item. Please try again.");
+    }
+  };
+
+
+  // Function to handle input change
+  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const parsedValue = parseInt(value, 10);
+
+    // Validate the input to ensure it's a positive integer
+    if (!isNaN(parsedValue) && parsedValue > 0) {
+      setProductQuantity(parsedValue);
+    } else {
+      // Optionally handle invalid input (e.g., reset to 1 or show an error)
+      console.error("Invalid quantity. Please enter a positive number.");
+    }
+  };
+
+  const { addToCart }: any = useCart();
+
+  const onBuyNowClick = async () => {
+    const productId = id;
+    const quantity = productQuantity;
+    const userSession = session;
+
+    await handleBuyNow({ productId, quantity, userSession }, addToCart);
+  };
+
+  // Buy button handler function
+  const handleBuyNow = async (
+    { productId, quantity, userSession }: any,
+    addToCart: (product: Product, quantity: number, userSession: string) => void
+  ) => {
+    try {
+      // Fetch product details
+      const response = await axios.get(`/api/products`, {
+        params: { id: productId },
+      });
+
+      const product = response.data;
+
+      // Add product to the cart
+      addToCart(product, quantity, userSession);
+
+      // Redirect to checkout
+      window.location.href = "/checkout";
+    } catch (error) {
+      console.error("Failed to fetch product or add to cart:", error);
     }
   };
 
@@ -178,12 +229,29 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
             <p className="text-neutral-500">{kinebar}</p>
           </div>
         </div>
-        <p className="text-2xl font-semibold text-secondary">
-          ${(price ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        </p>
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-2xl font-semibold text-secondary">
+            ${(price ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </p>
+          <div className="flex items-center gap-2">
+            <label htmlFor="quantity" className="font-medium text-base text-gray-700">
+              Quantity:
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              value={productQuantity}
+              onChange={handleQuantityChange}
+              min="1"
+              className="border border-gray-300 rounded-md px-2 w-24 focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <p className="text-base text-gray-600">Selected Quantity: {productQuantity}</p>
+          </div>
+        </div>
+
         {availability === "in-stock" ? (
           <div className="mt-5 flex items-center gap-5">
-            <ButtonPrimary href="/checkout" className="w-full flex items-center justify-center gap-2">
+            <ButtonPrimary onClick={onBuyNowClick} className="w-full flex items-center justify-center gap-2">
               <BsCheckCircleFill className="size-6" />
               Buy this Item
             </ButtonPrimary>
