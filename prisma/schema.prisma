@@ -199,9 +199,7 @@ model ShippingAddress {
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   orders         Order[]
    addressType   AddressType  @relation(fields: [addressTypeId], references: [id], onDelete: Cascade)
-
 }
-
 
 model AddressType {
   id          String   @id @default(uuid())

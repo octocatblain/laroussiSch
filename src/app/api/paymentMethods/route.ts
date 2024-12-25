@@ -1,39 +1,37 @@
 
 // PaymentMethod route handlers
+import prisma from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
-// GET: Fetch all PaymentMethods
-export async function GET_ALL_PAYMENT_METHODS() {
+// GET: Fetch PaymentMethods (all or by ID)
+export async function GET(req: NextRequest) {
     try {
+        // Parse the `id` query parameter
+        const id = req.nextUrl.searchParams.get('id');
+
+        if (id) {
+            // Fetch PaymentMethod by ID
+            const paymentMethod = await prisma.paymentMethod.findUnique({
+                where: { id },
+            });
+
+            if (!paymentMethod) {
+                return NextResponse.json(
+                    { message: "PaymentMethod not found" },
+                    { status: 404 }
+                );
+            }
+
+            return NextResponse.json(paymentMethod, { status: 200 });
+        }
+
+        // Fetch all PaymentMethods
         const paymentMethods = await prisma.paymentMethod.findMany();
         return NextResponse.json(paymentMethods, { status: 200 });
     } catch (error) {
         return handleError("Error fetching payment methods", error, 500);
     }
 }
-
-// GET: Fetch PaymentMethod by ID
-export async function GET_PAYMENT_METHOD(req: Request) {
-    try {
-        const { id } = await req.json();
-        if (!id) {
-            return NextResponse.json(
-                { message: "Missing required field: id" },
-                { status: 400 }
-            );
-        }
-        const paymentMethod = await prisma.paymentMethod.findUnique({ where: { id } });
-        if (!paymentMethod) {
-            return NextResponse.json(
-                { message: "PaymentMethod not found" },
-                { status: 404 }
-            );
-        }
-        return NextResponse.json(paymentMethod, { status: 200 });
-    } catch (error) {
-        return handleError("Error fetching payment method by ID", error, 500);
-    }
-}
-
 // POST: Create a new PaymentMethod
 export async function POST_PAYMENT_METHOD(req: Request) {
     try {
