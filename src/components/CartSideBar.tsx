@@ -165,7 +165,7 @@ const CartSideBar: React.FC<CartSideBarProps> = () => {
         onClick={handleOpenMenu}
         className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
       >
-        Cart({totalItems})
+        Cart ({totalItems})
       </button>
 
       {renderContent()}

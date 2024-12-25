@@ -1,16 +1,16 @@
 "use client";
 
-import { ProductType } from "@prisma/client";
+import { Product } from "@prisma/client";
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-type CartItemType = ProductType & {
+type CartItemType = Product & {
     quantity: number;
     userSession: string;
 };
 
 type CartContextType = {
     cart: CartItemType[];
-    addToCart: (product: ProductType, quantity: number, userSession: string) => void;
+    addToCart: (product: Product, quantity: number, userSession: string) => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -18,12 +18,14 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [cart, setCart] = useState<CartItemType[]>([]);
 
-    const addToCart = (product: ProductType, quantity: number, userSession: string) => {
+    const addToCart = (product: Product, quantity: number, userSession: string) => {
         setCart((prevCart) => {
             const existingItemIndex = prevCart.findIndex((item) => item.id === product.id);
             if (existingItemIndex >= 0) {
                 const updatedCart : any= [...prevCart];
                 updatedCart[existingItemIndex].quantity += quantity;
+       
+                console.log("cart items:", updatedCart )
                 return updatedCart;
             }
             return [...prevCart, { ...product, quantity, userSession }];

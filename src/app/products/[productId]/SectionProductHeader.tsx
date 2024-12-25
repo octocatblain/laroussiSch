@@ -141,11 +141,15 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
 
       const product = response.data;
 
+      console.log("product:", product);
+      console.log("quantity:", quantity);
+      console.log("session:", session)
+
       // Add product to the cart
       addToCart(product, quantity, userSession);
 
       // Redirect to checkout
-      window.location.href = "/checkout";
+      // window.location.href = "/checkout";
     } catch (error) {
       console.error("Failed to fetch product or add to cart:", error);
     }
