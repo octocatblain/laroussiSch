@@ -1,25 +1,37 @@
 import axios from 'axios';
 import Image from 'next/image';
-import Link from 'next/link';
+
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import AddProductForm from './forms/AddProductFrm';
 
-interface ProductCardProps {
-  name: string;
-  image: string;
-  price: string;
-  stock: number;
-  description: string;
-}
+// to be used later, do not remove
+// interface ProductCardProps {
+//   name: string;
+//   image: string;
+//   price: string;
+//   stock: number;
+//   description: string;
+// }
 interface Products {
   id: number;
-  name: string;
-  price: string;
-  stock: number;
-  category: string;
-  image: string;
+  slug: string;
+  coverImage: string;
+  productName: string;
+  productType: string;
+  availability: string;
+  price: number;
+  refiner: string;
+  material: string;
+  fineness: string;
+  fineWeight: string;
+  dimensions: string;
+  quality: string;
+  packaging: string;
+  kinebar: string;
+  description: string;
+  shots: File[];
 }
 interface ProductsTableProps {
   products: Products[];
@@ -27,37 +39,37 @@ interface ProductsTableProps {
   onDelete: (id: number) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
-  name,
-  image,
-  price,
-  stock,
-  description,
-}) => {
-  return (
-    <div className="rounded-lg bg-white p-6 shadow-md transition-shadow duration-200 hover:shadow-lg">
-      <div className="flex flex-col items-center">
-        <Image
-          src={image}
-          alt={name}
-          width={150}
-          height={150}
-          className="mb-4 size-32 rounded-full object-cover"
-        />
-        <h2 className="mb-2 text-lg font-bold">{name}</h2>
-        <p className="text-gray-500 mb-4 text-center text-sm">{description}</p>
-        <div className="flex w-full items-center justify-between">
-          <p className="text-lg font-semibold text-blue-500">${price}</p>
-          <p
-            className={`text-sm font-semibold ${stock > 0 ? 'text-green-600' : 'text-red-600'}`}
-          >
-            {stock > 0 ? `${stock} in stock` : 'Out of stock'}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-};
+// const ProductCard: React.FC<ProductCardProps> = ({
+//   name,
+//   image,
+//   price,
+//   stock,
+//   description,
+// }) => {
+//   return (
+//     <div className="rounded-lg bg-white p-6 shadow-md transition-shadow duration-200 hover:shadow-lg">
+//       <div className="flex flex-col items-center">
+//         <Image
+//           src={image}
+//           alt={name}
+//           width={150}
+//           height={150}
+//           className="mb-4 size-32 rounded-full object-cover"
+//         />
+//         <h2 className="mb-2 text-lg font-bold">{name}</h2>
+//         <p className="text-gray-500 mb-4 text-center text-sm">{description}</p>
+//         <div className="flex w-full items-center justify-between">
+//           <p className="text-lg font-semibold text-blue-500">${price}</p>
+//           <p
+//             className={`text-sm font-semibold ${stock > 0 ? 'text-green-600' : 'text-red-600'}`}
+//           >
+//             {stock > 0 ? `${stock} in stock` : 'Out of stock'}
+//           </p>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 const ProductTable: React.FC<ProductsTableProps> = ({
   products,
@@ -69,10 +81,9 @@ const ProductTable: React.FC<ProductsTableProps> = ({
       <table className="min-w-full rounded-lg bg-white shadow-md">
         <thead>
           <tr className="bg-gray-100 text-gray-700 text-left text-sm uppercase">
-            <th className="px-6 py-3">ID</th>
             <th className="px-6 py-3">Name</th>
             <th className="px-6 py-3">Price</th>
-            <th className="px-6 py-3">Stock</th>
+            <th className="px-6 py-3">Availability</th>
             <th className="px-6 py-3">Category</th>
             <th className="px-6 py-3">Image</th>
             <th className="px-6 py-3 text-center">Actions</th>
@@ -83,28 +94,21 @@ const ProductTable: React.FC<ProductsTableProps> = ({
             <tr
               key={product.id}
               className={`border-b ${
-                index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                index % 2 === 0 ? "bg-gray-50" : "bg-white"
               } hover:bg-gray-100 transition`}
             >
-              <td className="text-gray-900 px-6 py-4">{product.id}</td>
-              <td className="px-6 py-4 font-medium">{product.name}</td>
+              <td className="px-6 py-4 font-medium">{product.productName}</td>
               <td className="px-6 py-4 font-semibold text-blue-600">
                 ${product.price}
               </td>
-              <td
-                className={`px-6 py-4 ${
-                  product.stock > 0 ? 'text-green-600' : 'text-red-600'
-                } font-semibold`}
-              >
-                {product.stock > 0
-                  ? `${product.stock} in stock`
-                  : 'Out of stock'}
+              <td className="px-6 py-4 font-medium text-teal-800">
+                {product.availability}
               </td>
-              <td className="text-gray-700 px-6 py-4">{product.category}</td>
-              <td className="text-gray-700 px-6 py-4">
+              <td className="text-teal-900 px-6 py-4">{product.material}</td>
+              <td className="px-6 py-4">
                 <Image
-                  src={product.image}
-                  alt={product.name}
+                  src={product.coverImage}
+                  alt={product.productName}
                   height={40}
                   width={40}
                   className="mb-4 size-10 rounded-full object-cover"
@@ -139,12 +143,13 @@ const fetchProducts = async () => {
     const res = await axios.get('/api/products');
     return res.data.map((product: any) => ({
       id: product.id,
-      name: product.productName,
+      productName: product.productName,
       price: product.price,
       stock: product.stock,
-      category: product.material,
-      image: product.coverImage,
+      material: product.material,
+      coverImage: product.coverImage,
       description: product.description,
+      availability: product.availability,
     }));
   } catch (error) {
     toast.error('Error fetching products:', error);
@@ -167,26 +172,55 @@ const ProductPage: React.FC = async () => {
     loadproducts();
   }, []);
 
-  const handleEdit = (id: number) => {
+  const handleEdit = async (id: number) => {
+    setIsModalOpen(true);
     console.log(`Edit product with ID: ${id}`);
     // Navigate to edit product page or open a modal
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     console.log(`Delete product with ID: ${id}`);
     // Add logic to delete the product
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        // Send a request to the backend to delete the product
+        await axios.delete(`/api/products/`,{
+          data: { id },
+        });
+        // Update the local state to remove the deleted product
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product.id !== id)
+        );
+        // Provide feedback to the user
+        toast.success("Product deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting product:", error.message);
+        toast.error("Failed to delete product. Please try again.");
+      }
+    }
   };
   // handle add product
-  const handleAddProduct = (product: {
-    name: string;
-    price: number;
-    stock: number;
-    category: string;
-    image: string;
-  }) => {
+  const handleAddProduct = async (product: Products) => {
     console.log('New Product:', product);
-    setIsModalOpen(false); // Close modal after submitting
+    // setIsModalOpen(false); // Close modal after submitting
     // Add logic to update the products list or send data to the backend
+
+    try {
+      // Send the product to the backend
+      const response = await axios.post("/api/products", product);
+
+      // Add the new product to the local state (if applicable)
+      setProducts((prevProducts) => [...prevProducts, response.data]);
+
+      // Close the modal
+      setIsModalOpen(false);
+
+      // Provide feedback to the user
+      toast.success("Product added successfully!");
+    } catch (error) {
+      console.error("Error adding product:", error.message);
+      toast.error("Failed to add product. Please try again.");
+    }
   };
 
   if (isLoading) {
@@ -206,7 +240,7 @@ const ProductPage: React.FC = async () => {
             Add Product
           </button>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <Link
               href={`/dashboard/admin/products/${product.id}`}
@@ -222,7 +256,7 @@ const ProductPage: React.FC = async () => {
               />
             </Link>
           ))}
-        </div>
+        </div> */}
         {isModalOpen && (
           <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50">
             <div className="w-full max-w-3xl  rounded-lg bg-white shadow-lg">

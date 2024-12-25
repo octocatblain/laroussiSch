@@ -1,4 +1,7 @@
+'use client';
+
 import axios from 'axios';
+import Image from 'next/image';
 import React, { useEffect } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -8,16 +11,20 @@ interface Customers {
   name: string;
   email: string;
   phone: string;
+  image: string;
+  username: string;
   location: string;
   orders: number;
-  totalSpent: string;
+  totalSpent: number;
 }
 const getCustomers = async () => {
   try {
     const res = await axios.get('/api/users');
-    return res.data.map((customer: any) => ({
+    return res.data.users.map((customer: any) => ({
       id: customer.id,
       name: customer.name,
+      username: customer.username,
+      image: customer.image,
       email: customer.email,
       phone: customer.phone,
       location: customer.location,
@@ -30,7 +37,7 @@ const getCustomers = async () => {
   }
 };
 
-const CustomersPage = () => {
+const CustomersPage: React.FC = async () => {
   const [customers, setCustomers] = React.useState<Customers[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -42,10 +49,19 @@ const CustomersPage = () => {
     };
     loadCustomers();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="p-6">
+        <p>Loading customers...</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <section className="p-6">
-        <div className="">
+        <div className="pb-6">
           <h1 className="text-gray-800 text-2xl font-semibold ">Customers</h1>
           <p className="text-gray-500 mt-2">List of all customers</p>
         </div>
@@ -54,6 +70,9 @@ const CustomersPage = () => {
             <table className="w-full table-auto">
               <thead>
                 <tr>
+                  <th className="text-gray-500 px-4 py-2 text-left text-base  font-normal uppercase">
+                    Image
+                  </th>
                   <th className="text-gray-500 px-4 py-2 text-left text-base  font-normal uppercase">
                     Name
                   </th>
@@ -98,6 +117,15 @@ const CustomersPage = () => {
                     className="border-b border-black/20 hover:bg-gray"
                   >
                     <td className="text-gray-800 px-4 py-3 text-sm font-normal">
+                      <Image
+                        src={customer.image}
+                        alt={customer.name}
+                        height={40}
+                        width={40}
+                        className="mb-4 size-10 rounded-full object-cover"
+                      />
+                    </td>
+                    <td className="text-gray-800 px-4 py-3 text-sm font-normal">
                       {customer.name}
                     </td>
                     <td className="text-gray-800 px-4 py-3 text-sm font-normal">
@@ -111,9 +139,12 @@ const CustomersPage = () => {
                     </td>
                     <td className="text-gray-800 px-4 py-3 text-sm font-normal">
                       {customer.orders}
+                      {customer.orders > 0 ? `${customer.orders}` : '0'}
                     </td>
                     <td className="text-gray-800 px-4 py-3 text-sm font-normal">
-                      ${customer.totalSpent}
+                      {customer.totalSpent > 0
+                        ? `$${customer.totalSpent}`
+                        : '-'}
                     </td>
                     <td className="text-gray-800 px-4 py-3 text-sm font-normal">
                       <button type="button" className="text-blue-500">

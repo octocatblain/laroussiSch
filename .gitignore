@@ -63,3 +63,8 @@ laroussiSch.zip
 # Next.js environment configuration
 .env.local
 .env
+
+# Ignore uploaded files in the public/uploads directory
+/public/uploads/ids/
+/public/uploads/users/
+/public/uploads/products/

@@ -1,58 +1,54 @@
+/* Importing the font from Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 
+/* Tailwind's utility classes for base, components, and utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Global styles */
 * {
   font-family: "Space Grotesk", sans-serif;
 }
 
+/* Use Tailwind’s container class (no need for custom breakpoints unless required) */
 .container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 1rem /* 16px */;
-  padding-left: 1rem /* 16px */;
-}
-@media (min-width: 640px) {
-  .container {
-    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-}
-@media (min-width: 768px) {
-  .container {
-    max-width: 768px;
+  
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
   }
-}
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1024px;
-  }
-}
-@media (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
-@media (min-width: 1536px) {
-  .container {
-    max-width: 1536px;
-    padding-right: 70px;
-    padding-left: 70px;
-  }
+  
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
 }
 
+/* Adding custom transition effect */
 .transitionEffect {
-  @apply transition ease-in-out hover:-translate-y-1 delay-150 hover:scale-95 duration-300;
+    transition: all 0.3s ease-in-out;
+    transition-delay: 0.15s;
+  }
+  
+  .transitionEffect:hover {
+    transform: translateY(-0.25rem) scale(0.95);
 }
 
+/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
+/* Loader styling */
 .loader {
   width: 48px;
   height: 48px;
@@ -64,7 +60,7 @@ html {
   content: "";
   width: 48px;
   height: 5px;
-  background: #ffd700; /*  // #fa6e1f */
+  background: #ffd700; /* Yellow color */
   position: absolute;
   top: 60px;
   left: 0;
@@ -76,7 +72,7 @@ html {
   content: "";
   width: 100%;
   height: 100%;
-  background: #ffd700;
+  background: #ffd700; /* Yellow color */
   position: absolute;
   top: 0;
   left: 0;
@@ -84,54 +80,54 @@ html {
   animation: jump7456 0.5s linear infinite;
 }
 
+/* Keyframe animations for loader */
 @keyframes jump7456 {
   15% {
     border-bottom-right-radius: 3px;
   }
-
   25% {
     transform: translateY(9px) rotate(22.5deg);
   }
-
   50% {
     transform: translateY(18px) scale(1, 0.9) rotate(45deg);
     border-bottom-right-radius: 40px;
   }
-
   75% {
     transform: translateY(9px) rotate(67.5deg);
   }
-
   100% {
     transform: translateY(0) rotate(90deg);
   }
 }
 
 @keyframes shadow324 {
-  0%,
-  100% {
+  0%, 100% {
     transform: scale(1, 1);
   }
-
   50% {
     transform: scale(1.2, 1);
   }
 }
 
+/* Hiding scrollbar */
 .hiddenScrollbar::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .hiddenScrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 
+/* Glassmorphism effect using Tailwind utilities */
 .glassmorphism {
-  @apply bg-neutral-400 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10;
+  background-color: rgba(156, 163, 175, 0.1); /* bg-gray-400 with bg-opacity-10 */
+  background-clip: padding-box; /* bg-clip-padding */
+  backdrop-filter: blur(12px); /* backdrop-blur-md */
 }
 
+
+/* Overlay effect */
 .overlay {
   background: linear-gradient(
     180deg,
@@ -140,7 +136,7 @@ html {
   );
 }
 
-/* Define a gradient background from black to white to red to white to green */
+/* Gradient background with a drop-shadow effect */
 .gradient-background {
   background: linear-gradient(to right, black, white, red, white, green);
   filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));

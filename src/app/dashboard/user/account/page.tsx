@@ -1,50 +1,81 @@
 // src/app/dashboard/user/account.js
 import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function AccountPage({ session }: any) {
-    const { register, handleSubmit, reset, formState: { errors } }: any = useForm();
+    const { register, handleSubmit, formState: { errors } }: any = useForm();
     const [profileImage, setProfileImage] = useState(session?.user?.image || "");
     const [isLoading, setIsLoading] = useState(false);
     const [imageError, setImageError] = useState<string | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [userData, setUserData] = useState<any>(session?.user);
 
-    // Upload profile image
-    const handleProfileImageUpload = async (file: any) => {
-        setIsLoading(true);
-        setImageError(null);
+    // fetch user details from the database using session.user.email or email from query parameters
+    const fetchUserDetails = async () => {
+        try {
+            const email = session?.user?.email;
+
+            // Prepare the API endpoint based on whether we have an email or not
+            const apiUrl = email ? `/api/users?email=${email}` : '/api/users';
+
+            // Fetch the user details
+            const response = await axios.get(apiUrl);
+            console.log("User details fetched:", response.data);
+            setUserData(response.data.user);  // Update state with user data
+        } catch (error) {
+            console.error("Failed to fetch user details:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (session?.user?.email) {
+            fetchUserDetails();
+        }
+    }, [session]);
+
+    // Upload profile image and associate with user account
+    const uploadProfileImage = async () => {
+        if (!selectedFile) return null;
 
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", selectedFile);
 
         try {
-            const response = await axios.post("/api/upload", formData, {
+            const response = await axios.post("/uploads/profilePictures", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
-            // Extract the image path (relative URL) from the server response
-            const imagePath = response.data.imageUrl;
-
-            // Update user profile with the image path
-            await axios.put("/api/user", { profileImage: imagePath });
-
-            setProfileImage(imagePath); // Update the profile image state
+            console.log("Image upload response:", response.data);
+            return response.data.filePath; // Return the file path after upload
         } catch (error) {
             setImageError("Failed to upload image. Please try again.");
-        } finally {
-            setIsLoading(false);
+            return null;
         }
     };
 
     // Form submission handler
     const onSubmit = async (data: any) => {
         setIsLoading(true);
+        setImageError(null);
+
         try {
-            await axios.put("/api/user", {
+            let uploadedImagePath = profileImage;
+
+            if (selectedFile) {
+                const imagePath = await uploadProfileImage();
+                if (imagePath) uploadedImagePath = imagePath;
+            }
+
+            await axios.put("/api/users", {
                 ...data,
-                profileImage,
+                profileImage: uploadedImagePath,
             });
+
+            console.log("Account details updated:", data);
+
+            setProfileImage(uploadedImagePath); // Update profile image state
             alert("Account details updated successfully!");
         } catch (error) {
             alert("Failed to update account details. Please try again.");
@@ -56,7 +87,7 @@ export default function AccountPage({ session }: any) {
     return (
         <div className="p-6 container mx-auto">
             <h1 className="text-2xl font-bold mb-4">My Account</h1>
-
+            {imageError && <p className="text-red-500 text-sm my-3 text-center">{imageError}</p>}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 {/* Profile Picture Section */}
                 <div className="flex items-center space-x-4">
@@ -72,15 +103,13 @@ export default function AccountPage({ session }: any) {
                         <div className="w-24 h-24 bg-gray-200 rounded-full"></div>
                     )}
                     <label className="cursor-pointer">
-                        <button className="bg-black text-sm rounded-lg text-gray-500 border px-2 py-3">Upload Picture</button>
                         <input
                             type="file"
-                            className="hidden"
-                            onChange={(e: any) => handleProfileImageUpload(e.target.files[0])}
+                            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring focus:ring-blue-200 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                            onChange={(e: any) => setSelectedFile(e.target.files[0])}
                         />
                     </label>
                 </div>
-                {imageError && <p className="text-red-500 text-sm">{imageError}</p>}
 
                 {/* Account Information Section */}
                 <div className="grid grid-cols-2 gap-2 items-center">
@@ -89,7 +118,7 @@ export default function AccountPage({ session }: any) {
                         <input
                             type="text"
                             {...register("name", { required: "Name is required" })}
-                            defaultValue={session?.user?.name || ""}
+                            defaultValue={userData?.name || ""}
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         />
                         {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
@@ -100,7 +129,7 @@ export default function AccountPage({ session }: any) {
                         <input
                             type="email"
                             {...register("email", { required: "Email is required" })}
-                            defaultValue={session?.user?.email || ""}
+                            defaultValue={userData?.email || ""}
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         />
                         {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
@@ -111,7 +140,7 @@ export default function AccountPage({ session }: any) {
                         <input
                             type="text"
                             {...register("username", { required: "Username is required" })}
-                            defaultValue={session?.user?.email || ""}
+                            defaultValue={userData?.username || ""}
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         />
                         {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}

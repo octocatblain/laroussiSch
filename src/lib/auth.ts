@@ -1,140 +1,160 @@
-// // src/lib/auth.ts
-// import { PrismaClient } from "@prisma/client";
-// import bcrypt from "bcrypt";
-// import type { NextAuthOptions } from "next-auth";
-// import CredentialsProvider from "next-auth/providers/credentials";
-// import GoogleProvider from "next-auth/providers/google";
+// src\lib\auth.ts
 
-// const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"; // Import jwt for signing
+import type { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
-// export const authOptions: NextAuthOptions = {
-//   providers: [
-//     // Google OAuth Provider
-//     GoogleProvider({
-//       clientId: process.env.GOOGLE_ID as string,
-//       clientSecret: process.env.GOOGLE_SECRET as string,
-//     }),
+const prisma = new PrismaClient();
 
-//     // Custom Email/Password Provider
-//     CredentialsProvider({
-//       name: "Credentials",
-//       credentials: {
-//         username: { label: "Email", type: "text", placeholder: "Your Email" },
-//         password: {
-//           label: "Password",
-//           type: "password",
-//           placeholder: "Your Password",
-//         },
-//       },
-//       async authorize(credentials) {
-//         if (!credentials?.username || !credentials?.password) {
-//           console.warn(
-//             "Authorization failed: Email and Password are required!"
-//           );
-//           throw new Error("Email and Password are required!");
-//         }
+export const options: NextAuthOptions = {
+  providers: [
+    // Google OAuth Provider
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_SECRET as string,
+    }),
 
-//         const user = await prisma.user.findUnique({
-//           where: { email: credentials.username },
-//         });
+    // Custom Email/Password Provider
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: {
+          label: "Email",
+          type: "text",
+          placeholder: "Your Email",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "Your Password",
+        },
+      },
+      async authorize(credentials) {
+        if (!credentials?.username || !credentials?.password) {
+          throw new Error("Email and Password are required!");
+        }
 
-//         if (!user) {
-//           console.warn(
-//             `Authorization failed: No user found with email ${credentials.username}`
-//           );
-//           throw new Error("No user found with this email!");
-//         }
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.username },
+        });
 
-//         const isPasswordValid = await bcrypt.compare(
-//           credentials.password,
-//           user.hashedPassword || ""
-//         );
+        if (!user) {
+          throw new Error("No user found with this email!");
+        }
 
-//         if (!isPasswordValid) {
-//           console.warn(
-//             `Authorization failed: Invalid password for email ${credentials.username}`
-//           );
-//           throw new Error("Invalid email or password!");
-//         }
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword || ""
+        );
 
-//         console.info(`User authenticated successfully: ${user.email}`);
-//         return { id: user.id, name: user.name, email: user.email };
-//       },
-//     }),
-//   ],
+        if (!isPasswordValid) {
+          throw new Error("Invalid email or password!");
+        }
 
-//   secret: process.env.NEXTAUTH_SECRET,
+        return { id: user.id, name: user.name, email: user.email }; // Ensure this is the exact shape required
+      },
+    }),
+  ],
 
-//   session: {
-//     strategy: "jwt",
-//   },
+  secret: process.env.NEXTAUTH_SECRET,
 
-//   callbacks: {
-//     async signIn({ user, account, profile }) {
-//       console.info("Sign-in attempt:", { user, account, profile });
-//       if (account?.provider === "google") {
-//         const existingUser = await prisma.user.findUnique({
-//           where: { email: user.email },
-//         });
+  session: {
+    strategy: "jwt",
+  },
 
-//         if (!existingUser) {
-//           await prisma.user.create({
-//             data: {
-//               name: user.name || "",
-//               email: user.email || "",
-//               image: user.image || "",
-//             },
-//           });
-//           console.info(`New user created via Google: ${user.email}`);
-//         } else {
-//           await prisma.user.update({
-//             where: { email: user.email },
-//             data: {
-//               name: user.name || existingUser.name,
-//               image: user.image || existingUser.image,
-//             },
-//           });
-//           console.info(`User updated via Google: ${user.email}`);
-//         }
-//       }
-//       return true;
-//     },
+  callbacks: {
+    async signIn({ user, account, profile }: any) {
+      if (account.provider === "google") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email },
+        });
 
-//     async jwt({ token, user }) {
-//       if (user) {
-//         token.id = user.id;
-//         console.info(`JWT token created for user: ${user.id}`);
-//       }
-//       return token;
-//     },
+        if (!existingUser) {
+          // Create new user if one does not exist
+          const newUser = await prisma.user.create({
+            data: {
+              email: user.email,
+              name: user.name,
+              image: profile?.picture || "",
+              username: user.email.split("@")[0],
+            },
+          });
+          console.log("New user created with Google login:", newUser);
+          user = { ...user, id: newUser.id, image: newUser.image }; // Add the new user's ID and image to the user object
+        } else {
+          console.log("User already exists with email:", user.email);
+          user = { ...user, id: existingUser.id, image: existingUser.image };
+        }
+      }
+      return true;
+    },
 
-//     async session({ session, token }: any) {
-//       if (token) {
-//         session.user.id = token.id;
-//         console.info(`Session updated for user: ${session.user.id}`);
-//       }
-//       return session;
-//     },
-//   },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.image = user.image;
+      }
 
-//   events: {
-//     async createUser({ user }) {
-//       console.info("New user created:", user);
-//     },
-//   },
+      // Ensure the token is properly signed
+      const secret = process.env.NEXTAUTH_SECRET;
+      if (!secret) {
+        throw new Error("NEXTAUTH_SECRET is not set!");
+      }
 
-//   logger: {
-//     error: (message) => {
-//       console.error("Error:", message);
-//     },
-//     warn: (message) => {
-//       console.warn("Warning:", message);
-//     },
-//     info: (message: any) => {
-//       console.info("Info:", message);
-//     },
-//     debug: (message) => {
-//       console.debug("Debug:", message);
-//     },
-//   },
-// };
+      token.jwtString = jwt.sign(
+        {
+          id: token.id,
+          name: token.name,
+          email: token.email,
+          image: token.image,
+        },
+        secret,
+        { expiresIn: "1h" } // Customize token expiration
+      );
+      return token;
+    },
+
+  
+
+    async session({ session, token }: any) {
+      if (token?.jwtString) {
+        session.token = token.jwtString; // Add JWT string to session
+        session.user = {
+          id: token.id,
+          name: token.name,
+          email: token.email,
+          image: token.image,
+        };
+      } else {
+        console.error("Token is missing or malformed in session callback.");
+      }
+      return session; // Return the session with user data
+    },
+
+    async redirect({ url, baseUrl }: any) {
+      // Redirect to dashboard after successful sign-in
+      if (url === baseUrl) {
+        return "/";
+      }
+      return url;
+    },
+  },
+
+  events: {
+    async createUser({ user }) {
+      console.log("New user created:", user);
+    },
+  },
+
+  logger: {
+    error: console.error,
+    warn: console.warn,
+    info: console.info,
+    debug: console.debug,
+  },
+};

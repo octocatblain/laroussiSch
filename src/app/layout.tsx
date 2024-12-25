@@ -1,16 +1,17 @@
 import '@/styles/global.css';
 
-import type { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
-import React, { Suspense } from 'react';
+import type { Metadata } from "next";
+import React, { Suspense } from "react";
 
-import { options } from '@/app/api/auth/[...nextauth]/options';
-import Header from '@/components/Header/Header';
-// import { SessionProvider } from "next-auth/react";
-import { SessionProvider } from '@/contexts/SessionContext';
-import Footer from '@/shared/Footer/Footer';
+import { options } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
-import Loading from './loading';
+import Header from "@/components/Header/Header";
+import Footer from "@/shared/Footer/Footer";
+
+// Import your SessionProvider from your context
+import { SessionProvider } from "@/contexts/SessionContext";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: 'LaRoucci Mining SCH',
@@ -43,26 +44,29 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Fetch session data from next-auth
   const session = await getServerSession(options);
 
-  console.log(session);
-  
+  console.log(session); // You can keep or remove this depending on your debug process
+
   return (
-    <html lang="en">
-      <body>
-        <Header session={session} />
+      <html lang="en">
+        <body>
+          {/* Pass session to Header component */}
+          <Header session={session} />
 
-        <SessionProvider session={session}>
-          <Suspense fallback={<Loading />}>{children}</Suspense>
-        </SessionProvider>
+          {/* Wrap children with SessionProvider */}
+          <SessionProvider session={session}>
+            {/* Suspense for lazy loading children with a loading fallback */}
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+          </SessionProvider>
 
-        <Footer />
-      </body>
-    </html>
+          {/* Footer remains the same */}
+          <Footer />
+        </body>
+      </html>
   );
 }
 
 // Enable edge runtime, but you are required to disable the migrate function in src/libs/DB.ts
-// Unfortunately, this also means it will disable the automatic migration of the database
-// And you will have to manually migrate it with drizzle-kit push
 // export const runtime = 'edge';

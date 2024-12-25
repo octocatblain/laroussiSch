@@ -118,7 +118,7 @@ const AdminPage = () => {
                   {/* Placeholder Avatar */}
                 </div>
                 <span className="font-medium text-blue-600">
-                  Manfred Kiplagat
+                  {session?.user?.name}
                 </span>
               </button>
               {/* Dropdown Menu */}
@@ -126,10 +126,10 @@ const AdminPage = () => {
                 <div className="absolute right-0 mt-7 rounded-lg border bg-white px-6 py-2 shadow-lg transition-all duration-500">
                   <div className="border-b p-4">
                     <h4 className="text-gray-800 font-medium">
-                      Manfred Kiplagat
+                      {session?.user?.name}
                     </h4>
                     <p className="text-gray-500 text-sm">
-                      manfredkyp@gmail.com
+                      {session?.user?.email}
                     </p>
                   </div>
                   <ul>

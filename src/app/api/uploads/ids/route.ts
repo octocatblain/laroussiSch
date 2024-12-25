@@ -1,56 +1,49 @@
-import { IncomingForm } from "formidable";
 import fs from "fs";
 import { NextResponse } from "next/server";
 import path from "path";
 
-// Ensure the uploads folder exists
-const uploadDirectory = path.join(
-  process.cwd(),
-  "public",
-  "uploads",
-  "users",
-  "ids"
-);
+// Define the upload directory
+const uploadDirectory = path.join(process.cwd(), "public", "uploads", "ids");
 
-if (!fs.existsSync(uploadDirectory)) {
-  fs.mkdirSync(uploadDirectory, { recursive: true });
-}
+// Ensure the upload directory exists
+const ensureUploadDirectory = (): void => {
+  if (!fs.existsSync(uploadDirectory)) {
+    fs.mkdirSync(uploadDirectory, { recursive: true });
+  }
+};
 
+// POST handler for file upload
 export async function POST(req: Request) {
-  const form = new IncomingForm({
-    uploadDir: uploadDirectory,
-    keepExtensions: true, // Keep the file extension (e.g., .jpg, .png)
-  });
+  ensureUploadDirectory();
 
-  return new Promise((resolve, reject) => {
-    form.parse(req, (err, fields, files) => {
-      if (err) {
-        console.error("Error parsing form data:", err);
-        return resolve(
-          NextResponse.json(
-            { message: "Error processing form data" },
-            { status: 500 }
-          )
-        );
-      }
+  try {
+    const formData = await req.formData();
+    const file: any = formData.get("file") as Blob;
 
-      const file = files.file[0]; // Assuming single file upload
+    if (!file) {
+      return NextResponse.json(
+        { message: "No file uploaded" },
+        { status: 400 }
+      );
+    }
 
-      if (!file) {
-        return resolve(
-          NextResponse.json({ message: "No file uploaded" }, { status: 400 })
-        );
-      }
+    // Read file data
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-      const fileName = `${new Date().toISOString().replace(/[:.]/g, "-")}-${file.originalFilename}`;
-      const newFilePath = path.join(uploadDirectory, fileName);
+    // Save file to the uploads directory
+    const fileName = `${Date.now()}-${file?.name}`;
+    const filePath = path.join(uploadDirectory, fileName);
+    fs.writeFileSync(filePath, buffer);
 
-      // Move the file to the desired folder
-      fs.renameSync(file.filepath, newFilePath);
-
-      // Return the file path for further processing on the frontend
-      const filePath = `/uploads/users/ids/${fileName}`;
-      resolve(NextResponse.json({ filePath }, { status: 200 }));
-    });
-  });
+    // Return the file's public URL
+    const fileUrl = `/uploads/ids/${fileName}`;
+    return NextResponse.json({ filePath: fileUrl }, { status: 200 });
+  } catch (error) {
+    console.error("File upload error:", error);
+    return NextResponse.json(
+      { message: "File upload failed", error: error.message },
+      { status: 500 }
+    );
+  }
 }
