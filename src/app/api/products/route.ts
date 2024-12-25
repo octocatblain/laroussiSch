@@ -46,7 +46,13 @@ export async function GET(req: Request) {
       // Fetch a single product by ID with saved items
       const product = await prisma.product.findUnique({
         where: { id: productId },
-        include: { savedItems: true }, // Include savedItems in the response
+        include: {
+          savedItems: true,
+          type: true,
+          weight: true,
+          storageLocations: true,
+          orders: true,
+        }, // Include savedItems in the response
       });
 
       if (product) {

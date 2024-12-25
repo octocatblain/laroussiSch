@@ -3,7 +3,7 @@
 import { useSession } from "@/contexts/SessionContext";
 import axios from "axios"; // For API calls
 import { FC, useEffect, useState } from "react";
-import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import { BsBookmark, BsBookmarkFill, BsCheckCircleFill } from "react-icons/bs";
 
 import ImageShowCase from "@/components/ImageShowCase";
 import ButtonPrimary from "@/shared/Button/ButtonPrimary";
@@ -183,7 +183,8 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
         </p>
         {availability === "in-stock" ? (
           <div className="mt-5 flex items-center gap-5">
-            <ButtonPrimary href="/checkout" className="w-full">
+            <ButtonPrimary href="/checkout" className="w-full flex items-center justify-center gap-2">
+              <BsCheckCircleFill className="size-6" />
               Buy this Item
             </ButtonPrimary>
           </div>

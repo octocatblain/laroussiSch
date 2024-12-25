@@ -1,0 +1,11 @@
+[
+  {
+    "method": "Credit Card"
+  },
+  {
+    "method": "PayPal"
+  },
+  {
+    "method": "Bank Transfer"
+  }
+]

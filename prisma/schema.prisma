@@ -14,14 +14,14 @@ datasource db {
 }
 
 model SavedItem {
-  id        String   @id @default(uuid())       // Primary key
-  userId    String                               // Foreign key to User
-  productId String                               // Foreign key to Product
-  createdAt DateTime @default(now())            // Timestamp for when the item was saved
+  id        String   @id @default(uuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
 
   // Relationships
-  user    User     @relation(fields: [userId], references: [id])   // Relation to User
-  product Product  @relation(fields: [productId], references: [id]) // Relation to Product
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -30,116 +30,195 @@ model User {
   username           String?
   email              String     @unique
   image              String?
-  hashedPassword     String?    // To store hashed passwords for local authentication
-  passwordResetToken String?    // Token for resetting the password
-  passwordResetExpires DateTime? // Expiration time for the reset token
+  hashedPassword     String?
+  passwordResetToken String?
+  passwordResetExpires DateTime?
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
 
   // Relationships
-  savedItems         SavedItem[] // One-to-many relationship with SavedItem
+  savedItems         SavedItem[]
+  orders             Order[]
+  addresses          ShippingAddress[]
 }
-
 
 model Product {
-  id                String           @id @default(uuid()) // Primary key
-  slug              String           @unique              // Unique slug for the product
-  coverImage        String?                               // Cover image URL (optional)
-  productName       String                                // Name of the product
-  productTypeId     String?                               // Foreign key to ProductType (nullable)
-  productWeightId   String?                               // Foreign key to ProductWeight (nullable)
-  productType       String?                               // Foreign key to ProductType (nullable)
-  productWeight     String?                               // Foreign key to ProductWeight (nullable)
-  availability      String                                // Availability status
-  price             Float                                 // Price of the product
-  refiner           String?                               // Refiner details (optional)
-  material          String?                               // Material of the product (optional)
-  fineness          String?                               // Fineness of the material (optional)
-  fineWeight        String?                               // Weight of the product in fine units (optional)
-  dimensions        String?                               // Dimensions of the product (optional)
-  quality           String?                               // Quality information (optional)
-  packaging         String?                               // Packaging details (optional)
-  kinebar           String?                               // Kinebar-related details (optional)
-  description       String?                               // Product description (optional)
-  shots             String[]                              // Array of image URLs (optional)
-  createdAt         DateTime         @default(now())      // Timestamp for creation
-  updatedAt         DateTime         @updatedAt           // Timestamp for last update
+  id                String   @id @default(uuid())
+  slug              String   @unique
+  coverImage        String?
+  productName       String
+  productTypeId     String?
+  productWeightId   String?
+  productType       String?
+  productWeight      String?
+  availability      String
+  price             Float
+  quantity          Int @default(0)
+  refiner           String?
+  material          String?
+  fineness          String?
+  fineWeight        String?
+  dimensions        String?
+  quality           String?
+  packaging         String?
+  kinebar           String?
+  description       String?
+  shots             String[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   // Relationships
-  type              ProductType?    @relation(fields: [productTypeId], references: [id]) // Foreign key to ProductType (nullable)
-  weight            ProductWeight?  @relation(fields: [productWeightId], references: [id]) // Foreign key to ProductWeight (nullable)
-  storageLocations  ProductStorageLocation[] // Many-to-many relationship with StorageLocation
-  savedItems        SavedItem[]              // One-to-many relationship with SavedItem
+  type              ProductType?    @relation(fields: [productTypeId], references: [id], onDelete: SetNull)
+  weight            ProductWeight?  @relation(fields: [productWeightId], references: [id], onDelete: SetNull)
+  storageLocations  ProductStorageLocation[]
+  savedItems        SavedItem[]
+  orders            OrderProduct[]
 }
 
-
 model ProductWeight {
-  id        String   @id @default(uuid()) // Unique ID for the weight record
-  weight    Float    // The weight of the product
-  unit      String   // Unit of weight (e.g., kg, g, lb)
-  textId    String   // Additional text ID field
-  createdAt DateTime @default(now()) // Timestamp of creation
-  updatedAt DateTime @updatedAt      // Timestamp of last update
+  id        String   @id @default(uuid())
+  weight    Float
+  unit      String
+  textId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  // No direct relationships with multiple products to keep it simple
-  products Product[] // This is the opposite relation field
+  // Relationships
+  products Product[]
 }
 
 model ProductType {
-  id          String   @id @default(uuid()) // Unique ID for each product type
-  name        String   @unique              // Name of the product type (e.g., "Electronics", "Jewelry")
-  description String?  // Optional description of the product type
-  textId      String   // Additional text ID field
-  createdAt   DateTime @default(now())      // Timestamp of creation
-  updatedAt   DateTime @updatedAt           // Timestamp for last update
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  textId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  // No direct relationships with multiple products to keep it simple
-  products Product[] // This is the opposite relation field
+  // Relationships
+  products Product[]
 }
 
 model StorageLocation {
-  id          String   @id @default(uuid())  // UUID as the primary key
-  name        String   @unique               // Name of the storage location
-  description String?  // Optional description for the location
-  address     String?  // Address for physical storage locations
-  capacity    Int?     // Optional capacity
-  coordinates Json?    // JSON for geographical coordinates
-  createdAt   DateTime @default(now())        // Timestamp for creation
-  updatedAt   DateTime @updatedAt            // Timestamp for last update
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  address     String?
+  capacity    Int?
+  coordinates Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   // Relationships
-  productStorageLocations ProductStorageLocation[] // Many-to-many relationship with Product
-  storageBookings        StorageBooking[]         // Relationship with StorageBooking
+  productStorageLocations ProductStorageLocation[]
+  storageBookings         StorageBooking[]
 }
 
 model ProductStorageLocation {
-  id                String           @id @default(uuid()) // Unique ID for the relationship record
-  productId         String?                              // Foreign key to Product (nullable)
-  storageLocationId String?                              // Foreign key to StorageLocation (nullable)
-  createdAt         DateTime         @default(now())      // Timestamp for creation
-  updatedAt         DateTime         @updatedAt           // Timestamp for last update
+  id                String           @id @default(uuid())
+  productId         String?
+  storageLocationId String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
 
-  // Foreign key relations
-  product           Product?          @relation(fields: [productId], references: [id]) // Foreign key to Product (nullable)
-  storageLocation   StorageLocation?  @relation(fields: [storageLocationId], references: [id]) // Foreign key to StorageLocation (nullable)
+  // Relationships
+  product           Product?         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  storageLocation   StorageLocation? @relation(fields: [storageLocationId], references: [id], onDelete: Cascade)
 
-  @@unique([productId, storageLocationId]) // Ensure a product cannot be in the same location twice
+  @@unique([productId, storageLocationId])
 }
 
 model StorageBooking {
-  id                String           @id @default(uuid()) 
-  name              String                               
-  email             String                               
-  phone             String                              
-  dateOfBirth       DateTime                             
-  address           String                               
-  zipCodeCity       String                               
-  message           String?                              
-  storageLocationId String?                              
-  idFile            String?                              
-  createdAt         DateTime         @default(now())      
-  updatedAt         DateTime         @updatedAt     
+  id                String   @id @default(uuid())
+  name              String
+  email             String
+  phone             String
+  dateOfBirth       DateTime
+  address           String
+  zipCodeCity       String
+  message           String?
+  storageLocationId String?
+  idFile            String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  // Relations
-  storageLocation   StorageLocation?  @relation(fields: [storageLocationId], references: [id]) // Foreign key to StorageLocation (nullable)
+  // Relationships
+  storageLocation   StorageLocation? @relation(fields: [storageLocationId], references: [id], onDelete: SetNull)
+}
+
+model OrderProduct {
+  id          String   @id @default(uuid())
+  orderId     String
+  productId   String
+  quantity     Int @default(1)
+  price       Float
+  total       Float
+
+  // Relationships
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id                 String          @id @default(uuid())
+  userId             String
+  phone              String
+  email              String
+  shippingAddressId  String @unique // Add @unique for one-to-one relationship
+  paymentMethodId    String?
+  subtotal           Float
+  taxes              Float
+  total              Float
+  estimatedDelivery  DateTime
+  createdAt          DateTime        @default(now())
+
+  // Relationships
+  user               User            @relation(fields: [userId], references: [id])
+  paymentMethod      PaymentMethod?  @relation(fields: [paymentMethodId], references: [id], onDelete: SetNull)
+  shippingInfo       ShippingAddress? @relation(fields: [shippingAddressId], references: [id]) // Define `references` only here
+  products           OrderProduct[]
+}
+
+model ShippingAddress {
+  id            String   @id @default(uuid())
+  userId        String
+  firstName     String
+  lastName      String
+  address       String
+  apartment     String?
+  city          String
+  state         String
+  postalCode    String
+  country       String
+  addressTypeId String
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relationships
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders         Order[]
+   addressType   AddressType  @relation(fields: [addressTypeId], references: [id], onDelete: Cascade)
+
+}
+
+
+model AddressType {
+  id          String   @id @default(uuid())
+  type        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  addresses   ShippingAddress[]
+}
+
+model PaymentMethod {
+  id          String   @id @default(uuid())
+  method      String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  orders      Order[]
 }
