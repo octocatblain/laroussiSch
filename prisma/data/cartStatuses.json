@@ -1,0 +1,14 @@
+[
+  {
+    "name": "active",
+    "description": "The cart is currently active and items can be added or removed."
+  },
+  {
+    "name": "checkedOut",
+    "description": "The cart has been checked out and is awaiting further processing."
+  },
+  {
+    "name": "abandoned",
+    "description": "The cart has been abandoned by the user."
+  }
+]

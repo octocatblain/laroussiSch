@@ -36,7 +36,6 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
   productName,
   productType,
   availability,
-  price,
   description,
   refiner,
   material,
@@ -123,32 +122,36 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
   const onBuyNowClick = async () => {
     const productId = id;
     const quantity = productQuantity;
-    const userSession = session;
+    const userId = session?.user?.id;
 
-    await handleBuyNow({ productId, quantity, userSession }, addToCart);
+    await handleBuyNow({ productId, quantity, userId }, addToCart);
   };
 
-  // Buy button handler function
+  // Buy button handler function 
   const handleBuyNow = async (
-    { productId, quantity, userSession }: any,
-    addToCart: (product: Product, quantity: number, userSession: string) => void
+    { productId, quantity, userId }: { productId: string; quantity: number; userId: string },
+    addToCart: (productId: string, userId: string, quantity: number) => Promise<void>
   ) => {
     try {
       // Fetch product details
-      const response = await axios.get(`/api/products`, {
+      const response = await axios.get<Product>(`/api/products`, {
         params: { id: productId },
       });
 
       const product = response.data;
 
-      console.log("product:", product);
-      console.log("quantity:", quantity);
-      console.log("session:", session)
+      if (!product) {
+        console.error("Product not found.");
+        return;
+      }
+
+      console.log("Product:", product);
+      console.log("Quantity:", quantity);
 
       // Add product to the cart
-      addToCart(product, quantity, userSession);
+      await addToCart(productId, userId, quantity);
 
-      // Redirect to checkout
+      // Redirect to checkout (optional)
       // window.location.href = "/checkout";
     } catch (error) {
       console.error("Failed to fetch product or add to cart:", error);
@@ -234,9 +237,6 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
           </div>
         </div>
         <div className="flex items-center justify-between gap-4">
-          <p className="text-2xl font-semibold text-secondary">
-            ${(price ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </p>
           <div className="flex items-center gap-2">
             <label htmlFor="quantity" className="font-medium text-base text-gray-700">
               Quantity:
@@ -249,8 +249,8 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
               min="1"
               className="border border-gray-300 rounded-md px-2 w-24 focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            <p className="text-base text-gray-600">Selected Quantity: {productQuantity}</p>
           </div>
+            <p className="text-base text-gray-600">Selected Quantity: {productQuantity}</p>
         </div>
 
         {availability === "in-stock" ? (

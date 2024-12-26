@@ -81,7 +81,6 @@ const SingleProductPage = (props: Props) => {
           kinebar={pathOr("", ["kinebar"], selectedProduct)}
           shots={pathOr([], ["shots"], selectedProduct)}
           productName={pathOr("", ["productName"], selectedProduct)}
-          price={pathOr(0, ["price"], selectedProduct)}
           availability={pathOr("", ["availability"], selectedProduct)}
           productType={pathOr("", ["productType"], selectedProduct)}
           description={pathOr("", ["description"], selectedProduct)}
