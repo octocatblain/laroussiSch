@@ -357,7 +357,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 1g Gold Bar, refined by LaRoucci SCH, is crafted from pure gold with a fineness of 999.9/1000. It has a fine weight of 1g and dimensions of 8mm x 15mm x 0.4mm. This high-quality bar is in new condition and comes packaged in its original capsule. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security. Produced by LaRoucci SCH, a trusted name in gold refining.",
-    shots: ["/assets/images/products/gold/bars/1g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/1g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
   {
     slug: "gold-bar-31g",
@@ -377,7 +380,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 31.1g Gold Bar, refined by LaRoucci SCH, is crafted from pure gold with a fineness of 999.9/1000. It has a fine weight of 31.1g and dimensions of 24mm x 42mm x 2mm. This high-quality bar is in new condition and comes packaged in its original capsule. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/31.1g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/31.1g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -398,7 +404,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 5g Gold Bar, refined by LaRoucci SCH, is crafted from pure gold with a fineness of 999.9/1000. It has a fine weight of 5g and dimensions of 23.3mm x 14mm x 0.83mm. This high-quality bar is in new condition and comes packaged in its original capsule. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/5g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/5g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -419,7 +428,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 20g Gold Bar, refined by LaRoucci SCH, is crafted from pure gold with a fineness of 999.9/1000. It has a fine weight of 20g and dimensions of 22mm x 39mm x 1.3mm. This high-quality bar is in new condition and comes packaged in its original capsule. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/20g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/20g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -440,7 +452,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 10g Gold Bar, refined by LaRoucci SCH, is crafted from pure gold with a fineness of 999.9/1000. It has a fine weight of 10g and dimensions of 18mm x 31mm x 1mm. This high-quality bar is in new condition and comes packaged in its original capsule. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/10g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/10g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -461,7 +476,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 50g Gold Bar, refined by LaRoucci SCH, is crafted from pure gold with a fineness of 999.9/1000. It has a fine weight of 50g and dimensions of 25mm x 45mm x 2.3mm. This high-quality bar is in new condition and comes packaged in its original capsule. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/50g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/50g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
   {
     slug: "gold-bar-100g",
@@ -481,7 +499,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 100g Gold Bar by LaRoucci SCH is crafted from pure gold with a fineness of 999.9/1000. With dimensions of 31mm x 55mm x 3mm, this high-quality bar comes in its original capsule packaging. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/100g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/100g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -502,7 +523,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 500g Gold Bar by LaRoucci SCH is crafted from pure gold with a fineness of 999.9/1000. With dimensions of 65mm x 35mm (bottom: 57mm x 28mm), this high-quality bar comes in its original capsule packaging. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/500g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/500g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -523,7 +547,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 250g Gold Bar by LaRoucci SCH is crafted from pure gold with a fineness of 999.9/1000. With dimensions of 57mm x 28.1mm x 9.7mm, this high-quality bar comes in its original capsule packaging. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/250g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/250g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -544,7 +571,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 1000g Gold Bar by LaRoucci SCH is crafted from pure gold with a fineness of 999.9/1000. With dimensions of 40mm x 80mm x 18mm, this high-quality bar comes in its original capsule packaging. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/1000g.jpeg", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/1000g.jpeg",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -565,7 +595,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 311g Gold Bar by LaRoucci SCH is crafted from pure gold with a fineness of 999.9/1000. With dimensions of 33mm x 57mm x 7mm, this high-quality bar comes in its original capsule packaging. Our Kinebar® includes a hologram, certificate, serial number, and an international proof mark, ensuring authenticity and security.",
-    shots: ["/assets/images/products/gold/bars/311g.png", "/assets/images/products/gold/bars/back.png"],
+    shots: [
+      "/assets/images/products/gold/bars/311g.png",
+      "/assets/images/products/gold/bars/back.png",
+    ],
   },
 
   {
@@ -613,7 +646,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 2.5g Silver Bar by LaRoucci SCH is crafted from pure silver with a fineness of 999.9/1000. This bar is securely packaged in its original capsule, featuring a hologram, certificate, serial number, and international proof mark for added authenticity and security.",
-    shots: ["/assets/images/products/silver/bars/1g.png", "/assets/images/products/silver/bars/silver-back.png"], // placeholders for image variables
+    shots: [
+      "/assets/images/products/silver/bars/1g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ], // placeholders for image variables
   },
   {
     slug: "silver-bar-31.1g",
@@ -633,7 +669,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "The 31.1g Silver Bar by LaRoucci SCH boasts a high level of purity, with a fineness of 999.9/1000. Packaged in its original capsule, it includes a hologram, certificate, serial number, and international proof mark, ensuring authenticity.",
-    shots: ["/assets/images/products/silver/bars/31.1g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/31.1g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-5g",
@@ -653,7 +692,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 5g Silver Bar by LaRoucci SCH is made of pure silver with a fineness of 999.9/1000. It is securely packaged in its original capsule and includes a hologram, certificate, serial number, and proof mark.",
-    shots: ["/assets/images/products/silver/bars/5g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/5g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-20g",
@@ -673,7 +715,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 20g Silver Bar by LaRoucci SCH is a premium silver bar with a high fineness of 999.9/1000. It includes a hologram, certificate, serial number, and proof mark, securely packaged in its original capsule.",
-    shots: ["/assets/images/products/silver/bars/20g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/20g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-10g",
@@ -693,7 +738,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "The 10g Silver Bar by LaRoucci SCH is crafted with pure silver and has a fineness of 999.9/1000. It comes in original capsule packaging with a hologram, certificate, serial number, and proof mark.",
-    shots: ["/assets/images/products/silver/bars/10g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/10g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-50g",
@@ -713,7 +761,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "This 50g Silver Bar by LaRoucci SCH is made from high-purity silver with a fineness of 999.9/1000. Packaged in its original capsule, it includes a hologram, certificate, serial number, and proof mark.",
-    shots: ["/assets/images/products/silver/bars/50g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/50g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-100g",
@@ -733,7 +784,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "The 100g Silver Bar by LaRoucci SCH is crafted from pure silver with a fineness of 999.9/1000. This high-quality bar comes in its original capsule, including a hologram, certificate, serial number, and proof mark for authenticity.",
-    shots: ["/assets/images/products/silver/bars/100g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/100g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-500g",
@@ -753,7 +807,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "Our 500g Silver Bar by LaRoucci SCH features a purity of 999.9/1000 and comes in its original capsule, including a hologram, certificate, serial number, and proof mark for security and verification.",
-    shots: ["/assets/images/products/silver/bars/500g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/500g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-250g",
@@ -773,7 +830,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "The 250g Silver Bar by LaRoucci SCH is made from pure silver with a fineness of 999.9/1000, packaged in its original capsule with a hologram, certificate, serial number, and proof mark.",
-    shots: ["/assets/images/products/silver/bars/250g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/250g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-1000g",
@@ -818,7 +878,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "The 311g Silver Bar by LaRoucci SCH offers high purity with a fineness of 999.9/1000, packaged in its original capsule with a hologram, certificate, serial number, and proof mark.",
-    shots: ["/assets/images/products/silver/bars/311g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/311g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
   {
     slug: "silver-bar-5kg",
@@ -838,7 +901,10 @@ export const products = [
       "With hologram, certificate, serial number, and international proof mark.",
     description:
       "This 5kg Silver Bar by LaRoucci SCH is crafted from pure silver with a fineness of 999.9/1000. It comes in its original capsule with a hologram, certificate, serial number, and proof mark.",
-    shots: ["/assets/images/products/silver/bars/5g.png", "/assets/images/products/silver/bars/silver-back.png"],
+    shots: [
+      "/assets/images/products/silver/bars/5g.png",
+      "/assets/images/products/silver/bars/silver-back.png",
+    ],
   },
 
   // platinum bars
@@ -1591,23 +1657,88 @@ export const onSalePreciousMetalsInfo = {
       metals: [
         {
           metal: "Gold",
-          themes: ["Africa", "Tiger", "Arabian Horse", "Elephant", "Rhinoceros", "Camels", "Crocodile", "Falcon", "Kangaroo", "Zebra", "Deer", "Eagle"]
+          themes: [
+            "Africa",
+            "Tiger",
+            "Arabian Horse",
+            "Elephant",
+            "Rhinoceros",
+            "Camels",
+            "Crocodile",
+            "Falcon",
+            "Kangaroo",
+            "Zebra",
+            "Deer",
+            "Eagle",
+          ],
         },
         {
           metal: "Silver",
-          themes: ["Africa", "Tiger", "Arabian Horse", "Elephant", "Rhinoceros", "Camels", "Crocodile", "Falcon", "Kangaroo", "Zebra", "Deer", "Eagle"]
+          themes: [
+            "Africa",
+            "Tiger",
+            "Arabian Horse",
+            "Elephant",
+            "Rhinoceros",
+            "Camels",
+            "Crocodile",
+            "Falcon",
+            "Kangaroo",
+            "Zebra",
+            "Deer",
+            "Eagle",
+          ],
         },
         {
           metal: "Platinum",
-          themes: ["Africa", "Tiger", "Arabian Horse", "Elephant", "Rhinoceros", "Camels", "Crocodile", "Falcon", "Kangaroo", "Zebra", "Deer", "Eagle"]
+          themes: [
+            "Africa",
+            "Tiger",
+            "Arabian Horse",
+            "Elephant",
+            "Rhinoceros",
+            "Camels",
+            "Crocodile",
+            "Falcon",
+            "Kangaroo",
+            "Zebra",
+            "Deer",
+            "Eagle",
+          ],
         },
         {
           metal: "Bronze",
-          themes: ["Africa", "Tiger", "Arabian Horse", "Elephant", "Rhinoceros", "Camels", "Crocodile", "Falcon", "Kangaroo", "Zebra", "Deer", "Eagle"]
+          themes: [
+            "Africa",
+            "Tiger",
+            "Arabian Horse",
+            "Elephant",
+            "Rhinoceros",
+            "Camels",
+            "Crocodile",
+            "Falcon",
+            "Kangaroo",
+            "Zebra",
+            "Deer",
+            "Eagle",
+          ],
         },
         {
           metal: "Palladium",
-          themes: ["Africa", "Tiger", "Arabian Horse", "Elephant", "Rhinoceros", "Camels", "Crocodile", "Falcon", "Kangaroo", "Zebra", "Deer", "Eagle"]
+          themes: [
+            "Africa",
+            "Tiger",
+            "Arabian Horse",
+            "Elephant",
+            "Rhinoceros",
+            "Camels",
+            "Crocodile",
+            "Falcon",
+            "Kangaroo",
+            "Zebra",
+            "Deer",
+            "Eagle",
+          ],
         },
       ],
     },
@@ -1616,23 +1747,88 @@ export const onSalePreciousMetalsInfo = {
       metals: [
         {
           metal: "Gold",
-          weights: ["1 Gram", "5 Grams", "10 Grams", "20 Grams", "31.1 Grams", "50 Grams", "100 Grams", "250 Grams", "311 Grams", "500 Grams", "1,000 Grams", "12,500 Grams"]
+          weights: [
+            "1 Gram",
+            "5 Grams",
+            "10 Grams",
+            "20 Grams",
+            "31.1 Grams",
+            "50 Grams",
+            "100 Grams",
+            "250 Grams",
+            "311 Grams",
+            "500 Grams",
+            "1,000 Grams",
+            "12,500 Grams",
+          ],
         },
         {
           metal: "Silver",
-          weights: ["1 Gram", "5 Grams", "10 Grams", "20 Grams", "31.1 Grams", "50 Grams", "100 Grams", "250 Grams", "311 Grams", "500 Grams", "1,000 Grams", "12,500 Grams"]
+          weights: [
+            "1 Gram",
+            "5 Grams",
+            "10 Grams",
+            "20 Grams",
+            "31.1 Grams",
+            "50 Grams",
+            "100 Grams",
+            "250 Grams",
+            "311 Grams",
+            "500 Grams",
+            "1,000 Grams",
+            "12,500 Grams",
+          ],
         },
         {
           metal: "Platinum",
-          weights: ["1 Gram", "5 Grams", "10 Grams", "20 Grams", "31.1 Grams", "50 Grams", "100 Grams", "250 Grams", "311 Grams", "500 Grams", "1,000 Grams", "12,500 Grams"]
+          weights: [
+            "1 Gram",
+            "5 Grams",
+            "10 Grams",
+            "20 Grams",
+            "31.1 Grams",
+            "50 Grams",
+            "100 Grams",
+            "250 Grams",
+            "311 Grams",
+            "500 Grams",
+            "1,000 Grams",
+            "12,500 Grams",
+          ],
         },
         {
           metal: "Bronze",
-          weights: ["1 Gram", "5 Grams", "10 Grams", "20 Grams", "31.1 Grams", "50 Grams", "100 Grams", "250 Grams", "311 Grams", "500 Grams", "1,000 Grams", "12,500 Grams"]
+          weights: [
+            "1 Gram",
+            "5 Grams",
+            "10 Grams",
+            "20 Grams",
+            "31.1 Grams",
+            "50 Grams",
+            "100 Grams",
+            "250 Grams",
+            "311 Grams",
+            "500 Grams",
+            "1,000 Grams",
+            "12,500 Grams",
+          ],
         },
         {
           metal: "Palladium",
-          weights: ["1 Gram", "5 Grams", "10 Grams", "20 Grams", "31.1 Grams", "50 Grams", "100 Grams", "250 Grams", "311 Grams", "500 Grams", "1,000 Grams", "12,500 Grams"]
+          weights: [
+            "1 Gram",
+            "5 Grams",
+            "10 Grams",
+            "20 Grams",
+            "31.1 Grams",
+            "50 Grams",
+            "100 Grams",
+            "250 Grams",
+            "311 Grams",
+            "500 Grams",
+            "1,000 Grams",
+            "12,500 Grams",
+          ],
         },
       ],
     },

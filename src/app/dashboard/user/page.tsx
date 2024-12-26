@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useSession } from "@/contexts/SessionContext";
 import Image from "next/image";
@@ -25,12 +25,11 @@ interface MenuItem {
 }
 
 export default function UserHomePage() {
+  const session = useSession();
 
-    const session = useSession();
-
-    const hour = new Date().getHours();
-    const greeting =
-        hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
+  const hour = new Date().getHours();
+  const greeting =
+    hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
 
     const menuItems: MenuItem[] = [
         {
@@ -112,11 +111,11 @@ export default function UserHomePage() {
     ];
 
 
-    return (
-        <div className="flex h-screen">
-            <Sidebar menuItems={menuItems} session={session} greeting={greeting} />
-        </div>
-    );
+  return (
+    <div className="flex h-screen">
+      <Sidebar menuItems={menuItems} session={session} greeting={greeting} />
+    </div>
+  );
 }
 
 function Sidebar({ menuItems, session, greeting }: any) {
@@ -231,9 +230,9 @@ function Sidebar({ menuItems, session, greeting }: any) {
                     </h1>
                 </div>
 
-                <div>{activeContent}</div>
-            </div>
-        </>
-    );
+        <div>{activeContent}</div>
+      </div>
+    </>
+  );
 }
 

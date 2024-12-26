@@ -1,18 +1,19 @@
-"use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { BsLinkedin, BsSpotify, BsTwitter } from "react-icons/bs";
-import { MdCopyright } from "react-icons/md";
+'use client';
 
-import { footerData } from "@/data/content";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
+import { BsLinkedin, BsSpotify, BsTwitter } from 'react-icons/bs';
+import { MdCopyright } from 'react-icons/md';
 
-import Subscribe from "./Subscribe";
+import { footerData } from '@/data/content';
+
+import Subscribe from './Subscribe';
 
 const Footer: React.FC = () => {
   const pathname = usePathname();
 
-  const isDashboardPage = pathname.startsWith("/dashboard");
+  const isDashboardPage = pathname.startsWith('/dashboard');
   const isRegisterPage = pathname.startsWith("/auth/register");
   const isLoginPage = pathname.startsWith("/auth/login");
 

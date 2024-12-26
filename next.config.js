@@ -23,7 +23,7 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-    domains: ["example.com"], // Add any other domains for external images
+    domains: ["example.com", 'via.placeholder.com'], // Add any other domains for external images
     formats: ["image/avif", "image/webp"],
   },
   trailingSlash: true,
