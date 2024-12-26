@@ -119,23 +119,29 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
 
   const { addToCart }: any = useCart();
 
+  // onClick handler for the Buy Now button
   const onBuyNowClick = async () => {
-    const productId = id;
-    const quantity = productQuantity;
+    const productId = id; // Assuming `id` is the current product's ID
+    const quantity = productQuantity; // Assuming `productQuantity` holds the selected quantity
     const userId = session?.user?.id;
+
+    if (!userId) {
+      console.error("User is not logged in.");
+      return;
+    }
 
     await handleBuyNow({ productId, quantity, userId }, addToCart);
   };
 
-  // Buy button handler function 
+  // Buy button handler function
   const handleBuyNow = async (
     { productId, quantity, userId }: { productId: string; quantity: number; userId: string },
     addToCart: (productId: string, userId: string, quantity: number) => Promise<void>
   ) => {
     try {
-      // Fetch product details
+      // Fetch product details by productId
       const response = await axios.get<Product>(`/api/products`, {
-        params: { id: productId },
+        params: { id: productId }, // Send the productId as a query param
       });
 
       const product = response.data;
@@ -147,11 +153,12 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
 
       console.log("Product:", product);
       console.log("Quantity:", quantity);
+      console.log("User ID:", userId);
 
-      // Add product to the cart
+      // Add the product to the cart
       await addToCart(productId, userId, quantity);
 
-      // Redirect to checkout (optional)
+      // Optionally, redirect to checkout
       // window.location.href = "/checkout";
     } catch (error) {
       console.error("Failed to fetch product or add to cart:", error);
