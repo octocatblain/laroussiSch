@@ -51,8 +51,12 @@ export interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ session }) => {
   const pathname = usePathname();
-  const isRegisterPage = pathname.startsWith("/auth/register");
+  const isRegisterPage = pathname.startsWith('/auth/register');
+  const isDashboardPage = pathname.startsWith('/dashboard/admin');
   const isLoginPage = pathname.startsWith("/auth/login");
+  if (isDashboardPage) {
+    return null;
+  }
 
   // Handle session refresh after sign-out
   const handleSignOut = async () => {
@@ -70,13 +74,13 @@ const Header: FC<HeaderProps> = ({ session }) => {
   }
 
   return (
-    <div className="nc-Header my-2 sticky inset-x-0 top-0 z-50 bg-white">
+    <div className="nc-Header sticky inset-x-0 top-0 z-50 my-2 bg-white">
       <div className="">
         <AutoScrollSlider trigger options={sliderOptions}>
           {headerBannerData.map((item) => (
             <SplideSlide key={item.title}>
-              <div className="flex items-center mx-4 w-full gap-2">
-                <p className="gradient-background min-w-max font-medium sm:rounded outline-2 rounded-full text-white whitespace-nowrap px-4 py-2 border-2 border-yellow-500">
+              <div className="mx-4 flex w-full items-center gap-2">
+                <p className="gradient-background min-w-max whitespace-nowrap rounded-full border-2 border-yellow-500 px-4 py-2 font-medium text-white outline-2 sm:rounded">
                   {item.title}
                 </p>
                 <Image
@@ -84,7 +88,7 @@ const Header: FC<HeaderProps> = ({ session }) => {
                   alt={item.title}
                   width={40}
                   height={40}
-                  className="h-10 w-10 mr-20 object-cover rounded-full border border-yellow-500"
+                  className="mr-20 size-10 rounded-full border border-yellow-500 object-cover"
                 />
               </div>
             </SplideSlide>

@@ -7,33 +7,33 @@ import { options } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
 import Header from "@/components/Header/Header";
-import Footer from "@/shared/Footer/Footer";
 import { CartProvider } from "@/contexts/cartContext";
 import { SessionProvider } from "@/contexts/SessionContext";
+import Footer from "@/shared/Footer/Footer";
 import Loading from "./loading";
 
 export const metadata: Metadata = {
-  title: "LaRoucci Mining SCH",
+  title: 'LaRoucci Mining SCH',
   icons: [
     {
-      rel: "apple-touch-icon",
-      url: "/apple-touch-icon.png",
+      rel: 'apple-touch-icon',
+      url: '/apple-touch-icon.png',
     },
     {
-      rel: "icon",
-      type: "image/png",
-      sizes: "32x32",
-      url: "/favicon.png",
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      url: '/favicon.png',
     },
     {
-      rel: "icon",
-      type: "image/png",
-      sizes: "16x16",
-      url: "/favicon.png",
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      url: '/favicon.png',
     },
     {
-      rel: "icon",
-      url: "/favicon.ico",
+      rel: 'icon',
+      url: '/favicon.ico',
     },
   ],
 };

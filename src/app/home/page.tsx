@@ -1,9 +1,9 @@
-import SectionCategories from "./SectionCategories";
-import SectionHeader from "./SectionHeader";
+import SectionCategories from './SectionCategories';
+import SectionHeader from './SectionHeader';
 // import SectionMidBanner from "./SectionMidBanner";
-import SectionProducts from "./SectionProducts";
-import SectionQuote from "./SectionQuote";
-import SectionSlider from "./SectionSlider";
+import SectionProducts from './SectionProducts';
+import SectionQuote from './SectionQuote';
+import SectionSlider from './SectionSlider';
 
 const homePage = () => {
   return (
