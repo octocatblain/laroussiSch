@@ -136,22 +136,7 @@ const CheckoutPage = () => {
             </div>
 
             <div className="mt-10 border-t border-neutral-300 pt-6 text-sm">
-              <div>
-                <div className="text-sm">Discount code</div>
-                <div className="mt-1.5 flex">
-                  <Input
-                    rounded="rounded-lg"
-                    sizeClass="h-12 px-4 py-3"
-                    className="flex-1 border-neutral-300 bg-transparent placeholder:text-neutral-500 focus:border-primary"
-                  />
-                  <button
-                    type="button"
-                    className="ml-3 flex w-24 items-center justify-center rounded-2xl border border-neutral-300 bg-gray px-4 text-sm font-medium transition-colors hover:bg-neutral-100"
-                  >
-                    Apply
-                  </button>
-                </div>
-              </div>
+             
 
               <div className="mt-4 flex justify-between pb-4">
                 <span>Subtotal</span>

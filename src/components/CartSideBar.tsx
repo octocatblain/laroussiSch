@@ -15,6 +15,7 @@ import ButtonSecondary from '@/shared/Button/ButtonSecondary';
 import InputNumber from '@/shared/InputNumber/InputNumber';
 
 import LikeButton from './LikeButton';
+import { useCart } from '@/contexts/cartContext';
 
 export interface CartSideBarProps {}
 const CartSideBar: React.FC<CartSideBarProps> = () => {
@@ -22,6 +23,10 @@ const CartSideBar: React.FC<CartSideBarProps> = () => {
 
   const handleOpenMenu = () => setIsVisable(true);
   const handleCloseMenu = () => setIsVisable(false);
+
+  const { cart } = useCart();
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const renderProduct = (item: ProductType) => {
     const { productName, coverImage, price, slug } = item;
@@ -32,7 +37,6 @@ const CartSideBar: React.FC<CartSideBarProps> = () => {
           <Image
             width={1000}
             height={1000}
-            fill
             src={coverImage}
             alt={productName}
             className="h-full w-full object-cover object-top"
@@ -161,7 +165,7 @@ const CartSideBar: React.FC<CartSideBarProps> = () => {
         onClick={handleOpenMenu}
         className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
       >
-        Cart(2)
+        Cart({totalItems})
       </button>
 
       {renderContent()}

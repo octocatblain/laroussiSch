@@ -1,4 +1,4 @@
-import '@/styles/global.css';
+import "@/styles/global.css";
 
 import type { Metadata } from "next";
 import React, { Suspense } from "react";
@@ -7,10 +7,9 @@ import { options } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
 import Header from "@/components/Header/Header";
-import Footer from "@/shared/Footer/Footer";
-
-// Import your SessionProvider from your context
+import { CartProvider } from "@/contexts/cartContext";
 import { SessionProvider } from "@/contexts/SessionContext";
+import Footer from "@/shared/Footer/Footer";
 import Loading from "./loading";
 
 export const metadata: Metadata = {
@@ -47,26 +46,22 @@ export default async function RootLayout({
   // Fetch session data from next-auth
   const session = await getServerSession(options);
 
-  console.log(session); // You can keep or remove this depending on your debug process
-
   return (
-      <html lang="en">
-        <body>
-          {/* Pass session to Header component */}
-          <Header session={session} />
-
-          {/* Wrap children with SessionProvider */}
+    <html lang="en">
+      <body>
+        <CartProvider>
           <SessionProvider session={session}>
-            {/* Suspense for lazy loading children with a loading fallback */}
-            <Suspense fallback={<Loading />}>{children}</Suspense>
+            {/* Header has access to session */}
+            <Header session={session} />
+            {/* Main content wrapped with Suspense for lazy-loading */}
+            <main>
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </main>
+            {/* Footer at the bottom */}
+            <Footer />
           </SessionProvider>
-
-          {/* Footer remains the same */}
-          <Footer />
-        </body>
-      </html>
+        </CartProvider>
+      </body>
+    </html>
   );
 }
-
-// Enable edge runtime, but you are required to disable the migrate function in src/libs/DB.ts
-// export const runtime = 'edge';

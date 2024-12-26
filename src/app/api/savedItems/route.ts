@@ -25,7 +25,21 @@ export async function GET(req: Request) {
         },
         include: {
           user: {
-            select: { email: true }, // Include only the email from the user
+            select: {
+              id: true,
+              username: true,
+              email: true, // Include user information in the result
+              name: true, // Add more fields if needed
+            },
+          },
+          product: {
+            select: {
+              slug: true,
+              coverImage: true,
+              id: true,
+              productName: true, // Replace with the actual fields you want from the product table
+              price: true,
+            },
           },
         },
       });
@@ -41,7 +55,21 @@ export async function GET(req: Request) {
       savedItems = await prisma.savedItem.findMany({
         include: {
           user: {
-            select: { email: true }, // Include user information in the result
+            select: {
+              id: true,
+              username: true,
+              email: true, // Include user information in the result
+              name: true, // Add more fields if needed
+            },
+          },
+          product: {
+            select: {
+              slug: true,
+              coverImage: true,
+              id: true,
+              productName: true, // Replace with the actual fields you want from the product table
+              price: true,
+            },
           },
         },
       });
@@ -60,82 +88,157 @@ export async function GET(req: Request) {
   }
 }
 
+
 // POST: Add a new saved item for a user
 export async function POST(req: Request) {
   try {
     const requestData = await req.json();
     const { userId, productId } = requestData;
 
-    // Validate required fields
-    if (!userId || !productId) {
-      return NextResponse.json(
-        { message: "Missing required fields: userId and productId" },
-        { status: 400 }
-      );
-    }
-
-    // Create a new saved item
-    const newSavedItem = await prisma.savedItem.create({
-      data: {
-        userId,
-        productId,
-      },
-    });
-
-    return NextResponse.json(newSavedItem, { status: 201 });
-  } catch (error) {
-    return handleError("Error adding saved item", error, 500);
+  const newSavedItem = await prisma.savedItem.create({
+    data: {
+      userId,
+      productId,
+    },
+  });
+  return NextResponse.json(newSavedItem, { status: 201 });
+} catch (error) {
+  if (error.code === "P2002") {
+    return NextResponse.json(
+      { message: "This item is already saved." },
+      { status: 409 }
+    );
   }
+  throw error; // Re-throw other errors
 }
 
-// DELETE: Remove a saved item by ID and userId
+}
+
+// DELETE: Function to delete specific saved items based on productId and userId
 export async function DELETE(req: Request) {
   try {
-    const { id, userId } = await req.json();
+    const { productId, userId } = await req.json();
 
     // Validate required fields
-    if (!id || !userId) {
+    if (!productId || !userId) {
       return NextResponse.json(
-        { message: "Missing required fields: id and userId" },
+        { message: "Missing required fields: productId and userId" },
         { status: 400 }
       );
     }
 
-    // Ensure the saved item exists and belongs to the user
-    const savedItem = await prisma.savedItem.findUnique({
-      where: { id },
-      include: {
-        user: {
-          select: { id: true }, // Include user id for ownership verification
-        },
+    // Check if there are any matching saved items
+    const savedItems = await prisma.savedItem.findMany({
+      where: {
+        productId,
+        userId,
       },
     });
 
-    if (!savedItem) {
+    if (savedItems.length === 0) {
       return NextResponse.json(
-        { message: "Saved item not found" },
+        { message: "No matching saved items found" },
         { status: 404 }
       );
     }
 
-    if (savedItem.userId !== userId) {
-      return NextResponse.json(
-        { message: "You can only delete your own saved items" },
-        { status: 403 }
-      );
-    }
-
-    // Delete the saved item
-    await prisma.savedItem.delete({ where: { id } });
+    // Delete all matching saved items
+    await prisma.savedItem.deleteMany({
+      where: {
+        productId,
+        userId,
+      },
+    });
 
     return NextResponse.json(
-      { message: "Saved item deleted successfully" },
+      { message: "Saved items deleted successfully" },
       { status: 200 }
     );
   } catch (error) {
-    return handleError("Error deleting saved item", error, 500);
+    console.error("Error deleting saved items:", error);
+    return NextResponse.json(
+      { message: "Error deleting saved items" },
+      { status: 500 }
+    );
   }
 }
+
+// Function to delete all saved items for a specific user
+export async function DELETE_ALL(req: Request) {
+  try {
+    const { userId } = await req.json();
+
+    // Validate required fields
+    if (!userId) {
+      return NextResponse.json(
+        { message: "Missing required field: userId" },
+        { status: 400 }
+      );
+    }
+
+    // Check if there are any saved items for the user
+    const savedItems = await prisma.savedItem.findMany({
+      where: {
+        userId,
+      },
+    });
+
+    if (savedItems.length === 0) {
+      return NextResponse.json(
+        { message: "No saved items found for the user" },
+        { status: 404 }
+      );
+    }
+
+    // Delete all saved items for the user
+    await prisma.savedItem.deleteMany({
+      where: {
+        userId,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "All saved items for the user deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting all saved items:", error);
+    return NextResponse.json(
+      { message: "Error deleting all saved items" },
+      { status: 500 }
+    );
+  }
+}
+
+// Function to delete all saved items globally (admin use case)
+export async function DELETE_ALL_GLOBAL(req: Request) {
+  try {
+    // Check if there are any saved items in the table
+    const savedItems = await prisma.savedItem.findMany();
+
+    if (savedItems.length === 0) {
+      return NextResponse.json(
+        { message: "No saved items found in the table" },
+        { status: 404 }
+      );
+    }
+
+    // Delete all saved items
+    await prisma.savedItem.deleteMany({});
+
+    return NextResponse.json(
+      { message: "All saved items globally deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting all saved items globally:", error);
+    return NextResponse.json(
+      { message: "Error deleting all saved items globally" },
+      { status: 500 }
+    );
+  }
+}
+
 
 // PUT: Update an existing saved item (e.g., for adding additional fields in the future)
 export async function PUT(req: Request) {

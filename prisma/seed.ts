@@ -21,9 +21,12 @@ async function main() {
   const productWeights = JSON.parse(
     fs.readFileSync(path.join(dataPath, "productWeights.json"), "utf-8")
   );
-  // const productStorageLocations = JSON.parse(
-  //   fs.readFileSync(path.join(dataPath, "productStorageLocations.json"), "utf-8")
-  // );
+  const addressTypes = JSON.parse(
+    fs.readFileSync(path.join(dataPath, "addressType.json"), "utf-8")
+  );
+  const paymentMethods = JSON.parse(
+    fs.readFileSync(path.join(dataPath, "paymentMethod.json"), "utf-8")
+  );
 
   // Seed storage locations
   console.log("Seeding storage locations...");
@@ -56,7 +59,6 @@ async function main() {
   }
 
   // Seed product weights
-  // Seed product weights
   console.log("Seeding product weights...");
   const existingWeights = await prisma.productWeight.count();
 
@@ -79,46 +81,52 @@ async function main() {
   } else {
     console.log("Product weights already seeded.");
   }
+
+  // seed addres types and payment methods
+  // Seed payment types
+  console.log("Seeding payment methods...");
+  const existingPaymentMethods = await prisma.paymentMethod.count();
+
+  if (existingPaymentMethods === 0) {
+    for (const paymentMethod of paymentMethods) {
+      try {
+        await prisma.paymentMethod.create({
+          data: paymentMethod,
+        });
+        console.log(`Payment method '${paymentMethod.method}' seeded.`);
+      } catch (error) {
+        console.error(
+          `Failed to seed payment method '${paymentMethod.method}': ${error.message}`
+        );
+      }
+    }
+    console.log("Payment methods seeded.");
+  } else {
+    console.log("Payment methods already seeded.");
+  }
+
+  // Seed address types
+  console.log("Seeding address types...");
+  const existingAddressTypes = await prisma.addressType.count();
+
+  if (existingAddressTypes === 0) {
+    for (const addressType of addressTypes) {
+      try {
+        await prisma.addressType.create({
+          data: addressType,
+        });
+        console.log(`Address type '${addressType.type}' seeded.`);
+      } catch (error) {
+        console.error(
+          `Failed to seed address type '${addressType.type}': ${error.message}`
+        );
+      }
+    }
+    console.log("Address types seeded.");
+  } else {
+    console.log("Address types already seeded.");
+  }
 }
-  // Seed product storage locations (many-to-many relationship)
-  //   console.log("Seeding product storage locations...");
-  //   const existingProductStorageLocations =
-  //     await prisma.productStorageLocation.count();
-  //   if (existingProductStorageLocations === 0) {
-  //     for (const relation of productStorageLocations) {
-  //       const { productId, storageLocationId } = relation;
-
-  //       // Validate that the referenced product and storage location exist
-  //       const existingProduct = await prisma.product.findUnique({
-  //         where: { id: productId },
-  //       });
-  //       const existingStorageLocation = await prisma.storageLocation.findUnique({
-  //         where: { id: storageLocationId },
-  //       });
-
-  //       if (!existingProduct) {
-  //         console.error(
-  //           `Product with ID ${productId} does not exist in the database.`
-  //         );
-  //         continue;
-  //       }
-
-  //       if (!existingStorageLocation) {
-  //         console.error(
-  //           `Storage location with ID ${storageLocationId} does not exist in the database.`
-  //         );
-  //         continue;
-  //       }
-
-  //       await prisma.productStorageLocation.create({ data: relation });
-  //     }
-  //     console.log("Product storage locations seeded.");
-  //   } else {
-  //     console.log("Product storage locations already seeded.");
-  //   }
-  // }
-
-  
 // Seed the database
 main()
   .catch((e) => {
@@ -128,11 +136,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-
-// main()
-//   .then(() => prisma.$disconnect())
-//   .catch(async (e) => {
-//     console.error(e);
-//     await prisma.$disconnect();
-//     process.exit(1);
-//   });
