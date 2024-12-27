@@ -82,6 +82,34 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const data = await req.json();
+
+    const requiredFields = [
+      "slug",
+      "productName",
+      "productType",
+      "availability",
+      "price",
+      "refiner",
+      "material",
+      "fineness",
+      "fineWeight",
+      "dimensions",
+      "quality",
+      "packaging",
+      "kinebar",
+      "description",
+    ];
+
+    // Check for empty or missing fields
+    const hasEmptyFields = requiredFields.some(
+      (field) => data[field] === undefined || data[field] === "" || data[field] === null || (Array.isArray(data[field]) && data[field].length === 0)
+    );
+    if (hasEmptyFields) {
+      return NextResponse.json(
+        { message: "All fields are required and must not be empty." },
+        { status: 400 }
+      );
+    }
     const newProduct = await prisma.product.create({ data });
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {

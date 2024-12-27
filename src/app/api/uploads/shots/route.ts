@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import path from "path";
 
 // Define the upload directory
-const uploadDirectory = path.join(process.cwd(), "public", "uploads", "profilePictures");
+const uploadDirectory = path.join(process.cwd(), "public", "uploads", "shots");
 
 // Ensure the upload directory exists
 const ensureUploadDirectory = (): void => {
@@ -16,6 +16,7 @@ const ensureUploadDirectory = (): void => {
 export async function POST(req: Request) {
     ensureUploadDirectory();
 
+    let filePath = "";
     try {
         const formData = await req.formData();
         const file: any = formData.get("file") as Blob;
@@ -35,7 +36,7 @@ export async function POST(req: Request) {
         const timestamp = Date.now();
         const sanitizedFilename = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
         const fileName = `${timestamp}-${sanitizedFilename}`;
-        const filePath = path.join(uploadDirectory, fileName);
+        filePath = path.join(uploadDirectory, fileName);
 
         // Save the file to the uploads directory
         fs.writeFileSync(filePath, buffer);
@@ -43,8 +44,18 @@ export async function POST(req: Request) {
         // Generate public URL for the file
         const fileUrl = `/uploads/shots/${fileName}`;
         return NextResponse.json({ filePath: fileUrl }, { status: 200 });
-    } catch (error: any) {
+    }    catch (error: any) {
         console.error("File upload error:", error.message || error);
+
+        // cleanup
+        try {
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+        } catch (cleanupError) {
+            console.error("Error cleaning up file upload:", cleanupError.message || cleanupError);
+            
+        }
         return NextResponse.json(
             { message: "File upload failed", error: error.message || "Unknown error" },
             { status: 500 }

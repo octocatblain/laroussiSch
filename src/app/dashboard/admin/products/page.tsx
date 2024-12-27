@@ -31,7 +31,7 @@ interface Products {
   packaging: string;
   kinebar: string;
   description: string;
-  shots: File[];
+  shots: [];
 }
 interface ProductsTableProps {
   products: Products[];
@@ -85,7 +85,7 @@ const ProductTable: React.FC<ProductsTableProps> = ({
             <th className="px-6 py-3">Price</th>
             <th className="px-6 py-3">Availability</th>
             <th className="px-6 py-3">Category</th>
-            <th className="px-6 py-3">Image</th>
+            <th className="px-6 py-3">Cover Image</th>
             <th className="px-6 py-3 text-center">Actions</th>
           </tr>
         </thead>
@@ -107,8 +107,8 @@ const ProductTable: React.FC<ProductsTableProps> = ({
               <td className="text-teal-900 px-6 py-4">{product.material}</td>
               <td className="px-6 py-4">
                 <Image
-                  src={product.coverImage}
-                  alt={product.productName}
+                  src={product?.coverImage}
+                  alt={product?.productName}
                   height={40}
                   width={40}
                   className="mb-4 size-10 rounded-full object-cover"
@@ -147,7 +147,7 @@ const fetchProducts = async () => {
       price: product.price,
       stock: product.stock,
       material: product.material,
-      coverImage: product.coverImage,
+      coverImage: product.coverImage ? product.coverImage : '/images/placeholder.png',
       description: product.description,
       availability: product.availability,
     }));
@@ -164,9 +164,23 @@ const ProductPage: React.FC = async () => {
 
   useEffect(() => {
     const loadproducts = async () => {
-      const allproducts = await fetchProducts();
-      setProducts(allproducts);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+
+        const allproducts = await fetchProducts();
+        setProducts(allproducts);
+        setIsLoading(false);
+
+        return allproducts;
+
+      } catch (error) {
+        console.error("Error loading products:", error.message);
+        toast.error("Failed to load products. Please try again.");
+        
+      } finally {
+        setIsLoading(false);
+      }
+      
     };
 
     loadproducts();
@@ -200,23 +214,23 @@ const ProductPage: React.FC = async () => {
     }
   };
   // handle add product
-  const handleAddProduct = async (product: Products) => {
-    console.log('New Product:', product);
+  const handleAddProduct = async (res:any) => {
     // setIsModalOpen(false); // Close modal after submitting
     // Add logic to update the products list or send data to the backend
 
     try {
       // Send the product to the backend
-      const response = await axios.post("/api/products", product);
+      // const response = await axios.post("/api/products", product);
 
       // Add the new product to the local state (if applicable)
-      setProducts((prevProducts) => [...prevProducts, response.data]);
+      // setProducts((prevProducts) => [...prevProducts, response.data]);
 
       // Close the modal
-      setIsModalOpen(false);
-
-      // Provide feedback to the user
-      toast.success("Product added successfully!");
+      if (res.status === 201) {
+        setIsModalOpen(false);
+        toast.success("Product added successfully! on product page");
+      }
+      
     } catch (error) {
       console.error("Error adding product:", error.message);
       toast.error("Failed to add product. Please try again.");

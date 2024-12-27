@@ -28,41 +28,51 @@ interface MenuItem {
   icon: JSX.Element;
   content: JSX.Element;
 }
-const menuItems: MenuItem[] = [
-  {
-    id: 'overview',
-    label: 'Overview',
-    icon: <FaChartLine />,
-    content: <OverviewPage />,
-  },
-  {
-    id: 'products',
-    label: 'Products',
-    icon: <FaBox />,
-    content: <ProductPage />,
-  },
-  {
-    id: 'customers',
-    label: 'Customers',
-    icon: <FaUser />,
-    content: <CustomersPage />,
-  },
-  {
-    id: 'messages',
-    label: 'Messages',
-    icon: <FaEnvelope />,
-    content: <div className="p-6">You have new Messages.</div>,
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: <FaCog />,
-    content: <div className="p-6">Adjust your Settings here.</div>,
-  },
-];
-
 const AdminPage = () => {
   const session = useSession();
+
+  const menuItems: MenuItem[] = [
+    {
+      id: "overview",
+      label: "Overview",
+      icon: <FaChartLine />,
+      content: <OverviewPage />,
+    },
+    {
+      id: "products",
+      label: "Products",
+      icon: <FaBox />,
+      content: <ProductPage />,
+    },
+    {
+      id: "customers",
+      label: "Customers",
+      icon: <FaUser />,
+      content: <CustomersPage />,
+    },
+    {
+      id: "messages",
+      label: "Messages",
+      icon: <FaEnvelope />,
+      content: <div className="p-6">You have new Messages.</div>,
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: <FaCog />,
+      content: <div className="p-6">Adjust your Settings here.</div>,
+    },
+  ];
+
+  return (
+    <div className='h-screen'>
+      <SideBar menuItems={menuItems} session={session} />
+    </div>
+  );
+};
+
+
+const SideBar = ({menuItems, session}:any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState(menuItems[0].id);
@@ -75,7 +85,7 @@ const AdminPage = () => {
     <div>
       <ToastContainer />
       <header
-        className={`top_menu z-50 ${isCollapsed ? 'ml-[160px]' : 'ml-[270px]'} block bg-teal-100 shadow-lg transition-all duration-200 ease-in-out`}
+        className={`top_menu z-50 ${isCollapsed ? "ml-[160px]" : "ml-[270px]"} block bg-teal-100 shadow-lg transition-all duration-200 ease-in-out`}
       >
         <div className="navbar_header m-0 flex max-w-[90%] items-center justify-between px-0 py-3">
           <div className="flex px-5">
@@ -84,10 +94,10 @@ const AdminPage = () => {
               onClick={() => setIsCollapsed(!isCollapsed)}
               className=" block h-20 cursor-pointer border-0 px-3 text-2xl font-normal  "
             >
-              <FaHourglass className=" inline-block text-center font-normal leading-tight  " />
+              <FaHourglass className=" inline-block text-center text-slate-700 font-normal leading-tight  " />
             </button>
             <div className="page_title self-center p-2 md:block   ">
-              <h4 className="title m-0 text-2xl text-slate-500">
+              <h4 className="title m-0 text-2xl text-slate-700 font-bold ">
                 LaRoucci Mining SCH
               </h4>
             </div>
@@ -163,7 +173,8 @@ const AdminPage = () => {
         </div>
       </header>
       <div
-        className={`vertical_menu fixed inset-y-0 z-[1000] min-h-dvh shadow-md ${isCollapsed ? 'w-[160px]' : 'w-[270px]'} bg-teal-100 shadow-lg transition-all duration-200 ease-in-out `}
+        className={`vertical_menu fixed inset-y-0 z-[1000] min-h-dvh shadow-md ${isCollapsed ? "w-[160px]" : "w-[270px]"} shadow-lg transition-all duration-200 ease-in-out `}
+        style={{ backgroundColor: "#0A0C29" }}
       >
         <button
           type="button"
@@ -176,20 +187,20 @@ const AdminPage = () => {
             <div className="content_wrapper relative block size-full overflow-hidden">
               <div id="sidebar-menu pb-20 ">
                 <ul className=" list-style-none m-0 p-0 ">
-                  <li className="menu-title px-5 py-10 text-center text-lg font-semibold uppercase opacity-80">
+                  <li className="menu-title px-5 py-10 text-center text-blue-50 text-lg font-semibold uppercase opacity-80">
                     DashBoard
                   </li>
                   {menuItems.map((item: any) => (
                     <li
-                      className={`active block w-full py-4 ${activeMenuItem === item.id ? 'bg-slate-400' : ''} hover:bg-slate-400 `}
+                      className={`active block w-full py-4 ${activeMenuItem === item.id ? "bg-slate-300 text-slate-600" : "text-slate-50"} hover:bg-slate-200 hover:text-slate-600 `}
                       key={item.id}
                     >
                       <button
                         type="button"
-                        className=" relative mx-5 block size-full text-pretty px-4 py-2 text-center text-base font-medium text-black text-opacity-50 transition-all hover:text-slate-50 "
+                        className={`relative flex ${isCollapsed ? "justify-center " : "justify-start"} items-center   gap-8  size-full text-pretty px-4 py-2 text-center text-base font-medium  text-opacity-50 transition-all hover:text-slate-600`}
                         onClick={() => setActiveMenuItem(item.id)}
                       >
-                        <i className=" m-auto block size-5">{item.icon}</i>
+                        <i className=" pl-2 block size-5">{item.icon}</i>
                         {!isCollapsed && (
                           <span className="ml-0 leading-relaxed tracking-widest">
                             {item.label}
@@ -205,7 +216,7 @@ const AdminPage = () => {
         </div>
       </div>
       <div
-        className={`main_content ${isCollapsed ? 'ml-[160px]' : 'ml-[270px]'} min-h-dvh`}
+        className={`main_content ${isCollapsed ? "ml-[160px]" : "ml-[270px]"} min-h-dvh`}
       >
         <div className="page px-6 py-12">
           <div className="container max-w-[90%] !px-0">
@@ -217,8 +228,8 @@ const AdminPage = () => {
   );
 };
 
-AdminPage.getLayout = function getLayout(page: React.ReactNode) {
-  return <>{page}</>; // No wrapper layout here
-};
+// AdminPage.getLayout = function getLayout(page: React.ReactNode) {
+//   return <>{page}</>; // No wrapper layout here
+// };
 
 export default AdminPage;

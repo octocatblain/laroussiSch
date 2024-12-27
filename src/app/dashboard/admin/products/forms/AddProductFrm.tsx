@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import useFetchOptions from '@/components/CommonParams';
+import Button from '@/shared/Button/Button';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -132,6 +133,18 @@ const Step1: React.FC<{
       )}
     </div>
     <div className="mb-4">
+      <label className="text-gray-700 mb-2 block font-medium" htmlFor="quality">
+        Quality
+      </label>
+      <input
+        name="quality"
+        id="quality"
+        value={formData.quality}
+        onChange={handleChange}
+        className="w-full rounded-lg border px-4 py-2"
+      />
+    </div>
+    <div className="mb-4">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="packaging"
@@ -149,13 +162,13 @@ const Step1: React.FC<{
   </div>
 );
 
-const Step2: React.FC<{ formData: any; handleChange: any;options:any[];loading:boolean;error:string|null }> = ({
-  formData,
-  handleChange,
-  options,
-  loading,
-  error,
-}) => (
+const Step2: React.FC<{
+  formData: any;
+  handleChange: any;
+  options: any[];
+  loading: boolean;
+  error: string | null;
+}> = ({ formData, handleChange, options, loading, error }) => (
   <div>
     <h2 className="mb-4 text-xl font-bold">Product Other Details</h2>
     {/* Availability */}
@@ -193,6 +206,7 @@ const Step2: React.FC<{ formData: any; handleChange: any;options:any[];loading:b
         className="w-full rounded-lg border px-4 py-2"
       />
     </div>
+    
     <div className="mb-4">
       <label className="text-gray-700 mb-2 block font-medium" htmlFor="kinebar">
         Kinebar
@@ -301,7 +315,7 @@ const Step3: React.FC<{
         type="file"
         name="coverImage"
         id="coverImage"
-        accept=".jpg,.jpeg,.png,"
+        accept="image/*,.jpg,.jpeg,.png,"
         onChange={handleFileSelected}
         className="w-full rounded-lg border px-4 py-2"
       />
@@ -346,27 +360,27 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { options, loading, error } = useFetchOptions("/api/productWeights/");
   const [formData, setFormData] = useState<Product>({
-    slug: '',
-    coverImage: '',
-    productName: '',
-    productType: '',
-    availability: '',
+    slug: "",
+    coverImage: "",
+    productName: "",
+    productType: "",
+    availability: "",
     price: 0,
-    refiner: '',
-    material: '',
-    fineness: '',
-    fineWeight: '',
-    dimensions: '',
-    quality: '',
-    packaging: '',
-    kinebar: '',
-    description: '',
+    refiner: "",
+    material: "",
+    fineness: "",
+    fineWeight: "",
+    dimensions: "",
+    quality: "",
+    packaging: "",
+    kinebar: "",
+    description: "",
     shots: [],
   });
 
   const [errors, setErrors] = useState({
-    name: '',
-    price: '',
+    name: "",
+    price: "",
   });
 
   const handleChange = (
@@ -397,7 +411,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
   const handleShotsFileChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const files = event.target.files;
+    const { files } = event.target;
     if (files) {
       setFormData((prevData) => ({
         ...prevData,
@@ -412,16 +426,17 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
     }));
   };
 
-
   const validate = () => {
-    const newErrors = { name: '', price: '', };
+    const newErrors = { name: "", price: "" };
 
-    if (!formData.productName.trim())
-      newErrors.name = 'Product name is required.';
+    if (!formData.productName.trim()) {
+      newErrors.name = "Product name is required.";
+    }
 
     const parsedPrice = parseFloat(formData.price.toString());
-    if (isNaN(parsedPrice) || parsedPrice <= 0)
+    if (isNaN(parsedPrice) || parsedPrice <= 0) {
       newErrors.price = "Price must be greater than zero.";
+    }
     setErrors(newErrors);
 
     return !Object.values(newErrors).some((error) => error);
@@ -435,17 +450,18 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      onSubmit(formData);
+    if (!validate()) {
+      toast.error("Please fill all the required fields");
+    }
+    if (currentStep !== 3) {
+      return;
     }
 
-    // if (!selectedFile) {
-    //   toast.error('Please select a file to upload.');
-    //   return;
-    // }
     try {
       const fileData = new FormData();
-      if (selectedFile) fileData.append("file", selectedFile);
+      if (selectedFile) {
+        fileData.append("file", selectedFile);
+      }
 
       // shots
       formData.shots.forEach((file: any) => {
@@ -465,7 +481,15 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
       const uploadedCover = await coverRes.json();
       const uploadedFilepath = uploadedCover.filePath;
 
-      const formDataSubmit = { ...formData, coverImage: uploadedFilepath, shots: uploadedShotsPath };
+      const formDataSubmit = {
+        ...formData,
+        coverImage: uploadedFilepath,
+        shots: uploadedShotsPath,
+      };
+
+      if (!uploadedCover || !uploadedFilepath) {
+        toast.error("Please upload cover image and shots");
+      }
 
       const res: any = await axios.post("/api/products", formDataSubmit, {
         headers: {
@@ -473,40 +497,41 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
         },
       });
 
-      toast.success("Product added successfully");
+      console.log(res);
+      if (res.status === 201) {
+        toast.success("Product added successfully");
+        onSubmit(res);
 
-      console.log("Product added:", res.data);
-
-      // Reset form data
-      setFormData({
-        slug: "",
-        coverImage: "",
-        productName: "",
-        productType: "",
-        availability: "",
-        price: 0,
-        refiner: "",
-        material: "",
-        fineness: "",
-        fineWeight: "",
-        dimensions: "",
-        quality: "",
-        packaging: "",
-        kinebar: "",
-        description: "",
-        shots: [],
-      });
-
-      // Reset file input
-      setSelectedFile(null);
-      // Clear the file input
-      (document.getElementById("coverImage") as HTMLInputElement).value = "";
+        // reset form data
+        setFormData({
+          slug: "",
+          coverImage: "",
+          productName: "",
+          productType: "",
+          availability: "",
+          price: 0,
+          refiner: "",
+          material: "",
+          fineness: "",
+          fineWeight: "",
+          dimensions: "",
+          quality: "",
+          packaging: "",
+          kinebar: "",
+          description: "",
+          shots: [],
+        });
+        // Reset file input
+        setSelectedFile(null);
+        // Clear the file input
+        (document.getElementById("coverImage") as HTMLInputElement).value = "";
+      } else {
+        toast.error("Something went wrong, please try again");
+      }
     } catch (error) {
-      toast.error('Error adding product, please ensure to fill all the fields try again', error);
+      console.error("Error adding product:", error.response.data.message);
+      toast.error("Error: ", error.response.data.message);
     }
-
-
-
   };
 
   return (
@@ -549,16 +574,17 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
           </button>
         )}
         {currentStep < 3 ? (
-          <button
+          <Button
             type="button"
             onClick={nextStep}
             className="w-1/2 rounded-lg bg-blue-500 px-4 py-2 text-white"
           >
             Next
-          </button>
+          </Button>
         ) : (
           <button
             type="submit"
+            onClick={handleSubmit}
             className="w-1/2 rounded-lg bg-green-500 px-4 py-2 text-white"
           >
             Add Product

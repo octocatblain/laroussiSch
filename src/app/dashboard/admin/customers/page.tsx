@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
@@ -38,8 +38,8 @@ const getCustomers = async () => {
 };
 
 const CustomersPage: React.FC = async () => {
-  const [customers, setCustomers] = React.useState<Customers[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [customers, setCustomers] = useState<Customers[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadCustomers = async () => {
@@ -71,7 +71,7 @@ const CustomersPage: React.FC = async () => {
               <thead>
                 <tr>
                   <th className="text-gray-500 px-4 py-2 text-left text-base  font-normal uppercase">
-                    Image
+                    Cover Image
                   </th>
                   <th className="text-gray-500 px-4 py-2 text-left text-base  font-normal uppercase">
                     Name
