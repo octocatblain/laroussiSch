@@ -39,9 +39,9 @@ const Step1: React.FC<{
   errors: any;
 }> = ({ formData, handleChange, errors }) => (
   <div>
-    <h2 className="mb-4 text-xl font-bold">Basic Details</h2>
+    <h2 className="mb-2 text-xl font-bold">Basic Details</h2>
     {/* Product Name */}
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="productName"
@@ -63,7 +63,7 @@ const Step1: React.FC<{
       )}
     </div>
     {/* Slug */}
-    <div className="mb-4">
+    <div className="mb-2">
       <label className="text-gray-700 mb-2 block font-medium" htmlFor="slug">
         Slug
       </label>
@@ -73,11 +73,16 @@ const Step1: React.FC<{
         id="slug"
         value={formData.slug}
         onChange={handleChange}
-        className="w-full rounded-lg border px-4 py-2"
+        className={`w-full rounded-lg border px-4 py-2 ${
+          errors.slug ? "border-red-500" : "border-gray-300"
+        }`}
       />
+      {errors.slug && (
+        <p className="mt-1 text-sm text-red-500">{errors.slug}</p>
+      )}
     </div>
     {/* Product Type */}
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="productType"
@@ -90,11 +95,16 @@ const Step1: React.FC<{
         id="productType"
         value={formData.productType}
         onChange={handleChange}
-        className="w-full rounded-lg border px-4 py-2"
+        className={`w-full rounded-lg border px-4 py-2 ${
+          errors.name ? "border-red-500" : "border-gray-300"
+        }`}
       />
+      {errors.productType && (
+        <p className="mt-1 text-sm text-red-500">{errors.productType}</p>
+      )}
     </div>
     {/* Material */}
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="material"
@@ -112,9 +122,12 @@ const Step1: React.FC<{
         <option value="Gold">Gold</option>
         <option value="Silver">Silver</option>
       </select>
+      {errors.material && (
+        <p className="mt-1 text-sm text-red-500">{errors.material}</p>
+      )}
     </div>
     {/* Price */}
-    <div className="mb-4">
+    <div className="mb-2">
       <label className="text-gray-700 mb-2 block font-medium" htmlFor="price">
         Price
       </label>
@@ -132,7 +145,7 @@ const Step1: React.FC<{
         <p className="mt-1 text-sm text-red-500">{errors.price}</p>
       )}
     </div>
-    <div className="mb-4">
+    <div className="mb-2">
       <label className="text-gray-700 mb-2 block font-medium" htmlFor="quality">
         Quality
       </label>
@@ -141,10 +154,15 @@ const Step1: React.FC<{
         id="quality"
         value={formData.quality}
         onChange={handleChange}
-        className="w-full rounded-lg border px-4 py-2"
+        className={`w-full rounded-lg border px-4 py-2 ${
+          errors.quality ? "border-red-500" : "border-gray-300"
+        }`}
       />
+      {errors.quality && (
+        <p className="mt-1 text-sm text-red-500">{errors.quality}</p>
+      )}
     </div>
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="packaging"
@@ -156,8 +174,13 @@ const Step1: React.FC<{
         id="packaging"
         value={formData.packaging}
         onChange={handleChange}
-        className="w-full rounded-lg border px-4 py-2"
+        className={`w-full rounded-lg border px-4 py-2 ${
+          errors.packaging ? "border-red-500" : "border-gray-300"
+        }`}
       />
+      {errors.packaging && (
+        <p className="mt-1 text-sm text-red-500">{errors.packaging}</p>
+      )}
     </div>
   </div>
 );
@@ -170,9 +193,9 @@ const Step2: React.FC<{
   error: string | null;
 }> = ({ formData, handleChange, options, loading, error }) => (
   <div>
-    <h2 className="mb-4 text-xl font-bold">Product Other Details</h2>
+    <h2 className="mb-2 text-xl font-bold">Product Other Details</h2>
     {/* Availability */}
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="availability"
@@ -191,7 +214,7 @@ const Step2: React.FC<{
         <option value="Out of Stock">Out of Stock</option>
       </select>
     </div>
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="dimensions"
@@ -207,7 +230,7 @@ const Step2: React.FC<{
       />
     </div>
     
-    <div className="mb-4">
+    <div className="mb-2">
       <label className="text-gray-700 mb-2 block font-medium" htmlFor="kinebar">
         Kinebar
       </label>
@@ -219,7 +242,7 @@ const Step2: React.FC<{
         className="w-full rounded-lg border px-4 py-2"
       />
     </div>
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="fineWeight"
@@ -245,7 +268,7 @@ const Step2: React.FC<{
         )}
       </select>
     </div>
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="fineness"
@@ -261,7 +284,7 @@ const Step2: React.FC<{
       />
     </div>
     {/* Refiner */}
-    <div className="mb-4">
+    <div className="mb-2">
       <label className="text-gray-700 mb-2 block font-medium" htmlFor="refiner">
         Refiner
       </label>
@@ -274,7 +297,7 @@ const Step2: React.FC<{
         className="w-full rounded-lg border px-4 py-2"
       />
     </div>
-    <div className="mb-4">
+    <div className="mb-2">
       <label
         className="text-gray-700 mb-2 block font-medium"
         htmlFor="description"
@@ -381,6 +404,11 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
   const [errors, setErrors] = useState({
     name: "",
     price: "",
+    quality: "",
+    packaging: "",
+    material: "",
+    productType: "",
+    slug: "",
   });
 
   const handleChange = (
@@ -427,12 +455,34 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
   };
 
   const validate = () => {
-    const newErrors = { name: "", price: "" };
+    const newErrors = {
+      name: "",
+      price: "",
+      quality: "",
+      packaging: "",
+      material: "",
+      productType: "",
+      slug: "",
+    };
 
     if (!formData.productName.trim()) {
       newErrors.name = "Product name is required.";
     }
-
+    if (!formData.slug.trim()) {
+      newErrors.slug = "Slug is required.";
+    }
+    if (!formData.productType.trim()) {
+      newErrors.productType = "Product type is required.";
+    }
+    if (!formData.material.trim()) {
+      newErrors.material = "Material is required.";
+    }
+    if (!formData.packaging.trim()) {
+      newErrors.packaging = "Product packaging is required.";
+    }
+    if (!formData.quality.trim()) {
+      newErrors.quality = "Product quality is required.";
+    }
     const parsedPrice = parseFloat(formData.price.toString());
     if (isNaN(parsedPrice) || parsedPrice <= 0) {
       newErrors.price = "Price must be greater than zero.";
@@ -443,6 +493,10 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSubmit }) => {
   };
 
   const nextStep = () => {
+    if (currentStep === 1 && !validate()) {
+      toast.error("Please fill all the required fields in step 1.");
+      return;
+    }
     setCurrentStep((prev) => prev + 1);
   };
 

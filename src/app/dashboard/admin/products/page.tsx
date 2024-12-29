@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import AddProductForm from './forms/AddProductFrm';
+import { FaSearch } from 'react-icons/fa';
 
 // to be used later, do not remove
 // interface ProductCardProps {
@@ -243,16 +244,28 @@ const ProductPage: React.FC = async () => {
 
   return (
     <>
-      <section className="p-6">
+      <section className="p-6 relative">
         <div className="flex items-center justify-between">
           <h1 className="mb-6 text-2xl font-bold">Products</h1>
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="rounded-lg bg-blue-500 px-4 py-2 text-white transition duration-200 hover:bg-blue-600"
-          >
-            Add Product
-          </button>
+          <div className="end flex items-center gap-5">
+            <div className="search relative min-w-96 ">
+              <input
+                type="text"
+                placeholder="Search products"
+                className="rounded-lg   w-full px-4 py-2 border border-gray-300"
+              />
+              <button className=" absolute right-0 h-full rounded-r-lg bg-blue-500 px-8 py-2 text-white">
+                <FaSearch />
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="rounded-lg bg-blue-500 px-4 py-2 text-white transition duration-200 hover:bg-blue-600"
+            >
+              Add Product
+            </button>
+          </div>
         </div>
         {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
@@ -272,9 +285,9 @@ const ProductPage: React.FC = async () => {
           ))}
         </div> */}
         {isModalOpen && (
-          <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/50">
-            <div className="w-full max-w-3xl  rounded-lg bg-white shadow-lg">
-              <div className="flex items-center justify-between border-b p-2 px-4">
+          <div className="fixed inset-0 z-[1000] min-h-full flex items-center justify-center bg-black/50">
+            <div className="w-full max-w-4xl  rounded-lg bg-white shadow-lg">
+              <div className="flex items-center justify-between border-b px-4">
                 <h2 className="text-xl font-bold">Add Product</h2>
                 <button
                   type="button"
@@ -284,7 +297,7 @@ const ProductPage: React.FC = async () => {
                   &times;
                 </button>
               </div>
-              <div className=" mx-auto p-6">
+              <div className=" mx-auto px-6">
                 <AddProductForm onSubmit={handleAddProduct} />
               </div>
             </div>
