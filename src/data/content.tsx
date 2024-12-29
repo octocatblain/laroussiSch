@@ -129,48 +129,48 @@ const ncNanoId = _.uniqueId;
 //   },
 // ];
 
-const productsChildMenus: NavItemType[] = [
-  {
-    id: ncNanoId(),
-    href: "/products/gold/bars",
-    name: "Gold Bars",
-  },
-  {
-    id: ncNanoId(),
-    href: "/products/gold/coins",
-    name: "Gold Coins",
-  },
-  {
-    id: ncNanoId(),
-    href: "/products/silver/bars",
-    name: "Silver Bars",
-  },
-  {
-    id: ncNanoId(),
-    href: "/products/silver/coins",
-    name: "Silver Coins",
-  },
-  {
-    id: ncNanoId(),
-    href: "/products/platinum/bars",
-    name: "Platinum Bars",
-  },
-  {
-    id: ncNanoId(),
-    href: "/products/platinum/coins",
-    name: "Platinum Coins",
-  },
-  {
-    id: ncNanoId(),
-    href: "/products/palladium/bars",
-    name: "Palladium Bars",
-  },
-  {
-    id: ncNanoId(),
-    href: "/products/palladium/coins",
-    name: "Palladium Coins",
-  },
-];
+// const productsChildMenus: NavItemType[] = [
+//   {
+//     id: ncNanoId(),
+//     href: "/products/gold/bars",
+//     name: "Gold Bars",
+//   },
+//   {
+//     id: ncNanoId(),
+//     href: "/products/gold/coins",
+//     name: "Gold Coins",
+//   },
+//   {
+//     id: ncNanoId(),
+//     href: "/products/silver/bars",
+//     name: "Silver Bars",
+//   },
+//   {
+//     id: ncNanoId(),
+//     href: "/products/silver/coins",
+//     name: "Silver Coins",
+//   },
+//   {
+//     id: ncNanoId(),
+//     href: "/products/platinum/bars",
+//     name: "Platinum Bars",
+//   },
+//   {
+//     id: ncNanoId(),
+//     href: "/products/platinum/coins",
+//     name: "Platinum Coins",
+//   },
+//   {
+//     id: ncNanoId(),
+//     href: "/products/palladium/bars",
+//     name: "Palladium Bars",
+//   },
+//   {
+//     id: ncNanoId(),
+//     href: "/products/palladium/coins",
+//     name: "Palladium Coins",
+//   },
+// ];
 
 const servicesChildMenus: NavItemType[] = [
   {
@@ -249,7 +249,7 @@ export const NavLinks: NavItemType[] = [
     name: "Products",
     href: "/products",
     type: "dropdown",
-    children: productsChildMenus,
+    // children: productsChildMenus,
   },
   {
     id: ncNanoId(),

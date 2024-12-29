@@ -1,4 +1,6 @@
-export async function calculateTaxes() {
+export async function calculateTaxes(products: any) {
+
+    
     return(0);
 }
 

@@ -36,7 +36,6 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
   productName,
   productType,
   availability,
-  price,
   description,
   refiner,
   material,
@@ -120,32 +119,47 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
 
   const { addToCart }: any = useCart();
 
+  // onClick handler for the Buy Now button
   const onBuyNowClick = async () => {
-    const productId = id;
-    const quantity = productQuantity;
-    const userSession = session;
+    const productId = id; // Assuming `id` is the current product's ID
+    const quantity = productQuantity; // Assuming `productQuantity` holds the selected quantity
+    const userId = session?.user?.id;
 
-    await handleBuyNow({ productId, quantity, userSession }, addToCart);
+    if (!userId) {
+      console.error("User is not logged in.");
+      return;
+    }
+
+    await handleBuyNow({ productId, quantity, userId }, addToCart);
   };
 
   // Buy button handler function
   const handleBuyNow = async (
-    { productId, quantity, userSession }: any,
-    addToCart: (product: Product, quantity: number, userSession: string) => void
+    { productId, quantity, userId }: { productId: string; quantity: number; userId: string },
+    addToCart: (productId: string, userId: string, quantity: number) => Promise<void>
   ) => {
     try {
-      // Fetch product details
-      const response = await axios.get(`/api/products`, {
-        params: { id: productId },
+      // Fetch product details by productId
+      const response = await axios.get<Product>(`/api/products`, {
+        params: { id: productId }, // Send the productId as a query param
       });
 
       const product = response.data;
 
-      // Add product to the cart
-      addToCart(product, quantity, userSession);
+      if (!product) {
+        console.error("Product not found.");
+        return;
+      }
 
-      // Redirect to checkout
-      window.location.href = "/checkout";
+      console.log("Product:", product);
+      console.log("Quantity:", quantity);
+      console.log("User ID:", userId);
+
+      // Add the product to the cart
+      await addToCart(productId, userId, quantity);
+
+      // Optionally, redirect to checkout
+      // window.location.href = "/checkout";
     } catch (error) {
       console.error("Failed to fetch product or add to cart:", error);
     }
@@ -230,9 +244,6 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
           </div>
         </div>
         <div className="flex items-center justify-between gap-4">
-          <p className="text-2xl font-semibold text-secondary">
-            ${(price ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </p>
           <div className="flex items-center gap-2">
             <label htmlFor="quantity" className="font-medium text-base text-gray-700">
               Quantity:
@@ -245,8 +256,8 @@ const SectionProductHeader: FC<SectionProductHeaderProps> = ({
               min="1"
               className="border border-gray-300 rounded-md px-2 w-24 focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            <p className="text-base text-gray-600">Selected Quantity: {productQuantity}</p>
           </div>
+            <p className="text-base text-gray-600">Selected Quantity: {productQuantity}</p>
         </div>
 
         {availability === "in-stock" ? (

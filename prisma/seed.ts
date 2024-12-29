@@ -28,6 +28,10 @@ async function main() {
     fs.readFileSync(path.join(dataPath, "paymentMethod.json"), "utf-8")
   );
 
+  const cartStatuses = JSON.parse(
+    fs.readFileSync(path.join(dataPath, "cartStatuses.json"), "utf-8")
+  );
+
   // Seed storage locations
   console.log("Seeding storage locations...");
   const existingStorageLocations = await prisma.storageLocation.count();
@@ -125,6 +129,28 @@ async function main() {
     console.log("Address types seeded.");
   } else {
     console.log("Address types already seeded.");
+  }
+
+  // Seed cart statuses
+  console.log("Seeding cart statuses...");
+  const existingCartStatuses = await prisma.cartStatus.count();
+
+  if (existingCartStatuses === 0) {
+    for (const cartStatus of cartStatuses) {
+      try {
+        await prisma.cartStatus.create({
+          data: cartStatus,
+        });
+        console.log(`Cart status '${cartStatus.name}' seeded.`);
+      } catch (error) {
+        console.error(
+          `Failed to seed cart status '${cartStatus.name}': ${error.message}`
+        );
+      }
+    }
+    console.log("Cart statuses seeded.");
+  } else {
+    console.log("Cart statuses already seeded.");
   }
 }
 // Seed the database

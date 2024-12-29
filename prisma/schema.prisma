@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,98 +12,88 @@ model SavedItem {
   userId    String
   productId String
   createdAt DateTime @default(now())
-
-  // Relationships
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id                 String     @id @default(uuid())
-  name               String?
-  username           String?
-  email              String     @unique
-  image              String?
-  hashedPassword     String?
-  passwordResetToken String?
+  id                   String            @id @default(uuid())
+  name                 String?
+  email                String            @unique
+  image                String?
+  hashedPassword       String?
+  passwordResetToken   String?
   passwordResetExpires DateTime?
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-
-  // Relationships
-  savedItems         SavedItem[]
-  orders             Order[]
-  addresses          ShippingAddress[]
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  username             String?
+  carts                Cart[]
+  orders               Order[]
+  savedItems           SavedItem[]
+  addresses            ShippingAddress[]
 }
 
 model Product {
-  id                String   @id @default(uuid())
-  slug              String   @unique
-  coverImage        String?
-  productName       String
-  productTypeId     String?
-  productWeightId   String?
-  productType       String?
-  productWeight      String?
-  availability      String
-  price             Float
-  quantity          Int @default(0)
-  refiner           String?
-  material          String?
-  fineness          String?
-  fineWeight        String?
-  dimensions        String?
-  quality           String?
-  packaging         String?
-  kinebar           String?
-  description       String?
-  shots             String[]
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  // Relationships
-  type              ProductType?    @relation(fields: [productTypeId], references: [id], onDelete: SetNull)
-  weight            ProductWeight?  @relation(fields: [productWeightId], references: [id], onDelete: SetNull)
-  storageLocations  ProductStorageLocation[]
-  savedItems        SavedItem[]
-  orders            OrderProduct[]
+  id               String                   @id @default(uuid())
+  slug             String                   @unique
+  coverImage       String?
+  productName      String
+  availability     String
+  price            Float
+  refiner          String?
+  material         String?
+  fineness         String?
+  fineWeight       String?
+  dimensions       String?
+  quality          String?
+  packaging        String?
+  kinebar          String?
+  description      String?
+  shots            String[]
+  createdAt        DateTime                 @default(now())
+  updatedAt        DateTime                 @updatedAt
+  productTypeId    String?
+  productWeightId  String?
+  productType      String?
+  productWeight    String?
+  quantity         Int                      @default(0)
+  carts            Cart[]
+  orders           OrderProduct[]
+  type             ProductType?             @relation(fields: [productTypeId], references: [id])
+  weight           ProductWeight?           @relation(fields: [productWeightId], references: [id])
+  storageLocations ProductStorageLocation[]
+  savedItems       SavedItem[]
 }
 
 model ProductWeight {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   weight    Float
   unit      String
   textId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relationships
-  products Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
 }
 
 model ProductType {
-  id          String   @id @default(uuid())
-  name        String   @unique
+  id          String    @id @default(uuid())
+  name        String    @unique
   description String?
   textId      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relationships
-  products Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
 }
 
 model StorageLocation {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String?
-  address     String?
-  capacity    Int?
-  coordinates Json?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relationships
+  id                      String                   @id @default(uuid())
+  name                    String                   @unique
+  description             String?
+  address                 String?
+  capacity                Int?
+  coordinates             Json?
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
   productStorageLocations ProductStorageLocation[]
   storageBookings         StorageBooking[]
 }
@@ -120,8 +104,6 @@ model ProductStorageLocation {
   storageLocationId String?
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
-
-  // Relationships
   product           Product?         @relation(fields: [productId], references: [id], onDelete: Cascade)
   storageLocation   StorageLocation? @relation(fields: [storageLocationId], references: [id], onDelete: Cascade)
 
@@ -129,7 +111,7 @@ model ProductStorageLocation {
 }
 
 model StorageBooking {
-  id                String   @id @default(uuid())
+  id                String           @id @default(uuid())
   name              String
   email             String
   phone             String
@@ -139,48 +121,42 @@ model StorageBooking {
   message           String?
   storageLocationId String?
   idFile            String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  // Relationships
-  storageLocation   StorageLocation? @relation(fields: [storageLocationId], references: [id], onDelete: SetNull)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  storageLocation   StorageLocation? @relation(fields: [storageLocationId], references: [id])
 }
 
 model OrderProduct {
-  id          String   @id @default(uuid())
-  orderId     String
-  productId   String
-  quantity     Int @default(1)
-  price       Float
-  total       Float
-
-  // Relationships
-  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id        String  @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int     @default(1)
+  price     Float
+  total     Float
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Order {
-  id                 String          @id @default(uuid())
-  userId             String
-  phone              String
-  email              String
-  shippingAddressId  String @unique // Add @unique for one-to-one relationship
-  paymentMethodId    String?
-  subtotal           Float
-  taxes              Float
-  total              Float
-  estimatedDelivery  DateTime
-  createdAt          DateTime        @default(now())
-
-  // Relationships
-  user               User            @relation(fields: [userId], references: [id])
-  paymentMethod      PaymentMethod?  @relation(fields: [paymentMethodId], references: [id], onDelete: SetNull)
-  shippingInfo       ShippingAddress? @relation(fields: [shippingAddressId], references: [id]) // Define `references` only here
-  products           OrderProduct[]
+  id                String          @id @default(uuid())
+  userId            String
+  phone             String
+  email             String
+  shippingAddressId String          @unique
+  paymentMethodId   String?
+  subtotal          Float
+  taxes             Float
+  total             Float
+  estimatedDelivery DateTime
+  createdAt         DateTime        @default(now())
+  paymentMethod     PaymentMethod?  @relation(fields: [paymentMethodId], references: [id])
+  shippingInfo      ShippingAddress @relation(fields: [shippingAddressId], references: [id])
+  user              User            @relation(fields: [userId], references: [id])
+  products          OrderProduct[]
 }
 
 model ShippingAddress {
-  id            String   @id @default(uuid())
+  id            String      @id @default(uuid())
   userId        String
   firstName     String
   lastName      String
@@ -191,32 +167,51 @@ model ShippingAddress {
   postalCode    String
   country       String
   addressTypeId String
-
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  // Relationships
-  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  orders         Order[]
-   addressType   AddressType  @relation(fields: [addressTypeId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  orders        Order?
+  addressType   AddressType @relation(fields: [addressTypeId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model AddressType {
-  id          String   @id @default(uuid())
-  type        String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relationships
-  addresses   ShippingAddress[]
+  id        String            @id @default(uuid())
+  type      String            @unique
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  addresses ShippingAddress[]
 }
 
 model PaymentMethod {
+  id        String   @id @default(uuid())
+  method    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+}
+
+model Cart {
+  id         String     @id @default(uuid())
+  userId     String?
+  productId  String?
+  quantity   Int        @default(1)
+  statusId   String?     // Nullable
+  createdAt  DateTime?  @default(now()) // Nullable, still defaults to current time if not provided
+  updatedAt  DateTime?  @updatedAt // Nullable
+  price      Decimal?   @db.Decimal(10, 2) // Nullable
+  totalPrice Decimal?   @db.Decimal(10, 2) // Nullable
+  
+  // relations
+   product     Product? @relation(fields: [productId], references: [id]) // Optional relation
+  status      CartStatus? @relation(fields: [statusId], references: [id]) // Optional relation
+  user        User? @relation(fields: [userId], references: [id]) // Optional relation
+}
+
+model CartStatus {
   id          String   @id @default(uuid())
-  method      String   @unique
+  name        String   @unique
+  description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  // Relationships
-  orders      Order[]
+  carts       Cart[]
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface InputNumberProps {
   className?: string;
@@ -22,7 +22,7 @@ const InputNumber: FC<InputNumberProps> = ({
   label,
   desc,
 }) => {
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState<any | InputNumberProps>(defaultValue);
 
   useEffect(() => {
     setValue(defaultValue);
@@ -30,14 +30,14 @@ const InputNumber: FC<InputNumberProps> = ({
 
   const handleClickDecrement = () => {
     if (min >= value) return;
-    setValue((state) => {
+    setValue((state: any) => {
       return state - 1;
     });
     onChange && onChange(value - 1);
   };
   const handleClickIncrement = () => {
     if (max && max <= value) return;
-    setValue((state) => {
+    setValue((state: any) => {
       return state + 1;
     });
     onChange && onChange(value + 1);
